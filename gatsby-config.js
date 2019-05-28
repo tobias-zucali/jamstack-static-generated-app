@@ -1,24 +1,11 @@
-var proxy = require('http-proxy-middleware')
+var { author, description } = require('./package.json')
+
 
 module.exports = {
   siteMetadata: {
-    title: 'JAMstack Hackathon Starter',
-    description: `Kick off your next, great Gatsby app.`,
-    author: `@swyx`,
-  },
-
-  // for avoiding CORS while developing Netlify Functions locally
-  // read more: https://www.gatsbyjs.org/docs/api-proxy/#advanced-proxying
-  developMiddleware: app => {
-    app.use(
-      '/.netlify/functions/',
-      proxy({
-        target: 'http://localhost:9000',
-        pathRewrite: {
-          '/.netlify/functions/': '',
-        },
-      })
-    )
+    title: 'JAMstack static generated app',
+    description,
+    author,
   },
 
   plugins: [

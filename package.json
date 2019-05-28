@@ -1,8 +1,8 @@
 {
-  "name": "jamstack-hackathon-starter",
-  "description": "A starter to make JAMstack apps, not just sites with Gatsby + Netlify Functions + Netlify Identity",
-  "version": "1.0.0",
-  "author": "swyx <swyx@dontemailme.com>",
+  "name": "jamstack-static-generated-app",
+  "description": "A proof of concept for a static generated app.",
+  "version": "0.0.1",
+  "author": "tobias <tobias@zucali.at>",
   "dependencies": {
     "gatsby": "^2.0.76",
     "gatsby-image": "^2.0.20",
@@ -23,27 +23,27 @@
   ],
   "license": "MIT",
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "run-p start:**",
-    "start:app": "npm run develop",
-    "start:lambda": "netlify-lambda serve src/lambda",
-    "build": "run-p build:**",
     "build:app": "gatsby build",
     "build:lambda": "netlify-lambda build src/lambda",
+    "build": "yarn run clean && run-p build:*",
+    "clean": "run-p clean:*",
+    "clean:cache": "rimraf .cache",
+    "clean:public": "rimraf public",
+    "clean:functions": "rimraf lambda/*",
+    "deploy": "yarn run netlify deploy",
+    "dev": "yarn run clean && yarn run start",
     "format": "prettier --write \"src/**/*.js\"",
+    "netlify": "netlify",
+    "start:lambda": "netlify-lambda serve src/lambda",
+    "start:netlifyDev": "netlify dev",
+    "start:netlifyDev:command": "gatsby develop",
+    "start": "run-p start:*",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
   "devDependencies": {
-    "http-proxy-middleware": "^0.19.0",
     "netlify-lambda": "^1.2.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.14.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sw-yx/jamstack-hackathon-starter"
-  },
-  "bugs": {
-    "url": "https://github.com/sw-yx/jamstack-hackathon-starter/issues"
+    "prettier": "^1.14.2",
+    "rimraf": "2.6.3"
   }
 }
