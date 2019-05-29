@@ -3,41 +3,48 @@ const express = require('express')
 const graphqlHTTP = require('express-graphql')
 const chokidar = require('chokidar')
 const path = require('path')
+const fs = require('fs')
 
 
 const GRAPHQL_PORT = 4000
 
-let graphQLServer
-let graphQLApp
-function createGraphQLServer(callback) {
-  if (graphQLServer) {
-    graphQLServer.removeListener('request', graphQLApp)
-    graphQLServer.close()
-    delete require.cache[path.resolve('../../src/graphql/schema.js')]
+const graphQLApp = express()
+let graphqlHTTPcallback
+
+function createGraphQLServer() {
+  if (graphqlHTTPcallback) {
+    graphQLApp.delete('/', graphqlHTTPcallback)
   }
   const { schema, root } = require('../../src/graphql/schema.js') // eslint-disable-line global-require
 
-  graphQLApp = express()
-  graphQLApp.use('/', graphqlHTTP({
+  graphqlHTTPcallback = graphqlHTTP({
     graphiql: true,
     pretty: true,
     schema,
     rootValue: root,
-  }))
-  graphQLServer = graphQLApp.listen(GRAPHQL_PORT, () => {
-    console.log(
-      `GraphQL server is now running on http://localhost:${GRAPHQL_PORT}`
-    )
-    if (callback) {
-      callback()
-    }
   })
-}
-createGraphQLServer()
 
-const watcher = chokidar.watch('./src/graphql')
+  graphQLApp.use('/', graphqlHTTPcallback)
+}
+
+createGraphQLServer()
+graphQLApp.listen(GRAPHQL_PORT, () => {
+  console.log(
+    `GraphQL server is now running on http://localhost:${GRAPHQL_PORT}`
+  )
+})
+
+const watchDirectory = path.resolve(__dirname, '../../src/graphql')
+const watchedFiles = fs.readdirSync(watchDirectory).map(
+  (fileName) => path.resolve(watchDirectory, fileName)
+)
+
+const watcher = chokidar.watch(watchDirectory)
 watcher.on('change', (changedPath) => {
   // TODO: does not reload in graphiql yet!!
   console.log(`\`${changedPath}\` changed. Restarting the GraphQL server.`)
+  watchedFiles.forEach(
+    (fileName) => delete require.cache[fileName]
+  )
   createGraphQLServer(() => console.log('Restart your browser to use the updated schema.'))
 })
