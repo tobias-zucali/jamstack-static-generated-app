@@ -12,7 +12,7 @@ async function fetchGraphQl({
     }),
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json',
     },
   })
   const json = await result.json()

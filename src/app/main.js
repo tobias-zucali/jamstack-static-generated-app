@@ -3,7 +3,7 @@ import { getUser } from './services/auth'
 
 class Main extends React.Component {
   state = { loading: false, json: null }
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault()
     const user = getUser()
     this.setState({ loading: true })
@@ -11,11 +11,11 @@ class Main extends React.Component {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + user.token.access_token,
+        Authorization: `Bearer ${user.token.access_token}`,
       },
     })
-      .then(response => response.json())
-      .then(json => this.setState({ loading: false, json }))
+      .then((response) => response.json())
+      .then((json) => this.setState({ loading: false, json }))
   }
 
   render() {
@@ -25,8 +25,14 @@ class Main extends React.Component {
       <>
         <h1>Your Main App</h1>
         <ul>
-          <li>API: {user.api && user.api.apiURL}</li>
-          <li>ID: {user.id}</li>
+          <li>
+API:
+            {user.api && user.api.apiURL}
+          </li>
+          <li>
+ID:
+            {user.id}
+          </li>
         </ul>
         <hr />
 

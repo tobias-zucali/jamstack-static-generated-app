@@ -12,7 +12,7 @@ initAuth()
 
 class IndexPage extends React.Component {
   state = { loading: false, msg: null }
-  handleClick = e => {
+  handleClick = (e) => {
     e.preventDefault()
 
     this.setState({ loading: true })
@@ -29,7 +29,7 @@ class IndexPage extends React.Component {
     const { loading, msg } = this.state
     return (
       <Layout>
-        <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+        <SEO title="Home" keywords={['gatsby', 'application', 'react']} />
         <div
           style={{
             display: 'flex',
@@ -43,8 +43,10 @@ class IndexPage extends React.Component {
             </p>
             <ul>
               <li>
-                This site has statically generated marketing pages like this one
-                and <Link to="/page-2/">page 2.</Link>{' '}
+                This site has statically generated marketing pages like this one and
+                {' '}
+                <Link to="/page-2/">page 2.</Link>
+                {' '}
               </li>
               <li>
                 It also has a dynamically generated clientside app guarded by
@@ -53,18 +55,21 @@ class IndexPage extends React.Component {
                   <li>
                     <Link to="/app/">
                       <b>Go to App (with Netlify Identity)</b>
-                    </Link>{' '}
+                    </Link>
+                    {' '}
                   </li>
                 </ul>
               </li>
               <li>
-                You can{' '}
+                You can
+                {' '}
                 <a href="https://github.com/sw-yx/jamstack-hackathon-starter">
                   view source here
                 </a>
               </li>
               <li>
-                or see{' '}
+                or see
+                {' '}
                 <a href="https://youtu.be/bueXJInQt2c">
                   the Youtube walkthrough
                 </a>
@@ -81,8 +86,8 @@ class IndexPage extends React.Component {
             </ul>
             <hr />
             <p>
-              You can still access Netlify functions even on static "marketing
-              pages":{' '}
+              You can still access Netlify functions even on static pages:
+              {' '}
             </p>
             <button onClick={this.handleClick}>
               {loading ? 'Loading...' : 'Call Lambda Function'}
@@ -90,7 +95,7 @@ class IndexPage extends React.Component {
             <br />
             <pre>
               {msg
-                ? 'Here is the response: ' + msg
+                ? `Here is the response: ${msg}`
                 : 'click the button and watch this!'}
             </pre>
           </div>

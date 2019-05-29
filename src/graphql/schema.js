@@ -1,4 +1,4 @@
-var { buildSchema } = require('graphql');
+const { buildSchema } = require('graphql')
 
 const schema = buildSchema(`
   type Query {
@@ -6,6 +6,6 @@ const schema = buildSchema(`
     random: Float!
     rollThreeDice: [Int]
   }
-`);
+`)
 
 module.exports = schema

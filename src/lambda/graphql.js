@@ -1,10 +1,10 @@
-var { graphql } = require('graphql');
+const { graphql } = require('graphql')
 
-var root = require('../graphql/root.js')
-var schema = require('../graphql/schema.js')
+const root = require('../graphql/root.js')
+const schema = require('../graphql/schema.js')
 
 
-exports.handler = async (event, context) => {
+exports.handler = async (event/* , context */) => {
   // if (context.clientContext) {
   //   const { identity, user } = context.clientContext
   // }
@@ -22,10 +22,10 @@ exports.handler = async (event, context) => {
     null,
     variables,
     operationName
-  );
+  )
 
   return {
     statusCode: 200,
-    body: JSON.stringify(result)
+    body: JSON.stringify(result),
   }
-};
+}
