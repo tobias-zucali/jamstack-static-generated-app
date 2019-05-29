@@ -8,7 +8,11 @@ class Login extends React.Component {
     return (
       <>
         <h1>Log in</h1>
-        <button onClick={this.handleSubmit}>log in</button>
+        {isLoggedIn ? (
+          'Already logged in'
+        ) : (
+          <button onClick={this.handleSubmit}>log in</button>
+        )}
       </>
     )
   }

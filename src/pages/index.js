@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
+import fetchGraphql from '../utils/fetchGraphql'
+
 import Layout from '../components/layout'
 import Image from '../components/image'
 import SEO from '../components/seo'
@@ -14,9 +16,13 @@ class IndexPage extends React.Component {
     e.preventDefault()
 
     this.setState({ loading: true })
-    fetch('/.netlify/functions/hello')
-      .then(response => response.json())
-      .then(json => this.setState({ loading: false, msg: json.msg }))
+    fetchGraphql(`
+      {
+        quoteOfTheDay
+      }
+    `).then(
+      ({ data }) => this.setState({ loading: false, msg: data.quoteOfTheDay })
+    )
   }
 
   render() {

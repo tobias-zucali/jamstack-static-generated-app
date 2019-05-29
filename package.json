@@ -34,6 +34,7 @@
     "dev": "yarn run clean && yarn run start",
     "format": "prettier --write \"src/**/*.js\"",
     "netlify": "netlify",
+    "start:graphqlDevServer": "node ./internals/graphql-dev-server.js",
     "start:lambda": "netlify-lambda serve src/lambda",
     "start:netlifyDev": "netlify dev",
     "start:netlifyDev:command": "gatsby develop",

@@ -1,7 +1,7 @@
 [build]
-  Command = "npm run build"
-  Functions = "lambda"
-  Publish = "public"
+  command = "npm run build"
+  functions = "lambda"
+  publish = "public"
 
 ## Uncomment to use this redirect for Single Page Applications like create-react-app. 
 ## Not needed for static site generators.
