@@ -1,6 +1,4 @@
-const { graphql } = require('graphql')
-
-const { root, schema } = require('../graphql/schema.js')
+const evaluateGraphql = require('../graphql/evaluate.js')
 
 
 exports.handler = async (event/* , context */) => {
@@ -14,15 +12,11 @@ exports.handler = async (event/* , context */) => {
     operationName,
   } = JSON.parse(event.body)
 
-  const result = await graphql(
-    schema,
+  const result = await evaluateGraphql({
     query,
-    root,
-    null,
     variables,
-    operationName
-  )
-
+    operationName,
+  })
   return {
     statusCode: 200,
     body: JSON.stringify(result),

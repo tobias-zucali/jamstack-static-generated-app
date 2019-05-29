@@ -19,8 +19,10 @@ class IndexPage extends React.Component {
     fetchGraphql(`
       {
         getOffers {
-          id,
-          title
+          offers {
+            id
+            title
+          }
         }
       }
     `).then(

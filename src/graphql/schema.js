@@ -30,7 +30,7 @@ const schema = buildSchema(`
 `)
 
 class Offer {
-  constructor(id, { title }) {
+  constructor({ id, title }) {
     this.id = id
     this.title = title
   }
@@ -86,8 +86,7 @@ class Offers {
   }
 }
 
-const allOffers = fakeDatabase.map(({ id, props }) => new Offer(
-  id,
+const allOffers = fakeDatabase.map((props) => new Offer(
   props
 ))
 
@@ -96,7 +95,7 @@ const getOfferById = (id) => allOffers.find((offer) => offer.id === id)
 const getNextPrevOffer = (offer) => {
   const index = allOffers.indexOf(offer)
   const nextRaw = allOffers[index + 1]
-  const previousRaw = allOffers[index + 1]
+  const previousRaw = allOffers[index - 1]
 
   return {
     next: nextRaw && getOfferById(nextRaw.id),
