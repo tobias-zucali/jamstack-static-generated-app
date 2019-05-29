@@ -7,7 +7,7 @@
   "scripts": {
     "build:app": "gatsby build",
     "build:lambda": "netlify-lambda build src/lambda",
-    "build": "yarn run clean && run-p build:*",
+    "build": "yarn run clean && yarn run lint && run-p build:*",
     "clean": "run-p clean:*",
     "clean:cache": "rimraf .cache",
     "clean:public": "rimraf public",
