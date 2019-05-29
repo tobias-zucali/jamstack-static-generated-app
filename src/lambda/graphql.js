@@ -1,7 +1,6 @@
 const { graphql } = require('graphql')
 
-const root = require('../graphql/root.js')
-const schema = require('../graphql/schema.js')
+const { root, schema } = require('../graphql/schema.js')
 
 
 exports.handler = async (event/* , context */) => {

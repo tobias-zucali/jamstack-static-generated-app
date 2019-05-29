@@ -18,10 +18,13 @@ class IndexPage extends React.Component {
     this.setState({ loading: true })
     fetchGraphql(`
       {
-        quoteOfTheDay
+        getOffers {
+          id,
+          title
+        }
       }
     `).then(
-      ({ data }) => this.setState({ loading: false, msg: data.quoteOfTheDay })
+      (result) => this.setState({ loading: false, msg: `\n${JSON.stringify(result, null, 2)}\n` })
     )
   }
 

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "a",
+    "props": {
+      "title": "Fake offer"
+    }
+  },
+  {
+    "id": "b",
+    "props": {
+      "title": "Fake offer"
+    }
+  },
+  {
+    "id": "c",
+    "props": {
+      "title": "Fake offer"
+    }
+  },
+  {
+    "id": "d",
+    "props": {
+      "title": "Fake offer"
+    }
+  }
+]
