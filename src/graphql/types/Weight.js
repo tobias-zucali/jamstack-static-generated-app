@@ -9,7 +9,7 @@ const weightUnits = {
   kg: 1000,
   t: 1000000,
 }
-exports.WeightType = new GraphQLEnumType({
+exports.Weight = new GraphQLEnumType({
   name: 'weight',
   values: Object.keys(weightUnits).reduce((values, unit) => ({
     [unit.toUpperCase()]: weightUnits,

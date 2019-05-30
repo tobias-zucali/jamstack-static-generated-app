@@ -1,13 +1,9 @@
 const evaluate = require('../evaluate')
-const fakeDatabase = require('../fake-database.json')
 
-const { offers: fakeOffers } = fakeDatabase
-const firstFakeOffer = fakeOffers[0]
-const secondFakeOffer = fakeOffers[1]
-const thirdFakeOffer = fakeOffers[2]
-const fourthFakeOffer = fakeOffers[3]
-const lastFakeOffer = fakeOffers[fakeOffers.length - 1]
-const penultimateFakeOffer = fakeOffers[fakeOffers.length - 2]
+const {
+  getOfferByIndexLoop,
+  getOffers,
+} = require('../fakeDatabase/index.js')
 
 
 const evaluateOffer = async ({
@@ -56,19 +52,19 @@ const evaluateOffer = async ({
 
 describe('graphql/evaluate', () => {
   describe.only('Offer', () => {
-    it.only('returns first offer', async () => {
+    it('returns first offer', async () => {
       await evaluateOffer({
-        id: firstFakeOffer.id,
-        name: firstFakeOffer.name,
-        nextId: secondFakeOffer.id,
+        id: getOfferByIndexLoop(0).id,
+        name: getOfferByIndexLoop(0).name,
+        nextId: getOfferByIndexLoop(1).id,
       })
     })
 
     it('returns last offer', async () => {
       await evaluateOffer({
-        id: lastFakeOffer.id,
-        name: lastFakeOffer.name,
-        previousId: penultimateFakeOffer.id,
+        id: getOfferByIndexLoop(-1).id,
+        name: getOfferByIndexLoop(-1).name,
+        previousId: getOfferByIndexLoop(-2).id,
       })
     })
   })
@@ -106,16 +102,16 @@ describe('graphql/evaluate', () => {
       ).resolves.toEqual({
         data: {
           getOffers: {
-            offers: fakeOffers.map(({ id, name }) => ({ id, name })),
+            offers: getOffers().map(({ id, name }) => ({ id, name })),
             cursors: {
-              count: fakeOffers.length,
+              count: getOffers().length,
               next: null,
               previous: null,
               first: {
-                id: firstFakeOffer.id,
+                id: getOfferByIndexLoop(0).id,
               },
               last: {
-                id: lastFakeOffer.id,
+                id: getOfferByIndexLoop(-1).id + 12,
               },
             },
           },
@@ -128,7 +124,7 @@ describe('graphql/evaluate', () => {
         evaluate({
           query: `
             {
-              getOffers(after: "${firstFakeOffer.id}", limit: 2) {
+              getOffers(after: "${getOfferByIndexLoop(0).id}", limit: 2) {
                 offers {
                   id
                 }
@@ -155,22 +151,22 @@ describe('graphql/evaluate', () => {
         data: {
           getOffers: {
             offers: [
-              { id: secondFakeOffer.id },
-              { id: thirdFakeOffer.id },
+              { id: getOfferByIndexLoop(1).id },
+              { id: getOfferByIndexLoop(2).id },
             ],
             cursors: {
               count: 2,
               previous: {
-                id: firstFakeOffer.id,
+                id: getOfferByIndexLoop(0).id,
               },
               next: {
-                id: fourthFakeOffer.id,
+                id: getOfferByIndexLoop(3).id,
               },
               first: {
-                id: secondFakeOffer.id,
+                id: getOfferByIndexLoop(1).id,
               },
               last: {
-                id: thirdFakeOffer.id,
+                id: getOfferByIndexLoop(2).id,
               },
             },
           },
