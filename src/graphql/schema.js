@@ -1,118 +1,193 @@
-const { buildSchema } = require('graphql')
-const fakeDatabase = require('./fake-database.json')
+const {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLInterfaceType,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+} = require('graphql')
 
-const schema = buildSchema(`
-  type Query {
-    getOffers(cursor: ID, limit: Int): Offers!
-    getOffer(id: ID!): Offer
-  }
+const {
+  offers: fakeOffers,
+  manufacturer: fakeManufacturers,
+} = require('./fake-database.json')
+const {
+  WeightType,
+  convertWeight,
+} = require('./weight.js')
 
-  type Offer {
-    cursors: OfferCursors!
-    id: ID!
-    title: String!
-  }
 
-  type Offers {
-    cursors: OfferCursors!
-    cursor: ID
-    limit: Int
-    offers: [Offer]
-  }
+const getOfferById = (id) => fakeOffers.find((entry) => entry.id === id)
+const getOfferIndex = (offer) => fakeOffers.indexOf(offer)
+const getOfferByIndex = (index) => fakeOffers[index]
 
-  type OfferCursors {
-    count: Int
-    first: Offer
-    last: Offer
-    next: Offer
-    previous: Offer
-  }
-`)
+const getManufacturerById = (id) => fakeManufacturers.find((entry) => entry.id === id)
 
-class Offer {
-  constructor({ id, title }) {
-    this.id = id
-    this.title = title
-  }
-
-  get cursors() {
-    return {
-      count: null,
-      first: null,
-      last: null,
-      ...getNextPrevOffer(this),
-    }
-  }
-}
-
-class Offers {
-  constructor({ cursor, limit }) {
-    this.cursor = cursor
-    this.limit = limit
-  }
-
-  get offers() {
-    let offers = allOffers
-    if (this.cursor) {
-      const cursorOffer = getOfferById(this.cursor)
-      if (cursorOffer) {
-        const cursorIndex = allOffers.indexOf(cursorOffer)
-        offers = allOffers.slice(cursorIndex + 1)
-      }
-    }
-    if (this.limit) {
-      offers = offers.slice(0, this.limit)
-    }
-    return offers
-  }
-
-  get cursors() {
-    const { offers } = this
-    const first = offers[0]
-    const count = offers.length
-    const last = offers[offers.length - 1]
-
-    return {
-      count,
-      first,
-      last,
-      get next() {
-        return last && last.cursors.next
-      },
-      get previous() {
-        return first && first.cursors.previous
-      },
-    }
-  }
-}
-
-const allOffers = fakeDatabase.map((props) => new Offer(
-  props
-))
-
-const getOfferById = (id) => allOffers.find((offer) => offer.id === id)
-
-const getNextPrevOffer = (offer) => {
-  const index = allOffers.indexOf(offer)
-  const nextRaw = allOffers[index + 1]
-  const previousRaw = allOffers[index - 1]
-
-  return {
-    next: nextRaw && getOfferById(nextRaw.id),
-    previous: previousRaw && getOfferById(previousRaw.id),
-  }
-}
-
-const root = {
-  getOffer({ id }) {
-    return getOfferById(id)
+const Manufacturer = new GraphQLObjectType({
+  name: 'TypeInterface',
+  fields: {
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+    },
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    description: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    address: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
-  getOffers({ cursor, limit }) {
-    return new Offers({ cursor, limit })
+})
+
+const OfferInterface = new GraphQLInterfaceType({
+  name: 'OfferInterface',
+  fields: () => ({
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+    },
+    name: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    manufacturer: {
+      type: Manufacturer,
+    },
+    cursors: {
+      type: OfferCursors,
+    },
+    type: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+  }),
+  resolveType: ({ sugar, vitamins }) => {
+    if (sugar) {
+      return CandyOffer
+    }
+    if (vitamins) {
+      return FruitOffer
+    }
+    return DefaultOffer
   },
-}
+})
+
+// TODO: how to add cursors to OfferInterface? Circular dependency!
+const OfferCursors = new GraphQLObjectType({
+  name: 'OfferCursors',
+  fields: {
+    next: {
+      type: OfferInterface,
+      resolve: ({ index }) => getOfferByIndex(index + 1),
+    },
+    previous: {
+      type: OfferInterface,
+      resolve: ({ index }) => getOfferByIndex(index - 1),
+    },
+  },
+})
+
+const getDefaultOfferFields = () => ({
+  cursors: {
+    type: OfferCursors,
+    resolve: (root) => ({
+      index: getOfferIndex(root),
+    }),
+  },
+  id: {
+    type: new GraphQLNonNull(GraphQLID),
+  },
+  name: {
+    type: new GraphQLNonNull(GraphQLString),
+  },
+  type: {
+    type: new GraphQLNonNull(GraphQLString),
+    resolve(source, args, context, { parentType }) {
+      return parentType
+    },
+  },
+  manufacturer: {
+    type: Manufacturer,
+    resolve({ manufacturer }) {
+      return getManufacturerById(manufacturer)
+    },
+  },
+})
+
+const DefaultOffer = new GraphQLObjectType({
+  name: 'Offer',
+  interfaces: [OfferInterface],
+  fields: getDefaultOfferFields(),
+})
+
+
+const CandyOffer = new GraphQLObjectType({
+  name: 'CandyOffer',
+  interfaces: [OfferInterface],
+  fields: {
+    ...getDefaultOfferFields(),
+    sugar: {
+      type: new GraphQLNonNull(GraphQLInt),
+      args: {
+        unit: {
+          type: WeightType,
+          defaultValue: 'g',
+        },
+      },
+      resolve({ sugar }, { unit }) {
+        return convertWeight(sugar, unit, 'g')
+      },
+    },
+  },
+})
+
+const FruitOffer = new GraphQLObjectType({
+  name: 'FruitOffer',
+  interfaces: [OfferInterface],
+  fields: {
+    ...getDefaultOfferFields(),
+    vitamins: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+  },
+})
+
+const schema = new GraphQLSchema({
+  types: [
+    FruitOffer,
+    CandyOffer,
+    DefaultOffer,
+    Manufacturer,
+    OfferInterface,
+  ],
+  query: new GraphQLObjectType({
+    name: 'RootQueryType',
+    fields: {
+      getOffer: {
+        type: OfferInterface,
+        args: {
+          id: { type: new GraphQLNonNull(GraphQLID) },
+        },
+        resolve(root, { id }) {
+          return getOfferById(id)
+        },
+      },
+      // getOffers: {
+      //   type: GraphQLString,
+      //   args: {
+      //     after: { type: GraphQLID },
+      //     limit: { type: GraphQLInt },
+      //     filter_type: { type: GraphQL?? },
+      //   },
+      //   resolve(root, args) {
+      //     return args.text
+      //   },
+      // },
+    },
+  }),
+})
 
 module.exports = {
   schema,
-  root,
+  root: null,
 }

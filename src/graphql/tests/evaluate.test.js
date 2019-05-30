@@ -1,17 +1,18 @@
 const evaluate = require('../evaluate')
 const fakeDatabase = require('../fake-database.json')
 
-const firstFake = fakeDatabase[0]
-const secondFake = fakeDatabase[1]
-const thirdFake = fakeDatabase[2]
-const fourthFake = fakeDatabase[3]
-const lastFake = fakeDatabase[fakeDatabase.length - 1]
-const penultimateFake = fakeDatabase[fakeDatabase.length - 2]
+const { offers: fakeOffers } = fakeDatabase
+const firstFakeOffer = fakeOffers[0]
+const secondFakeOffer = fakeOffers[1]
+const thirdFakeOffer = fakeOffers[2]
+const fourthFakeOffer = fakeOffers[3]
+const lastFakeOffer = fakeOffers[fakeOffers.length - 1]
+const penultimateFakeOffer = fakeOffers[fakeOffers.length - 2]
 
 
 const evaluateOffer = async ({
   id,
-  title,
+  name,
   nextId,
   previousId,
 }) => {
@@ -21,7 +22,7 @@ const evaluateOffer = async ({
         {
           getOffer(id: "${id}") {
             id
-            title
+            name
             cursors {
               previous {
                 id
@@ -38,7 +39,7 @@ const evaluateOffer = async ({
     data: {
       getOffer: {
         id,
-        title,
+        name,
         cursors: {
           next: nextId ? {
             id: nextId,
@@ -54,20 +55,20 @@ const evaluateOffer = async ({
 
 
 describe('graphql/evaluate', () => {
-  describe('Offer', () => {
-    it('returns first offer', async () => {
+  describe.only('Offer', () => {
+    it.only('returns first offer', async () => {
       await evaluateOffer({
-        id: firstFake.id,
-        title: firstFake.title,
-        nextId: secondFake.id,
+        id: firstFakeOffer.id,
+        name: firstFakeOffer.name,
+        nextId: secondFakeOffer.id,
       })
     })
 
     it('returns last offer', async () => {
       await evaluateOffer({
-        id: lastFake.id,
-        title: lastFake.title,
-        previousId: penultimateFake.id,
+        id: lastFakeOffer.id,
+        name: lastFakeOffer.name,
+        previousId: penultimateFakeOffer.id,
       })
     })
   })
@@ -81,7 +82,7 @@ describe('graphql/evaluate', () => {
               getOffers {
                 offers {
                   id
-                  title
+                  name
                 }
                 cursors {
                   count
@@ -105,16 +106,16 @@ describe('graphql/evaluate', () => {
       ).resolves.toEqual({
         data: {
           getOffers: {
-            offers: fakeDatabase.map(({ id, title }) => ({ id, title })),
+            offers: fakeOffers.map(({ id, name }) => ({ id, name })),
             cursors: {
-              count: fakeDatabase.length,
+              count: fakeOffers.length,
               next: null,
               previous: null,
               first: {
-                id: firstFake.id,
+                id: firstFakeOffer.id,
               },
               last: {
-                id: lastFake.id,
+                id: lastFakeOffer.id,
               },
             },
           },
@@ -127,7 +128,7 @@ describe('graphql/evaluate', () => {
         evaluate({
           query: `
             {
-              getOffers(cursor: "${firstFake.id}", limit: 2) {
+              getOffers(after: "${firstFakeOffer.id}", limit: 2) {
                 offers {
                   id
                 }
@@ -154,22 +155,22 @@ describe('graphql/evaluate', () => {
         data: {
           getOffers: {
             offers: [
-              { id: secondFake.id },
-              { id: thirdFake.id },
+              { id: secondFakeOffer.id },
+              { id: thirdFakeOffer.id },
             ],
             cursors: {
               count: 2,
               previous: {
-                id: firstFake.id,
+                id: firstFakeOffer.id,
               },
               next: {
-                id: fourthFake.id,
+                id: fourthFakeOffer.id,
               },
               first: {
-                id: secondFake.id,
+                id: secondFakeOffer.id,
               },
               last: {
-                id: thirdFake.id,
+                id: thirdFakeOffer.id,
               },
             },
           },

@@ -1,18 +1,38 @@
-[
-  {
-    "id": "a",
-    "title": "Fake offer"
-  },
-  {
-    "id": "b",
-    "title": "Fake offer"
-  },
-  {
-    "id": "c",
-    "title": "Fake offer"
-  },
-  {
-    "id": "d",
-    "title": "Fake offer"
-  }
-]
+{
+  "manufacturer": [
+    {
+      "id": "acme",
+      "name": "Acme Corporation"
+    },
+    {
+      "id": "moe",
+      "name": "Mother Earth Inc."
+    }
+  ],
+  "offers": [
+    {
+      "id": "a",
+      "name": "Banana",
+      "manufacturer": "moe",
+      "vitamins": 33
+    },
+    {
+      "id": "b",
+      "name": "Manner Wafferl",
+      "manufacturer": "acme",
+      "sugar": 5
+    },
+    {
+      "id": "c",
+      "name": "Apple",
+      "manufacturer": "moe",
+      "vitamins": 37
+    },
+    {
+      "id": "d",
+      "manufacturer": "acme",
+      "name": "Gummi Bear",
+      "sugar": 12
+    }
+  ]
+}
