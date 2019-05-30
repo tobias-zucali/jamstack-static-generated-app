@@ -173,5 +173,37 @@ describe('graphql/evaluate', () => {
         },
       })
     })
+
+    it('returns candy offers', async () => {
+      await expect(
+        evaluate({
+          query: `
+            {
+              getOffers(type: CANDY, limit: 1) {
+                offers {
+                  id
+                  type
+                  ...on CandyOffer {
+                    sugar(unit: KG)
+                  }
+                }
+              }
+            }
+          `,
+        })
+      ).resolves.toEqual({
+        data: {
+          getOffers: {
+            offers: [
+              {
+                id: 'b',
+                sugar: 0.005,
+                type: 'CandyOffer',
+              },
+            ],
+          },
+        },
+      })
+    })
   })
 })

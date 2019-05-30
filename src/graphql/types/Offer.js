@@ -4,6 +4,7 @@ const {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLEnumType,
 } = require('graphql')
 
 const {
@@ -29,6 +30,13 @@ const resolveOfferType = (source) => {
   }
   return Offer
 }
+const getOfferTypesEnum = () => new GraphQLEnumType({
+  name: 'offerType',
+  values: typeResolvers.reduce((values, { value }) => ({
+    [value.toUpperCase()]: { value },
+    ...values,
+  }), {}),
+})
 
 const OfferInterface = new GraphQLInterfaceType({
   name: 'OfferInterface',
@@ -100,6 +108,7 @@ const Offer = new GraphQLObjectType({
 })
 
 module.exports = {
+  getOfferTypesEnum,
   getOfferFields,
   OfferInterface,
   OfferEdges,

@@ -13,6 +13,7 @@ const {
 const {
   OfferInterface,
   Offer,
+  getOfferTypesEnum,
 } = require('./types/Offer.js')
 const {
   CandyOffer,
@@ -56,10 +57,14 @@ const schema = new GraphQLSchema({
         args: {
           after: { type: GraphQLID },
           limit: { type: GraphQLInt },
-          // filter_type: { type: GraphQL?? },
+          // TODO: more advanced filtering – dedicated graphql server module could help
+          type: { type: getOfferTypesEnum() },
         },
-        resolve(root, { after, limit }) {
+        resolve(root, { after, limit, type }) {
           let result = getOffers()
+          if (type) {
+            result = result.filter((entry) => entry.type === type)
+          }
           if (after) {
             const previousOffer = getOfferById(after)
             const previousIndex = getOfferIndex(previousOffer)

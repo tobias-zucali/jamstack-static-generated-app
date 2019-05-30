@@ -1,13 +1,14 @@
 const {
-  GraphQLInt,
+  GraphQLFloat,
   GraphQLNonNull,
   GraphQLObjectType,
 } = require('graphql')
 
 
 const {
-  Weight,
   convertWeight,
+  Weight,
+  WEIGHT_UNITS,
 } = require('./Weight.js')
 
 const {
@@ -23,15 +24,15 @@ const CandyOffer = new GraphQLObjectType({
   fields: {
     ...getOfferFields(),
     sugar: {
-      type: new GraphQLNonNull(GraphQLInt),
+      type: new GraphQLNonNull(GraphQLFloat),
       args: {
         unit: {
           type: Weight,
-          defaultValue: 'g',
+          defaultValue: WEIGHT_UNITS.G,
         },
       },
       resolve({ sugar }, { unit }) {
-        return convertWeight(sugar, unit, 'g')
+        return convertWeight(sugar, unit, WEIGHT_UNITS.G)
       },
     },
   },
