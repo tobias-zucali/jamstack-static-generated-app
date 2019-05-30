@@ -22,9 +22,9 @@ const typeResolvers = []
 const registerOfferTypeResolver = (resolver) => typeResolvers.push(resolver)
 const resolveOfferType = (source) => {
   for (let index = 0, len = typeResolvers.length; index < len; index += 1) {
-    const type = typeResolvers[index](source)
-    if (type) {
-      return type
+    const resolver = typeResolvers[index]
+    if (source.type === resolver.value) {
+      return resolver.type
     }
   }
   return Offer
@@ -42,8 +42,8 @@ const OfferInterface = new GraphQLInterfaceType({
     manufacturer: {
       type: Manufacturer,
     },
-    cursors: {
-      type: OfferCursors,
+    edges: {
+      type: OfferEdges,
     },
     type: {
       type: new GraphQLNonNull(GraphQLString),
@@ -52,8 +52,8 @@ const OfferInterface = new GraphQLInterfaceType({
   resolveType: resolveOfferType,
 })
 
-const OfferCursors = new GraphQLObjectType({
-  name: 'OfferCursors',
+const OfferEdges = new GraphQLObjectType({
+  name: 'OfferEdges',
   fields: () => ({
     next: {
       type: OfferInterface,
@@ -67,8 +67,8 @@ const OfferCursors = new GraphQLObjectType({
 })
 
 const getOfferFields = () => ({
-  cursors: {
-    type: OfferCursors,
+  edges: {
+    type: OfferEdges,
     resolve: (root) => ({
       index: getOfferIndex(root),
     }),
@@ -102,7 +102,7 @@ const Offer = new GraphQLObjectType({
 module.exports = {
   getOfferFields,
   OfferInterface,
-  OfferCursors,
+  OfferEdges,
   Offer,
   registerOfferTypeResolver,
 }

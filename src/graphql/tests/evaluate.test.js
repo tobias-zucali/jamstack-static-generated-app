@@ -19,7 +19,7 @@ const evaluateOffer = async ({
           getOffer(id: "${id}") {
             id
             name
-            cursors {
+            edges {
               previous {
                 id
               }
@@ -36,7 +36,7 @@ const evaluateOffer = async ({
       getOffer: {
         id,
         name,
-        cursors: {
+        edges: {
           next: nextId ? {
             id: nextId,
           } : null,
@@ -51,7 +51,7 @@ const evaluateOffer = async ({
 
 
 describe('graphql/evaluate', () => {
-  describe.only('Offer', () => {
+  describe('Offer', () => {
     it('returns first offer', async () => {
       await evaluateOffer({
         id: getOfferByIndexLoop(0).id,
@@ -80,8 +80,8 @@ describe('graphql/evaluate', () => {
                   id
                   name
                 }
-                cursors {
-                  count
+                count
+                edges {
                   first {
                     id
                   }
@@ -103,15 +103,15 @@ describe('graphql/evaluate', () => {
         data: {
           getOffers: {
             offers: getOffers().map(({ id, name }) => ({ id, name })),
-            cursors: {
-              count: getOffers().length,
+            count: getOffers().length,
+            edges: {
               next: null,
               previous: null,
               first: {
                 id: getOfferByIndexLoop(0).id,
               },
               last: {
-                id: getOfferByIndexLoop(-1).id + 12,
+                id: getOfferByIndexLoop(-1).id,
               },
             },
           },
@@ -128,8 +128,8 @@ describe('graphql/evaluate', () => {
                 offers {
                   id
                 }
-                cursors {
-                  count
+                count
+                edges {
                   first {
                     id
                   }
@@ -154,8 +154,8 @@ describe('graphql/evaluate', () => {
               { id: getOfferByIndexLoop(1).id },
               { id: getOfferByIndexLoop(2).id },
             ],
-            cursors: {
-              count: 2,
+            count: 2,
+            edges: {
               previous: {
                 id: getOfferByIndexLoop(0).id,
               },

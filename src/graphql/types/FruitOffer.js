@@ -22,7 +22,10 @@ const FruitOffer = new GraphQLObjectType({
   },
 })
 
-registerOfferTypeResolver(({ vitamins }) => vitamins ? FruitOffer : null)
+registerOfferTypeResolver({
+  type: FruitOffer,
+  value: 'fruit',
+})
 
 module.exports = {
   FruitOffer,

@@ -37,7 +37,10 @@ const CandyOffer = new GraphQLObjectType({
   },
 })
 
-registerOfferTypeResolver(({ sugar }) => sugar ? CandyOffer : null)
+registerOfferTypeResolver({
+  type: CandyOffer,
+  value: 'candy',
+})
 
 module.exports = {
   CandyOffer,

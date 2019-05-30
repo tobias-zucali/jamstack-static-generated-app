@@ -1,9 +1,9 @@
 const {
   GraphQLID,
-  GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
+  GraphQLInt,
 } = require('graphql')
 
 const {
@@ -14,16 +14,20 @@ const {
   OfferInterface,
   Offer,
 } = require('./types/Offer.js')
-
 const {
   CandyOffer,
 } = require('./types/CandyOffer.js')
 const {
   FruitOffer,
 } = require('./types/FruitOffer.js')
+const {
+  Offers,
+} = require('./types/Offers.js')
 
 const {
   getOfferById,
+  getOfferIndex,
+  getOffers,
 } = require('./fakeDatabase/index.js')
 
 
@@ -47,17 +51,26 @@ const schema = new GraphQLSchema({
           return getOfferById(id)
         },
       },
-      // getOffers: {
-      //   type: GraphQLString,
-      //   args: {
-      //     after: { type: GraphQLID },
-      //     limit: { type: GraphQLInt },
-      //     filter_type: { type: GraphQL?? },
-      //   },
-      //   resolve(root, args) {
-      //     return args.text
-      //   },
-      // },
+      getOffers: {
+        type: Offers,
+        args: {
+          after: { type: GraphQLID },
+          limit: { type: GraphQLInt },
+          // filter_type: { type: GraphQL?? },
+        },
+        resolve(root, { after, limit }) {
+          let result = getOffers()
+          if (after) {
+            const previousOffer = getOfferById(after)
+            const previousIndex = getOfferIndex(previousOffer)
+            result = result.slice(previousIndex + 1)
+          }
+          if (limit) {
+            result = result.slice(0, limit)
+          }
+          return result
+        },
+      },
     },
   }),
 })

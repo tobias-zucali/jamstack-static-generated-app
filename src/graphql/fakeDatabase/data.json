@@ -14,25 +14,29 @@
       "id": "a",
       "name": "Banana",
       "manufacturer": "moe",
+      "type": "fruit",
       "vitamins": 33
     },
     {
       "id": "b",
       "name": "Manner Wafferl",
       "manufacturer": "acme",
-      "sugar": 5
+      "sugar": 5,
+      "type": "candy"
     },
     {
       "id": "c",
       "name": "Apple",
       "manufacturer": "moe",
+      "type": "fruit",
       "vitamins": 37
     },
     {
       "id": "d",
       "manufacturer": "acme",
       "name": "Gummi Bear",
-      "sugar": 12
+      "sugar": 12,
+      "type": "candy"
     }
   ]
 }
