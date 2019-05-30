@@ -11,6 +11,17 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     {
+      resolve: 'gatsby-source-graphql',
+      options: {
+        typeName: 'EXTERNAL',
+        fieldName: 'external',
+        // TODO: use environment variable for server path
+        // TODO: use reliable server
+        // TODO: find solution for first deploy
+        url: 'https://jamstack-static-generated-app.netlify.com/.netlify/functions/graphql',
+      },
+    },
+    {
       resolve: 'gatsby-plugin-create-client-paths',
       options: { prefixes: ['/app/*'] },
     },

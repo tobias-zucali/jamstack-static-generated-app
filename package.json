@@ -42,6 +42,7 @@
     "gatsby-plugin-react-helmet": "^3.0.2",
     "gatsby-plugin-sharp": "^2.0.14",
     "gatsby-source-filesystem": "^2.0.8",
+    "gatsby-source-graphql": "^2.0.18",
     "gatsby-transformer-sharp": "^2.1.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",

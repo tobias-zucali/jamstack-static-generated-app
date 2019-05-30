@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import PropTypes from 'prop-types'
+import { graphql, Link } from 'gatsby'
 
 import fetchGraphql from '../utils/fetchGraphql'
 
@@ -21,7 +22,7 @@ class IndexPage extends React.Component {
         getOffers {
           offers {
             id
-            title
+            name
           }
         }
       }
@@ -32,6 +33,9 @@ class IndexPage extends React.Component {
 
   render() {
     const { loading, msg } = this.state
+    const { data } = this.props
+    const { offers } = data.external.getOffers
+
     return (
       <Layout>
         <SEO title="Home" keywords={['gatsby', 'application', 'react']} />
@@ -43,8 +47,7 @@ class IndexPage extends React.Component {
         >
           <div>
             <p>
-              Welcome to your new Gatsby + Netlify Functions + Netlify Identity
-              site
+              {data.site.siteMetadata.description}
             </p>
             <ul>
               <li>
@@ -63,6 +66,11 @@ class IndexPage extends React.Component {
                     </Link>
                     {' '}
                   </li>
+                  {offers.map(({ name, id }) => (
+                    <li key={id}>
+                      {name}
+                    </li>
+                  ))}
                 </ul>
               </li>
               <li>
@@ -122,4 +130,27 @@ class IndexPage extends React.Component {
   }
 }
 
+IndexPage.propTypes = {
+  data: PropTypes.object,
+}
+
 export default IndexPage
+
+export const query = graphql`
+  query HomePageQuery {
+    site {
+      siteMetadata {
+        description
+      }
+    }
+
+    external {
+      getOffers {
+        offers {
+          name
+          id
+        }
+      }
+    }
+  }
+`
