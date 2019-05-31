@@ -34,7 +34,7 @@ class IndexPage extends React.Component {
   render() {
     const { loading, msg } = this.state
     const { data } = this.props
-    const { products } = [] // data.external.getProducts
+    // const { products } = data.external.getProducts
 
     return (
       <Layout>
@@ -66,11 +66,11 @@ class IndexPage extends React.Component {
                     </Link>
                     {' '}
                   </li>
-                  {products.map(({ name, id }) => (
+                  {/* {products.map(({ name, id }) => (
                     <li key={id}>
                       {name}
                     </li>
-                  ))}
+                  ))} */}
                 </ul>
               </li>
               <li>
