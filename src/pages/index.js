@@ -34,7 +34,7 @@ class IndexPage extends React.Component {
   render() {
     const { loading, msg } = this.state
     const { data } = this.props
-    const { products } = data.external.getProducts
+    const { products } = [] // data.external.getProducts
 
     return (
       <Layout>
