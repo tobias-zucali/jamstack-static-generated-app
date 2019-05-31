@@ -7,15 +7,9 @@ import {
   GraphQLEnumType,
 } from 'graphql'
 
-import {
-  Manufacturer,
-} from './Manufacturer'
+import { getProductIndex, getProductByIndex, getManufacturerBySlug } from '../fakeDatabase/index'
 
-import {
-  getProductIndex,
-  getProductByIndex,
-  getManufacturerBySlug,
-} from '../fakeDatabase/index'
+import Manufacturer from './Manufacturer'
 
 
 const typeResolvers = []
@@ -101,17 +95,10 @@ export const getProductFields = () => ({
   },
 })
 
-export const Product = new GraphQLObjectType({
+const Product = new GraphQLObjectType({
   name: 'Product',
   interfaces: [ProductInterface],
   fields: getProductFields(),
 })
 
-// module.exports = {
-//   getProductTypesEnum,
-//   getProductFields,
-//   ProductInterface,
-//   ProductEdges,
-//   Product,
-//   registerProductTypeResolver,
-// }
+export default Product

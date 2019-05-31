@@ -11,7 +11,7 @@ import {
 } from './Product'
 
 
-export const Fruit = new GraphQLObjectType({
+const Fruit = new GraphQLObjectType({
   name: 'Fruit',
   interfaces: [ProductInterface],
   fields: {
@@ -26,3 +26,5 @@ registerProductTypeResolver({
   type: Fruit,
   value: 'fruit',
 })
+
+export default Fruit

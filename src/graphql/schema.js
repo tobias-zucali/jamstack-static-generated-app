@@ -6,30 +6,13 @@ import {
   GraphQLInt,
 } from 'graphql'
 
-import {
-  Manufacturer,
-} from './types/Manufacturer'
+import { getProductBySlug, getProductIndex, getProducts } from './fakeDatabase'
 
-import {
-  ProductInterface,
-  Product,
-  getProductTypesEnum,
-} from './types/Product'
-import {
-  Candy,
-} from './types/Candy'
-import {
-  Fruit,
-} from './types/Fruit'
-import {
-  Products,
-} from './types/Products'
-
-import {
-  getProductBySlug,
-  getProductIndex,
-  getProducts,
-} from './fakeDatabase'
+import Manufacturer from './types/Manufacturer'
+import Product, { ProductInterface, getProductTypesEnum } from './types/Product'
+import Candy from './types/Candy'
+import Fruit from './types/Fruit'
+import Products from './types/Products'
 
 
 export default new GraphQLSchema({

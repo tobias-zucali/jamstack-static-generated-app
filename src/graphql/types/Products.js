@@ -43,7 +43,7 @@ const ProductsEdges = new GraphQLObjectType({
   }),
 })
 
-export const Products = new GraphQLObjectType({
+const Products = new GraphQLObjectType({
   name: 'Products',
   fields: {
     edges: {
@@ -60,3 +60,5 @@ export const Products = new GraphQLObjectType({
     },
   },
 })
+
+export default Products

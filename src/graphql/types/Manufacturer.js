@@ -6,7 +6,7 @@ import {
 } from 'graphql'
 
 
-export const Manufacturer = new GraphQLObjectType({
+const Manufacturer = new GraphQLObjectType({
   name: 'TypeInterface',
   fields: {
     slug: {
@@ -23,3 +23,5 @@ export const Manufacturer = new GraphQLObjectType({
     },
   },
 })
+
+export default Manufacturer
