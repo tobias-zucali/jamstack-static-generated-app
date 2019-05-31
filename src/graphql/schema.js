@@ -11,63 +11,63 @@ const {
 } = require('./types/Manufacturer.js')
 
 const {
-  OfferInterface,
-  Offer,
-  getOfferTypesEnum,
-} = require('./types/Offer.js')
+  ProductInterface,
+  Product,
+  getProductTypesEnum,
+} = require('./types/Product.js')
 const {
-  CandyOffer,
-} = require('./types/CandyOffer.js')
+  CandyProduct,
+} = require('./types/Candy.js')
 const {
-  FruitOffer,
-} = require('./types/FruitOffer.js')
+  FruitProduct,
+} = require('./types/Fruit.js')
 const {
-  Offers,
-} = require('./types/Offers.js')
+  Products,
+} = require('./types/Products.js')
 
 const {
-  getOfferById,
-  getOfferIndex,
-  getOffers,
+  getProductById,
+  getProductIndex,
+  getProducts,
 } = require('./fakeDatabase/index.js')
 
 
 const schema = new GraphQLSchema({
   types: [
-    FruitOffer,
-    CandyOffer,
-    Offer,
+    FruitProduct,
+    CandyProduct,
+    Product,
     Manufacturer,
-    OfferInterface,
+    ProductInterface,
   ],
   query: new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-      getOffer: {
-        type: OfferInterface,
+      getProduct: {
+        type: ProductInterface,
         args: {
           id: { type: new GraphQLNonNull(GraphQLID) },
         },
         resolve(root, { id }) {
-          return getOfferById(id)
+          return getProductById(id)
         },
       },
-      getOffers: {
-        type: Offers,
+      getProducts: {
+        type: Products,
         args: {
           after: { type: GraphQLID },
           limit: { type: GraphQLInt },
           // TODO: more advanced filtering – dedicated graphql server module could help
-          type: { type: getOfferTypesEnum() },
+          type: { type: getProductTypesEnum() },
         },
         resolve(root, { after, limit, type }) {
-          let result = getOffers()
+          let result = getProducts()
           if (type) {
             result = result.filter((entry) => entry.type === type)
           }
           if (after) {
-            const previousOffer = getOfferById(after)
-            const previousIndex = getOfferIndex(previousOffer)
+            const previousProduct = getProductById(after)
+            const previousIndex = getProductIndex(previousProduct)
             result = result.slice(previousIndex + 1)
           }
           if (limit) {

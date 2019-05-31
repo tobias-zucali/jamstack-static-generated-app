@@ -19,8 +19,8 @@ class IndexPage extends React.Component {
     this.setState({ loading: true })
     fetchGraphql(`
       {
-        getOffers {
-          offers {
+        getProducts {
+          products {
             id
             name
           }
@@ -34,7 +34,7 @@ class IndexPage extends React.Component {
   render() {
     const { loading, msg } = this.state
     const { data } = this.props
-    const { offers } = data.external.getOffers
+    const { products } = data.external.getProducts
 
     return (
       <Layout>
@@ -66,7 +66,7 @@ class IndexPage extends React.Component {
                     </Link>
                     {' '}
                   </li>
-                  {offers.map(({ name, id }) => (
+                  {products.map(({ name, id }) => (
                     <li key={id}>
                       {name}
                     </li>
@@ -144,13 +144,13 @@ export const query = graphql`
       }
     }
 
-    external {
-      getOffers {
-        offers {
-          name
-          id
-        }
-      }
-    }
+    # external {
+    #   getProducts {
+    #     products {
+    #       name
+    #       id
+    #     }
+    #   }
+    # }
   }
 `

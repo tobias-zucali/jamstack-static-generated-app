@@ -9,37 +9,37 @@ const {
 
 const {
   Manufacturer,
-} = require('../types/Manufacturer.js')
+} = require('./Manufacturer.js')
 
 const {
-  getOfferIndex,
-  getOfferByIndex,
+  getProductIndex,
+  getProductByIndex,
   getManufacturerById,
 } = require('../fakeDatabase/index.js')
 
 
 const typeResolvers = []
 
-const registerOfferTypeResolver = (resolver) => typeResolvers.push(resolver)
-const resolveOfferType = (source) => {
+const registerProductTypeResolver = (resolver) => typeResolvers.push(resolver)
+const resolveProductType = (source) => {
   for (let index = 0, len = typeResolvers.length; index < len; index += 1) {
     const resolver = typeResolvers[index]
     if (source.type === resolver.value) {
       return resolver.type
     }
   }
-  return Offer
+  return Product
 }
-const getOfferTypesEnum = () => new GraphQLEnumType({
-  name: 'offerType',
+const getProductTypesEnum = () => new GraphQLEnumType({
+  name: 'productType',
   values: typeResolvers.reduce((values, { value }) => ({
     [value.toUpperCase()]: { value },
     ...values,
   }), {}),
 })
 
-const OfferInterface = new GraphQLInterfaceType({
-  name: 'OfferInterface',
+const ProductInterface = new GraphQLInterfaceType({
+  name: 'ProductInterface',
   fields: () => ({
     id: {
       type: new GraphQLNonNull(GraphQLID),
@@ -51,34 +51,34 @@ const OfferInterface = new GraphQLInterfaceType({
       type: Manufacturer,
     },
     edges: {
-      type: OfferEdges,
+      type: ProductEdges,
     },
     type: {
       type: new GraphQLNonNull(GraphQLString),
     },
   }),
-  resolveType: resolveOfferType,
+  resolveType: resolveProductType,
 })
 
-const OfferEdges = new GraphQLObjectType({
-  name: 'OfferEdges',
+const ProductEdges = new GraphQLObjectType({
+  name: 'ProductEdges',
   fields: () => ({
     next: {
-      type: OfferInterface,
-      resolve: ({ index }) => getOfferByIndex(index + 1),
+      type: ProductInterface,
+      resolve: ({ index }) => getProductByIndex(index + 1),
     },
     previous: {
-      type: OfferInterface,
-      resolve: ({ index }) => getOfferByIndex(index - 1),
+      type: ProductInterface,
+      resolve: ({ index }) => getProductByIndex(index - 1),
     },
   }),
 })
 
-const getOfferFields = () => ({
+const getProductFields = () => ({
   edges: {
-    type: OfferEdges,
+    type: ProductEdges,
     resolve: (root) => ({
-      index: getOfferIndex(root),
+      index: getProductIndex(root),
     }),
   },
   id: {
@@ -101,17 +101,17 @@ const getOfferFields = () => ({
   },
 })
 
-const Offer = new GraphQLObjectType({
-  name: 'Offer',
-  interfaces: [OfferInterface],
-  fields: getOfferFields(),
+const Product = new GraphQLObjectType({
+  name: 'Product',
+  interfaces: [ProductInterface],
+  fields: getProductFields(),
 })
 
 module.exports = {
-  getOfferTypesEnum,
-  getOfferFields,
-  OfferInterface,
-  OfferEdges,
-  Offer,
-  registerOfferTypeResolver,
+  getProductTypesEnum,
+  getProductFields,
+  ProductInterface,
+  ProductEdges,
+  Product,
+  registerProductTypeResolver,
 }

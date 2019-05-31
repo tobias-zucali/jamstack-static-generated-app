@@ -1,12 +1,12 @@
 const evaluate = require('../evaluate')
 
 const {
-  getOfferByIndexLoop,
-  getOffers,
+  getProductByIndexLoop,
+  getProducts,
 } = require('../fakeDatabase/index.js')
 
 
-const evaluateOffer = async ({
+const evaluateProduct = async ({
   id,
   name,
   nextId,
@@ -16,7 +16,7 @@ const evaluateOffer = async ({
     evaluate({
       query: `
         {
-          getOffer(id: "${id}") {
+          getProduct(id: "${id}") {
             id
             name
             edges {
@@ -33,7 +33,7 @@ const evaluateOffer = async ({
     })
   ).resolves.toEqual({
     data: {
-      getOffer: {
+      getProduct: {
         id,
         name,
         edges: {
@@ -51,32 +51,32 @@ const evaluateOffer = async ({
 
 
 describe('graphql/evaluate', () => {
-  describe('Offer', () => {
-    it('returns first offer', async () => {
-      await evaluateOffer({
-        id: getOfferByIndexLoop(0).id,
-        name: getOfferByIndexLoop(0).name,
-        nextId: getOfferByIndexLoop(1).id,
+  describe('Product', () => {
+    it('returns first product', async () => {
+      await evaluateProduct({
+        id: getProductByIndexLoop(0).id,
+        name: getProductByIndexLoop(0).name,
+        nextId: getProductByIndexLoop(1).id,
       })
     })
 
-    it('returns last offer', async () => {
-      await evaluateOffer({
-        id: getOfferByIndexLoop(-1).id,
-        name: getOfferByIndexLoop(-1).name,
-        previousId: getOfferByIndexLoop(-2).id,
+    it('returns last product', async () => {
+      await evaluateProduct({
+        id: getProductByIndexLoop(-1).id,
+        name: getProductByIndexLoop(-1).name,
+        previousId: getProductByIndexLoop(-2).id,
       })
     })
   })
 
-  describe('Offers', () => {
-    it('returns all offers', async () => {
+  describe('Products', () => {
+    it('returns all products', async () => {
       await expect(
         evaluate({
           query: `
             {
-              getOffers {
-                offers {
+              getProducts {
+                products {
                   id
                   name
                 }
@@ -101,17 +101,17 @@ describe('graphql/evaluate', () => {
         })
       ).resolves.toEqual({
         data: {
-          getOffers: {
-            offers: getOffers().map(({ id, name }) => ({ id, name })),
-            count: getOffers().length,
+          getProducts: {
+            products: getProducts().map(({ id, name }) => ({ id, name })),
+            count: getProducts().length,
             edges: {
               next: null,
               previous: null,
               first: {
-                id: getOfferByIndexLoop(0).id,
+                id: getProductByIndexLoop(0).id,
               },
               last: {
-                id: getOfferByIndexLoop(-1).id,
+                id: getProductByIndexLoop(-1).id,
               },
             },
           },
@@ -119,13 +119,13 @@ describe('graphql/evaluate', () => {
       })
     })
 
-    it('returns some offers', async () => {
+    it('returns some products', async () => {
       await expect(
         evaluate({
           query: `
             {
-              getOffers(after: "${getOfferByIndexLoop(0).id}", limit: 2) {
-                offers {
+              getProducts(after: "${getProductByIndexLoop(0).id}", limit: 2) {
+                products {
                   id
                 }
                 count
@@ -149,24 +149,24 @@ describe('graphql/evaluate', () => {
         })
       ).resolves.toEqual({
         data: {
-          getOffers: {
-            offers: [
-              { id: getOfferByIndexLoop(1).id },
-              { id: getOfferByIndexLoop(2).id },
+          getProducts: {
+            products: [
+              { id: getProductByIndexLoop(1).id },
+              { id: getProductByIndexLoop(2).id },
             ],
             count: 2,
             edges: {
               previous: {
-                id: getOfferByIndexLoop(0).id,
+                id: getProductByIndexLoop(0).id,
               },
               next: {
-                id: getOfferByIndexLoop(3).id,
+                id: getProductByIndexLoop(3).id,
               },
               first: {
-                id: getOfferByIndexLoop(1).id,
+                id: getProductByIndexLoop(1).id,
               },
               last: {
-                id: getOfferByIndexLoop(2).id,
+                id: getProductByIndexLoop(2).id,
               },
             },
           },
@@ -174,16 +174,16 @@ describe('graphql/evaluate', () => {
       })
     })
 
-    it('returns candy offers', async () => {
+    it('returns candy products', async () => {
       await expect(
         evaluate({
           query: `
             {
-              getOffers(type: CANDY, limit: 1) {
-                offers {
+              getProducts(type: CANDY, limit: 1) {
+                products {
                   id
                   type
-                  ...on CandyOffer {
+                  ...on CandyProduct {
                     sugar(unit: KG)
                   }
                 }
@@ -193,12 +193,12 @@ describe('graphql/evaluate', () => {
         })
       ).resolves.toEqual({
         data: {
-          getOffers: {
-            offers: [
+          getProducts: {
+            products: [
               {
                 id: 'b',
                 sugar: 0.005,
-                type: 'CandyOffer',
+                type: 'CandyProduct',
               },
             ],
           },

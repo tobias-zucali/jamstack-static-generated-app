@@ -12,17 +12,17 @@ const {
 } = require('./Weight.js')
 
 const {
-  getOfferFields,
-  OfferInterface,
-  registerOfferTypeResolver,
-} = require('./Offer.js')
+  getProductFields,
+  ProductInterface,
+  registerProductTypeResolver,
+} = require('./Product.js')
 
 
-const CandyOffer = new GraphQLObjectType({
-  name: 'CandyOffer',
-  interfaces: [OfferInterface],
+const CandyProduct = new GraphQLObjectType({
+  name: 'CandyProduct',
+  interfaces: [ProductInterface],
   fields: {
-    ...getOfferFields(),
+    ...getProductFields(),
     sugar: {
       type: new GraphQLNonNull(GraphQLFloat),
       args: {
@@ -38,11 +38,11 @@ const CandyOffer = new GraphQLObjectType({
   },
 })
 
-registerOfferTypeResolver({
-  type: CandyOffer,
+registerProductTypeResolver({
+  type: CandyProduct,
   value: 'candy',
 })
 
 module.exports = {
-  CandyOffer,
+  CandyProduct,
 }

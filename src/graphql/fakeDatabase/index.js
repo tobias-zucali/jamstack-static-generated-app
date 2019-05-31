@@ -1,19 +1,19 @@
 
 const {
-  offers: fakeOffers,
+  products: fakeProducts,
   manufacturer: fakeManufacturers,
 } = require('./data.json')
 
-exports.getOffers = () => fakeOffers
-exports.getOfferById = (id) => fakeOffers.find((entry) => entry.id === id)
-exports.getOfferIndex = (offer) => fakeOffers.indexOf(offer)
-exports.getOfferByIndex = (index) => fakeOffers[index]
-exports.getOfferByIndexLoop = (index) => {
-  let positiveIndex = index % fakeOffers.length
+exports.getProducts = () => fakeProducts
+exports.getProductById = (id) => fakeProducts.find((entry) => entry.id === id)
+exports.getProductIndex = (product) => fakeProducts.indexOf(product)
+exports.getProductByIndex = (index) => fakeProducts[index]
+exports.getProductByIndexLoop = (index) => {
+  let positiveIndex = index % fakeProducts.length
   while (positiveIndex < 0) {
-    positiveIndex += fakeOffers.length
+    positiveIndex += fakeProducts.length
   }
-  return fakeOffers[positiveIndex]
+  return fakeProducts[positiveIndex]
 }
 
 exports.getManufacturerById = (id) => fakeManufacturers.find((entry) => entry.id === id)
