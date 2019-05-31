@@ -1,27 +1,27 @@
-const {
+import {
   GraphQLID,
   GraphQLInterfaceType,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
   GraphQLEnumType,
-} = require('graphql')
+} from 'graphql'
 
-const {
+import {
   Manufacturer,
-} = require('./Manufacturer.js')
+} from './Manufacturer'
 
-const {
+import {
   getProductIndex,
   getProductByIndex,
-  getManufacturerById,
-} = require('../fakeDatabase/index.js')
+  getManufacturerBySlug,
+} from '../fakeDatabase/index'
 
 
 const typeResolvers = []
 
-const registerProductTypeResolver = (resolver) => typeResolvers.push(resolver)
-const resolveProductType = (source) => {
+export const registerProductTypeResolver = (resolver) => typeResolvers.push(resolver)
+export const resolveProductType = (source) => {
   for (let index = 0, len = typeResolvers.length; index < len; index += 1) {
     const resolver = typeResolvers[index]
     if (source.type === resolver.value) {
@@ -30,7 +30,7 @@ const resolveProductType = (source) => {
   }
   return Product
 }
-const getProductTypesEnum = () => new GraphQLEnumType({
+export const getProductTypesEnum = () => new GraphQLEnumType({
   name: 'productType',
   values: typeResolvers.reduce((values, { value }) => ({
     [value.toUpperCase()]: { value },
@@ -38,10 +38,10 @@ const getProductTypesEnum = () => new GraphQLEnumType({
   }), {}),
 })
 
-const ProductInterface = new GraphQLInterfaceType({
+export const ProductInterface = new GraphQLInterfaceType({
   name: 'ProductInterface',
   fields: () => ({
-    id: {
+    slug: {
       type: new GraphQLNonNull(GraphQLID),
     },
     name: {
@@ -60,7 +60,7 @@ const ProductInterface = new GraphQLInterfaceType({
   resolveType: resolveProductType,
 })
 
-const ProductEdges = new GraphQLObjectType({
+export const ProductEdges = new GraphQLObjectType({
   name: 'ProductEdges',
   fields: () => ({
     next: {
@@ -74,14 +74,14 @@ const ProductEdges = new GraphQLObjectType({
   }),
 })
 
-const getProductFields = () => ({
+export const getProductFields = () => ({
   edges: {
     type: ProductEdges,
     resolve: (root) => ({
       index: getProductIndex(root),
     }),
   },
-  id: {
+  slug: {
     type: new GraphQLNonNull(GraphQLID),
   },
   name: {
@@ -96,22 +96,22 @@ const getProductFields = () => ({
   manufacturer: {
     type: Manufacturer,
     resolve({ manufacturer }) {
-      return getManufacturerById(manufacturer)
+      return getManufacturerBySlug(manufacturer)
     },
   },
 })
 
-const Product = new GraphQLObjectType({
+export const Product = new GraphQLObjectType({
   name: 'Product',
   interfaces: [ProductInterface],
   fields: getProductFields(),
 })
 
-module.exports = {
-  getProductTypesEnum,
-  getProductFields,
-  ProductInterface,
-  ProductEdges,
-  Product,
-  registerProductTypeResolver,
-}
+// module.exports = {
+//   getProductTypesEnum,
+//   getProductFields,
+//   ProductInterface,
+//   ProductEdges,
+//   Product,
+//   registerProductTypeResolver,
+// }

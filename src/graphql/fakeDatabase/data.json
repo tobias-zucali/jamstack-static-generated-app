@@ -1,38 +1,38 @@
 {
   "manufacturer": [
     {
-      "id": "acme",
+      "slug": "acme",
       "name": "Acme Corporation"
     },
     {
-      "id": "moe",
+      "slug": "moe",
       "name": "Mother Earth Inc."
     }
   ],
   "products": [
     {
-      "id": "a",
+      "slug": "banana",
       "name": "Banana",
       "manufacturer": "moe",
       "type": "fruit",
       "vitamins": 33
     },
     {
-      "id": "b",
+      "slug": "manner_wafferl",
       "name": "Manner Wafferl",
       "manufacturer": "acme",
       "sugar": 5,
       "type": "candy"
     },
     {
-      "id": "c",
+      "slug": "apple",
       "name": "Apple",
       "manufacturer": "moe",
       "type": "fruit",
       "vitamins": 37
     },
     {
-      "id": "d",
+      "slug": "gummi_bear",
       "manufacturer": "acme",
       "name": "Gummi Bear",
       "sugar": 12,

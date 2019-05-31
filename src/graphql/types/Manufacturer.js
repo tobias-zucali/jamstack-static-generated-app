@@ -1,15 +1,15 @@
-const {
+import {
   GraphQLID,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
-} = require('graphql')
+} from 'graphql'
 
 
-exports.Manufacturer = new GraphQLObjectType({
+export const Manufacturer = new GraphQLObjectType({
   name: 'TypeInterface',
   fields: {
-    id: {
+    slug: {
       type: new GraphQLNonNull(GraphQLID),
     },
     name: {

@@ -1,7 +1,7 @@
-const evaluateGraphql = require('../graphql/evaluate.js')
+import evaluateGraphql from '../graphql/evaluate'
 
 
-exports.handler = async (event/* , context */) => {
+export async function handler(event/* , context */) {
   // if (context.clientContext) {
   //   const { identity, user } = context.clientContext
   // }

@@ -1,18 +1,18 @@
-const {
+import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
-} = require('graphql')
+} from 'graphql'
 
-const {
+import {
   getProductFields,
   ProductInterface,
   registerProductTypeResolver,
-} = require('./Product.js')
+} from './Product'
 
 
-const FruitProduct = new GraphQLObjectType({
-  name: 'FruitProduct',
+export const Fruit = new GraphQLObjectType({
+  name: 'Fruit',
   interfaces: [ProductInterface],
   fields: {
     ...getProductFields(),
@@ -23,10 +23,6 @@ const FruitProduct = new GraphQLObjectType({
 })
 
 registerProductTypeResolver({
-  type: FruitProduct,
+  type: Fruit,
   value: 'fruit',
 })
-
-module.exports = {
-  FruitProduct,
-}

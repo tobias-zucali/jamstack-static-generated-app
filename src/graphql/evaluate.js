@@ -1,17 +1,17 @@
-const { graphql } = require('graphql')
+import { graphql } from 'graphql'
 
-const { root, schema } = require('./schema.js')
+import schema from './schema'
 
 
-module.exports = async ({
+export default async function evaluate({
   query,
   variables,
   operationName,
-}) => {
+}) {
   const result = await graphql(
     schema,
     query,
-    root,
+    null,
     null,
     variables,
     operationName

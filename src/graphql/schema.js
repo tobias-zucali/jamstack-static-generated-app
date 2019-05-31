@@ -1,41 +1,41 @@
-const {
+import {
   GraphQLID,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLInt,
-} = require('graphql')
+} from 'graphql'
 
-const {
+import {
   Manufacturer,
-} = require('./types/Manufacturer.js')
+} from './types/Manufacturer'
 
-const {
+import {
   ProductInterface,
   Product,
   getProductTypesEnum,
-} = require('./types/Product.js')
-const {
-  CandyProduct,
-} = require('./types/Candy.js')
-const {
-  FruitProduct,
-} = require('./types/Fruit.js')
-const {
+} from './types/Product'
+import {
+  Candy,
+} from './types/Candy'
+import {
+  Fruit,
+} from './types/Fruit'
+import {
   Products,
-} = require('./types/Products.js')
+} from './types/Products'
 
-const {
-  getProductById,
+import {
+  getProductBySlug,
   getProductIndex,
   getProducts,
-} = require('./fakeDatabase/index.js')
+} from './fakeDatabase'
 
 
-const schema = new GraphQLSchema({
+export default new GraphQLSchema({
   types: [
-    FruitProduct,
-    CandyProduct,
+    Fruit,
+    Candy,
     Product,
     Manufacturer,
     ProductInterface,
@@ -46,19 +46,25 @@ const schema = new GraphQLSchema({
       getProduct: {
         type: ProductInterface,
         args: {
-          id: { type: new GraphQLNonNull(GraphQLID) },
+          slug: { type: new GraphQLNonNull(GraphQLID) },
         },
-        resolve(root, { id }) {
-          return getProductById(id)
+        resolve(root, { slug }) {
+          return getProductBySlug(slug)
         },
       },
       getProducts: {
         type: Products,
         args: {
-          after: { type: GraphQLID },
-          limit: { type: GraphQLInt },
+          after: {
+            type: GraphQLID,
+          },
+          limit: {
+            type: GraphQLInt,
+          },
           // TODO: more advanced filtering – dedicated graphql server module could help
-          type: { type: getProductTypesEnum() },
+          type: {
+            type: getProductTypesEnum(),
+          },
         },
         resolve(root, { after, limit, type }) {
           let result = getProducts()
@@ -66,7 +72,7 @@ const schema = new GraphQLSchema({
             result = result.filter((entry) => entry.type === type)
           }
           if (after) {
-            const previousProduct = getProductById(after)
+            const previousProduct = getProductBySlug(after)
             const previousIndex = getProductIndex(previousProduct)
             result = result.slice(previousIndex + 1)
           }
@@ -79,8 +85,3 @@ const schema = new GraphQLSchema({
     },
   }),
 })
-
-module.exports = {
-  schema,
-  root: null,
-}

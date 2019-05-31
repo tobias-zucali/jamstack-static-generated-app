@@ -1,30 +1,30 @@
-const evaluate = require('../evaluate')
+import evaluate from '../evaluate'
 
-const {
+import {
   getProductByIndexLoop,
   getProducts,
-} = require('../fakeDatabase/index.js')
+} from '../fakeDatabase'
 
 
 const evaluateProduct = async ({
-  id,
+  slug,
   name,
-  nextId,
-  previousId,
+  nextSlug,
+  previousSlug,
 }) => {
   await expect(
     evaluate({
       query: `
         {
-          getProduct(id: "${id}") {
-            id
+          getProduct(slug: "${slug}") {
+            slug
             name
             edges {
               previous {
-                id
+                slug
               }
               next {
-                id
+                slug
               }
             }
           }
@@ -34,14 +34,14 @@ const evaluateProduct = async ({
   ).resolves.toEqual({
     data: {
       getProduct: {
-        id,
+        slug,
         name,
         edges: {
-          next: nextId ? {
-            id: nextId,
+          next: nextSlug ? {
+            slug: nextSlug,
           } : null,
-          previous: previousId ? {
-            id: previousId,
+          previous: previousSlug ? {
+            slug: previousSlug,
           } : null,
         },
       },
@@ -54,17 +54,17 @@ describe('graphql/evaluate', () => {
   describe('Product', () => {
     it('returns first product', async () => {
       await evaluateProduct({
-        id: getProductByIndexLoop(0).id,
+        slug: getProductByIndexLoop(0).slug,
         name: getProductByIndexLoop(0).name,
-        nextId: getProductByIndexLoop(1).id,
+        nextSlug: getProductByIndexLoop(1).slug,
       })
     })
 
     it('returns last product', async () => {
       await evaluateProduct({
-        id: getProductByIndexLoop(-1).id,
+        slug: getProductByIndexLoop(-1).slug,
         name: getProductByIndexLoop(-1).name,
-        previousId: getProductByIndexLoop(-2).id,
+        previousSlug: getProductByIndexLoop(-2).slug,
       })
     })
   })
@@ -77,22 +77,22 @@ describe('graphql/evaluate', () => {
             {
               getProducts {
                 products {
-                  id
+                  slug
                   name
                 }
                 count
                 edges {
                   first {
-                    id
+                    slug
                   }
                   last {
-                    id
+                    slug
                   }
                   next {
-                    id
+                    slug
                   }
                   previous {
-                    id
+                    slug
                   }
                 }
               }
@@ -102,16 +102,16 @@ describe('graphql/evaluate', () => {
       ).resolves.toEqual({
         data: {
           getProducts: {
-            products: getProducts().map(({ id, name }) => ({ id, name })),
+            products: getProducts().map(({ slug, name }) => ({ slug, name })),
             count: getProducts().length,
             edges: {
               next: null,
               previous: null,
               first: {
-                id: getProductByIndexLoop(0).id,
+                slug: getProductByIndexLoop(0).slug,
               },
               last: {
-                id: getProductByIndexLoop(-1).id,
+                slug: getProductByIndexLoop(-1).slug,
               },
             },
           },
@@ -124,23 +124,23 @@ describe('graphql/evaluate', () => {
         evaluate({
           query: `
             {
-              getProducts(after: "${getProductByIndexLoop(0).id}", limit: 2) {
+              getProducts(after: "${getProductByIndexLoop(0).slug}", limit: 2) {
                 products {
-                  id
+                  slug
                 }
                 count
                 edges {
                   first {
-                    id
+                    slug
                   }
                   last {
-                    id
+                    slug
                   }
                   next {
-                    id
+                    slug
                   }
                   previous {
-                    id
+                    slug
                   }
                 }
               }
@@ -151,22 +151,22 @@ describe('graphql/evaluate', () => {
         data: {
           getProducts: {
             products: [
-              { id: getProductByIndexLoop(1).id },
-              { id: getProductByIndexLoop(2).id },
+              { slug: getProductByIndexLoop(1).slug },
+              { slug: getProductByIndexLoop(2).slug },
             ],
             count: 2,
             edges: {
               previous: {
-                id: getProductByIndexLoop(0).id,
+                slug: getProductByIndexLoop(0).slug,
               },
               next: {
-                id: getProductByIndexLoop(3).id,
+                slug: getProductByIndexLoop(3).slug,
               },
               first: {
-                id: getProductByIndexLoop(1).id,
+                slug: getProductByIndexLoop(1).slug,
               },
               last: {
-                id: getProductByIndexLoop(2).id,
+                slug: getProductByIndexLoop(2).slug,
               },
             },
           },
@@ -181,9 +181,9 @@ describe('graphql/evaluate', () => {
             {
               getProducts(type: CANDY, limit: 1) {
                 products {
-                  id
+                  slug
                   type
-                  ...on CandyProduct {
+                  ...on Candy {
                     sugar(unit: KG)
                   }
                 }
@@ -196,9 +196,9 @@ describe('graphql/evaluate', () => {
           getProducts: {
             products: [
               {
-                id: 'b',
+                slug: getProductByIndexLoop(1).slug,
                 sugar: 0.005,
-                type: 'CandyProduct',
+                type: 'Candy',
               },
             ],
           },

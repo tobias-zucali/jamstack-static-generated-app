@@ -1,18 +1,18 @@
-const {
+import {
   GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLList,
-} = require('graphql')
+} from 'graphql'
 
-const {
+import {
   ProductInterface,
-} = require('./Product.js')
+} from './Product'
 
-const {
+import {
   getProductByIndex,
   getProductIndex,
-} = require('../fakeDatabase/index.js')
+} from '../fakeDatabase'
 
 
 const ProductsEdges = new GraphQLObjectType({
@@ -43,7 +43,7 @@ const ProductsEdges = new GraphQLObjectType({
   }),
 })
 
-const Products = new GraphQLObjectType({
+export const Products = new GraphQLObjectType({
   name: 'Products',
   fields: {
     edges: {
@@ -60,7 +60,3 @@ const Products = new GraphQLObjectType({
     },
   },
 })
-
-module.exports = {
-  Products,
-}

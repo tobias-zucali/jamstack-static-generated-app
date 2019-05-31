@@ -1,25 +1,25 @@
-const {
+import {
   GraphQLFloat,
   GraphQLNonNull,
   GraphQLObjectType,
-} = require('graphql')
+} from 'graphql'
 
 
-const {
+import {
   convertWeight,
   Weight,
   WEIGHT_UNITS,
-} = require('./Weight.js')
+} from './Weight'
 
-const {
+import {
   getProductFields,
   ProductInterface,
   registerProductTypeResolver,
-} = require('./Product.js')
+} from './Product'
 
 
-const CandyProduct = new GraphQLObjectType({
-  name: 'CandyProduct',
+export const Candy = new GraphQLObjectType({
+  name: 'Candy',
   interfaces: [ProductInterface],
   fields: {
     ...getProductFields(),
@@ -39,10 +39,6 @@ const CandyProduct = new GraphQLObjectType({
 })
 
 registerProductTypeResolver({
-  type: CandyProduct,
+  type: Candy,
   value: 'candy',
 })
-
-module.exports = {
-  CandyProduct,
-}

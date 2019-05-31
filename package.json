@@ -17,7 +17,6 @@
     "clean:functions": "rimraf lambda/*",
     "deploy": "yarn run netlify deploy",
     "dev": "yarn run clean && yarn run start",
-    "dev:graphql": "node ./internals/graphql/devServer.js",
     "lint:eslint:fix": "yarn lint:eslint --fix",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint:fix": "yarn lint:eslint:fix .",

@@ -5,7 +5,7 @@ const {
 } = require('./data.json')
 
 exports.getProducts = () => fakeProducts
-exports.getProductById = (id) => fakeProducts.find((entry) => entry.id === id)
+exports.getProductBySlug = (slug) => fakeProducts.find((entry) => entry.slug === slug)
 exports.getProductIndex = (product) => fakeProducts.indexOf(product)
 exports.getProductByIndex = (index) => fakeProducts[index]
 exports.getProductByIndexLoop = (index) => {
@@ -16,4 +16,4 @@ exports.getProductByIndexLoop = (index) => {
   return fakeProducts[positiveIndex]
 }
 
-exports.getManufacturerById = (id) => fakeManufacturers.find((entry) => entry.id === id)
+exports.getManufacturerBySlug = (slug) => fakeManufacturers.find((entry) => entry.slug === slug)
