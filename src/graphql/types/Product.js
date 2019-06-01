@@ -7,7 +7,7 @@ import {
   GraphQLEnumType,
 } from 'graphql'
 
-import { getProductIndex, getProductByIndex, getManufacturerBySlug } from '../fakeDatabase/index'
+import { getProductIndex, getProductByIndex, getProductBySlug, getManufacturerBySlug } from '../fakeDatabase/index'
 
 import Manufacturer from './Manufacturer'
 
@@ -31,6 +31,8 @@ export const getProductTypesEnum = () => new GraphQLEnumType({
     ...values,
   }), {}),
 })
+
+export const resolveGetProduct = ({ slug }) => getProductBySlug(slug)
 
 export const ProductInterface = new GraphQLInterfaceType({
   name: 'ProductInterface',

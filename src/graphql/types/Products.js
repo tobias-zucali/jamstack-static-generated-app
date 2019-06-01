@@ -11,9 +11,27 @@ import {
 
 import {
   getProductByIndex,
+  getProductBySlug,
   getProductIndex,
+  getProducts,
 } from '../fakeDatabase'
 
+
+export const resolveGetProducts = ({ after, limit, type }) => {
+  let result = getProducts()
+  if (type) {
+    result = result.filter((entry) => entry.type === type)
+  }
+  if (after) {
+    const previousProduct = getProductBySlug(after)
+    const previousIndex = getProductIndex(previousProduct)
+    result = result.slice(previousIndex + 1)
+  }
+  if (limit) {
+    result = result.slice(0, limit)
+  }
+  return result
+}
 
 const ProductsEdges = new GraphQLObjectType({
   name: 'ProductsEdges',

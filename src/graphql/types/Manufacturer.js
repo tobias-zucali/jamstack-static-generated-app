@@ -5,6 +5,12 @@ import {
   GraphQLString,
 } from 'graphql'
 
+import {
+  getManufacturerBySlug,
+} from '../fakeDatabase'
+
+
+export const resolveGetManufacturer = ({ slug }) => getManufacturerBySlug(slug)
 
 const Manufacturer = new GraphQLObjectType({
   name: 'TypeInterface',
