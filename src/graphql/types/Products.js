@@ -9,46 +9,25 @@ import {
   ProductInterface,
 } from './Product'
 
-import {
-  getProductByIndex,
-  getProductBySlug,
-  getProductIndex,
-  getProducts,
-} from '../fakeDatabase'
+import { productsDB } from '../fakeDatabase'
 
 
-export const resolveGetProducts = ({ after, limit, type }) => {
-  let result = getProducts()
-  if (type) {
-    result = result.filter((entry) => entry.type === type)
-  }
-  if (after) {
-    const previousProduct = getProductBySlug(after)
-    const previousIndex = getProductIndex(previousProduct)
-    result = result.slice(previousIndex + 1)
-  }
-  if (limit) {
-    result = result.slice(0, limit)
-  }
-  return result
-}
+export const resolveGetProducts = ({ after, limit, type }) => productsDB.getList({
+  after,
+  filterCallback: (entry) => type ? entry.type === type : true,
+  limit,
+})
 
 const ProductsEdges = new GraphQLObjectType({
   name: 'ProductsEdges',
   fields: () => ({
     next: {
       type: ProductInterface,
-      resolve: (products) => {
-        const lastIndex = getProductIndex(products[products.length - 1])
-        return getProductByIndex(lastIndex + 1)
-      },
+      resolve: (products) => productsDB.getNext(products[products.length - 1]),
     },
     previous: {
       type: ProductInterface,
-      resolve: (products) => {
-        const lastIndex = getProductIndex(products[0])
-        return getProductByIndex(lastIndex - 1)
-      },
+      resolve: (products) => productsDB.getPrevious(products[0]),
     },
     first: {
       type: ProductInterface,

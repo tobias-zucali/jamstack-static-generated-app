@@ -7,7 +7,7 @@ import {
   GraphQLEnumType,
 } from 'graphql'
 
-import { getProductIndex, getProductByIndex, getProductBySlug, getManufacturerBySlug } from '../fakeDatabase/index'
+import { manufacturersDB, productsDB } from '../fakeDatabase/index'
 
 import Manufacturer from './Manufacturer'
 
@@ -32,7 +32,7 @@ export const getProductTypesEnum = () => new GraphQLEnumType({
   }), {}),
 })
 
-export const resolveGetProduct = ({ slug }) => getProductBySlug(slug)
+export const resolveGetProduct = ({ slug }) => productsDB.getBySlug(slug)
 
 export const ProductInterface = new GraphQLInterfaceType({
   name: 'ProductInterface',
@@ -61,11 +61,11 @@ export const ProductEdges = new GraphQLObjectType({
   fields: () => ({
     next: {
       type: ProductInterface,
-      resolve: ({ index }) => getProductByIndex(index + 1),
+      resolve: ({ index }) => productsDB.getByIndex(index + 1),
     },
     previous: {
       type: ProductInterface,
-      resolve: ({ index }) => getProductByIndex(index - 1),
+      resolve: ({ index }) => productsDB.getByIndex(index - 1),
     },
   }),
 })
@@ -74,7 +74,7 @@ export const getProductFields = () => ({
   edges: {
     type: ProductEdges,
     resolve: (root) => ({
-      index: getProductIndex(root),
+      index: productsDB.getIndex(root),
     }),
   },
   slug: {
@@ -92,7 +92,7 @@ export const getProductFields = () => ({
   manufacturer: {
     type: Manufacturer,
     resolve({ manufacturer }) {
-      return getManufacturerBySlug(manufacturer)
+      return manufacturersDB.getBySlug(manufacturer)
     },
   },
 })

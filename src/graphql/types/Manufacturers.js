@@ -7,19 +7,14 @@ import {
 
 import Manufacturer from './Manufacturer'
 
-import {
-  getManufacturers,
-  getManufacturerByIndex,
-  getManufacturerBySlug,
-  getManufacturerIndex,
-} from '../fakeDatabase'
+import { manufacturersDB } from '../fakeDatabase'
 
 
 export const resolveGetManufacturers = ({ after, limit }) => {
-  let result = getManufacturers()
+  let result = manufacturersDB.getList()
   if (after) {
-    const previousManufacturer = getManufacturerBySlug(after)
-    const previousIndex = getManufacturerIndex(previousManufacturer)
+    const previousManufacturer = manufacturersDB.getBySlug(after)
+    const previousIndex = manufacturersDB.getIndex(previousManufacturer)
     result = result.slice(previousIndex + 1)
   }
   if (limit) {
@@ -34,25 +29,19 @@ const ManufacturersEdges = new GraphQLObjectType({
   fields: () => ({
     next: {
       type: Manufacturer,
-      resolve: (manufacturers) => {
-        const lastIndex = getManufacturerIndex(manufacturers[manufacturers.length - 1])
-        return getManufacturerByIndex(lastIndex + 1)
-      },
+      resolve: (manufacturer) => manufacturersDB.getNext(manufacturer[manufacturer.length - 1]),
     },
     previous: {
       type: Manufacturer,
-      resolve: (manufacturers) => {
-        const lastIndex = getManufacturerIndex(manufacturers[0])
-        return getManufacturerByIndex(lastIndex - 1)
-      },
+      resolve: (manufacturer) => manufacturersDB.getPrevious(manufacturer[0]),
     },
     first: {
       type: Manufacturer,
-      resolve: (manufacturers) => manufacturers[0],
+      resolve: (manufacturer) => manufacturer[0],
     },
     last: {
       type: Manufacturer,
-      resolve: (manufacturers) => manufacturers[manufacturers.length - 1],
+      resolve: (manufacturer) => manufacturer[manufacturer.length - 1],
     },
   }),
 })
