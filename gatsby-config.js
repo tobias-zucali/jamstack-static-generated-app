@@ -6,9 +6,10 @@ module.exports = {
     title: 'JAMstack static generated app',
     description,
     author,
+    siteUrl: 'https://jamstack-static-generated-app.netlify.com',
   },
-
   plugins: [
+    'gatsby-plugin-sitemap',
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-source-graphql',
