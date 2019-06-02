@@ -51,9 +51,9 @@ const Products = new GraphQLObjectType({
       type: new GraphQLNonNull(new GraphQLList(ProductInterface)),
       resolve: (source) => source,
     },
-    count: {
+    totalCount: {
       type: new GraphQLNonNull(GraphQLInt),
-      resolve: (source) => source.length,
+      resolve: () => productsDB.getList().length,
     },
   },
 })

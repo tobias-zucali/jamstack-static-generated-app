@@ -53,13 +53,13 @@ const Manufacturers = new GraphQLObjectType({
       type: new GraphQLNonNull(ManufacturersEdges),
       resolve: (source) => source,
     },
-    manufacturers: {
+    nodes: {
       type: new GraphQLNonNull(new GraphQLList(Manufacturer)),
       resolve: (source) => source,
     },
-    count: {
+    totalCount: {
       type: new GraphQLNonNull(GraphQLInt),
-      resolve: (source) => source.length,
+      resolve: () => manufacturersDB.getList().length,
     },
   },
 })

@@ -13,7 +13,7 @@ const evaluateManufacturer = async ({
     evaluate({
       query: `
         {
-          getManufacturer(slug: "${slug}") {
+          manufacturer(slug: "${slug}") {
             slug
             name
             edges {
@@ -30,7 +30,7 @@ const evaluateManufacturer = async ({
     })
   ).resolves.toEqual({
     data: {
-      getManufacturer: {
+      manufacturer: {
         slug,
         name,
         edges: {

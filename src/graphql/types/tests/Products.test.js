@@ -9,12 +9,12 @@ describe('graphql/Products', () => {
       evaluate({
         query: `
             {
-              getProducts {
+              allProducts {
                 products {
                   slug
                   name
                 }
-                count
+                totalCount
                 edges {
                   first {
                     slug
@@ -35,9 +35,9 @@ describe('graphql/Products', () => {
       })
     ).resolves.toEqual({
       data: {
-        getProducts: {
+        allProducts: {
           products: productsDB.getList().map(({ slug, name }) => ({ slug, name })),
-          count: productsDB.getList().length,
+          totalCount: productsDB.getList().length,
           edges: {
             next: null,
             previous: null,
@@ -58,11 +58,11 @@ describe('graphql/Products', () => {
       evaluate({
         query: `
             {
-              getProducts(after: "${productsDB.getByIndexLoop(0).slug}", limit: 2) {
+              allProducts(after: "${productsDB.getByIndexLoop(0).slug}", limit: 2) {
                 products {
                   slug
                 }
-                count
+                totalCount
                 edges {
                   first {
                     slug
@@ -83,12 +83,12 @@ describe('graphql/Products', () => {
       })
     ).resolves.toEqual({
       data: {
-        getProducts: {
+        allProducts: {
           products: [
             { slug: productsDB.getByIndexLoop(1).slug },
             { slug: productsDB.getByIndexLoop(2).slug },
           ],
-          count: 2,
+          totalCount: productsDB.getList().length,
           edges: {
             previous: {
               slug: productsDB.getByIndexLoop(0).slug,
@@ -113,7 +113,7 @@ describe('graphql/Products', () => {
       evaluate({
         query: `
             {
-              getProducts(type: CANDY, limit: 1) {
+              allProducts(type: CANDY, limit: 1) {
                 products {
                   slug
                   type
@@ -127,7 +127,7 @@ describe('graphql/Products', () => {
       })
     ).resolves.toEqual({
       data: {
-        getProducts: {
+        allProducts: {
           products: [
             {
               slug: productsDB.getByIndexLoop(1).slug,

@@ -26,7 +26,7 @@ export default new GraphQLSchema({
   query: new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-      getProduct: {
+      product: {
         type: ProductInterface,
         args: {
           slug: { type: new GraphQLNonNull(GraphQLID) },
@@ -35,7 +35,7 @@ export default new GraphQLSchema({
           return resolveGetProduct(args)
         },
       },
-      getProducts: {
+      allProducts: {
         type: Products,
         args: {
           after: {
@@ -56,7 +56,7 @@ export default new GraphQLSchema({
           return resolveGetProducts(args)
         },
       },
-      getManufacturer: {
+      manufacturer: {
         type: Manufacturer,
         args: {
           slug: { type: new GraphQLNonNull(GraphQLID) },
@@ -65,7 +65,7 @@ export default new GraphQLSchema({
           return resolveGetManufacturer(args)
         },
       },
-      getManufacturers: {
+      allManufacturers: {
         type: Manufacturers,
         args: {
           after: {

@@ -55,7 +55,7 @@ collections:
         fields:
           # All fields should be multilingual, a special widget is needed here
           - label: "Site Title"
-            name: "siteTitle"
+            name: "title"
             widget: "object"
             fields:
               - {label: "Deutsch", name: "de", widget: "string"}
@@ -67,7 +67,7 @@ collections:
             }
           - {
               label: Site Description,
-              name: siteDescription,
+              name: description,
               widget: text,
             }
           - {

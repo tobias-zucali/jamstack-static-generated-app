@@ -19,7 +19,7 @@ class IndexPage extends React.Component {
     this.setState({ loading: true })
     fetchGraphql(`
       {
-        getProducts {
+        allProducts {
           products {
             id
             name
@@ -34,7 +34,7 @@ class IndexPage extends React.Component {
   render() {
     const { loading, msg } = this.state
     const { data } = this.props
-    // const { products } = data.external.getProducts
+    // const { products } = data.external.allProducts
 
     return (
       <Layout>
@@ -145,7 +145,7 @@ export const query = graphql`
     }
 
     # external {
-    #   getProducts {
+    #   allProducts {
     #     products {
     #       name
     #       id

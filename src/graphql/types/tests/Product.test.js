@@ -13,7 +13,7 @@ const evaluateProduct = async ({
     evaluate({
       query: `
         {
-          getProduct(slug: "${slug}") {
+          product(slug: "${slug}") {
             slug
             name
             edges {
@@ -30,7 +30,7 @@ const evaluateProduct = async ({
     })
   ).resolves.toEqual({
     data: {
-      getProduct: {
+      product: {
         slug,
         name,
         edges: {

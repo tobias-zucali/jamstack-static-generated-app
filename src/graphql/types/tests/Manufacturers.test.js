@@ -9,12 +9,12 @@ describe('graphql/Manufacturers', () => {
       evaluate({
         query: `
             {
-              getManufacturers {
-                manufacturers {
+              allManufacturers {
+                nodes {
                   slug
                   name
                 }
-                count
+                totalCount
                 edges {
                   first {
                     slug
@@ -35,9 +35,9 @@ describe('graphql/Manufacturers', () => {
       })
     ).resolves.toEqual({
       data: {
-        getManufacturers: {
-          manufacturers: manufacturersDB.getList().map(({ slug, name }) => ({ slug, name })),
-          count: manufacturersDB.getList().length,
+        allManufacturers: {
+          nodes: manufacturersDB.getList().map(({ slug, name }) => ({ slug, name })),
+          totalCount: manufacturersDB.getList().length,
           edges: {
             next: null,
             previous: null,

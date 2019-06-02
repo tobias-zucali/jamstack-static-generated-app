@@ -7,12 +7,35 @@ exports.createPages = async ({ graphql, actions }) => {
   const result = await graphql(`
     query loadPagesQuery($limit: Int!) {
       external {
-        getManufacturers(limit: $limit) {
-          manufacturers {
+        allManufacturers(limit: $limit) {
+          nodes {
             slug
             name
           }
-          count
+          totalCount
+        }
+      }
+      allFile(filter: {relativeDirectory: {eq: "productCategories"}}) {
+        edges {
+          node {
+            base
+            childMarkdownRemark {
+              excerpt
+              fileAbsolutePath
+              frontmatter {
+                intro
+                slug
+                title
+              }
+              headings {
+                value
+                depth
+              }
+              html
+            }
+            relativePath
+            relativeDirectory
+          }
         }
       }
     }
@@ -23,7 +46,7 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   // Create blog post pages.
-  result.data.external.getManufacturers.manufacturers.forEach((manufacturer) => {
+  result.data.external.allManufacturers.nodes.forEach((manufacturer) => {
     createPage({
       // Path for this page — required
       path: `${manufacturer.slug}`,

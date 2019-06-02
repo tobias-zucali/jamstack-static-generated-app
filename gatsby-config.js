@@ -3,7 +3,10 @@ const siteMetadata = require('./settings/siteMetadata.json')
 
 
 module.exports = {
-  siteMetadata,
+  siteMetadata: {
+    ...siteMetadata,
+    title: siteMetadata.title.en, // TODO: localize
+  },
   plugins: [
     'gatsby-plugin-sitemap',
     'gatsby-plugin-react-helmet',
