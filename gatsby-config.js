@@ -1,15 +1,10 @@
-const { author, description } = require('./package.json')
+const manifest = require('./manifest.js')
+const siteMetadata = require('./settings/siteMetadata.json')
 
 
 module.exports = {
-  siteMetadata: {
-    title: 'JAMstack static generated app',
-    description,
-    author,
-    siteUrl: 'https://jamstack-static-generated-app.netlify.com',
-  },
+  siteMetadata,
   plugins: [
-    'gatsby-plugin-netlify-cms',
     'gatsby-plugin-sitemap',
     'gatsby-plugin-react-helmet',
     {
@@ -28,28 +23,63 @@ module.exports = {
       options: { prefixes: ['/app/*'] },
     },
     {
+      // keep as first gatsby-source-filesystem plugin for gatsby image support
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'images',
-        path: `${__dirname}/src/images`,
+        path: `${__dirname}/static/assets`,
+        name: 'uploads',
+      },
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'content',
+        path: `${__dirname}/content`,
       },
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
-      resolve: 'gatsby-plugin-manifest',
+      resolve: 'gatsby-transformer-remark',
       options: {
-        name: 'gatsby-starter-default',
-        short_name: 'starter',
-        start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
-        display: 'minimal-ui',
-        icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
+        plugins: [
+          {
+            resolve: 'gatsby-remark-relative-images',
+            options: {
+              name: 'uploads',
+            },
+          },
+          {
+            resolve: 'gatsby-remark-images',
+            options: {
+              // It's important to specify the maxWidth (in pixels) of
+              // the content container as this plugin uses this as the
+              // base for generating different widths of each image.
+              maxWidth: 2048,
+            },
+          },
+          {
+            resolve: 'gatsby-remark-copy-linked-files',
+            options: {
+              destinationDir: 'static',
+            },
+          },
+        ],
       },
+    },
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: manifest,
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.app/offline
     // 'gatsby-plugin-offline',
+    {
+      resolve: 'gatsby-plugin-netlify-cms',
+      options: {
+        modulePath: `${__dirname}/src/cms/cms.js`,
+      },
+    },
+    'gatsby-plugin-netlify', // make sure to keep it last in the array
   ],
 }

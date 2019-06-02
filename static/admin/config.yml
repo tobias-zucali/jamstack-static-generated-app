@@ -41,12 +41,6 @@ collections:
         fields:
           - {label: Title, name: title, widget: string}
           - {label: Intro, name: intro, widget: markdown}
-          - label: Translated
-            name: translated
-            widget: list
-            defaults: ["de", "en"]
-            fields:
-              - {label: Title, name: title, widget: string}
 
   # Add global settings here
   - name: 'settings'
@@ -55,23 +49,31 @@ collections:
     editor:
       preview: false
     files:
-      - file: 'content/settings/global.yml'
-        label: 'Global Settings'
-        name: 'global-settings'
+      - file: 'settings/siteMetadata.json'
+        label: 'Site Metadata'
+        name: 'siteMetadata'
         fields:
           # All fields should be multilingual, a special widget is needed here
           - label: "Site Title"
-            name: "site title"
+            name: "siteTitle"
             widget: "object"
             fields:
               - {label: "Deutsch", name: "de", widget: "string"}
               - {label: "English", name: "en", widget: "string"}
-          - { label: Site Url, name: siteUrl, widget: string, required: false }
+          - {
+              label: Site Url,
+              name: siteUrl,
+              widget: string
+            }
           - {
               label: Site Description,
               name: siteDescription,
               widget: text,
-              required: false,
+            }
+          - {
+              label: Site Creator,
+              name: siteCreator,
+              widget: text,
             }
           - label: Social Media Card
             name: socialMediaCard
