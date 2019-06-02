@@ -8,7 +8,7 @@ backend:
 publish_mode: editorial_workflow
 
 media_folder: static/assets
-public_folder: public
+public_folder: static
 
 display_url: https://jamstack-static-generated-app.netlify.com
 
@@ -16,47 +16,42 @@ show_preview_links: true
 
 
 collections:
-  - name: infoPages
-    label: Info Page
+
+  # The product categories are matched with
+  - name: productCategories
+    label: Product Categories
     editor:
       preview: true
-    folder: content/infoPages
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    folder: content/productCategories
+    slug: '{{slug}}'
     create: true # Allow users to create new documents in this collection
     fields:
-      - {
-          label: Template,
-          name: template,
-          widget: hidden,
-          default: DefaultPage,
-        }
       - { label: Slug, name: slug, widget: string }
       - { label: Title, name: title, widget: string }
-      - { label: Featured Image, name: featuredImage, widget: image }
+      - { label: Featured Image, name: featuredImage, widget: image, required: false }
       - { label: Body, name: body, widget: markdown }
-      - label: 'Meta'
-        required: false
-        name: 'meta'
-        widget: 'object'
-        fields:
-          - { label: Title, name: title, widget: string, required: false }
-          - {
-              label: Description,
-              name: description,
-              widget: text,
-              required: false,
-            }
-          - {
-              label: Canonical Link,
-              name: canonicalLink,
-              widget: string,
-              required: false,
-            }
-          - { label: Noindex, name: noindex, widget: boolean, required: false }
 
+  # Static pages
+  - label: "Pages"
+    name: "pages"
+    files:
+      - label: "Home"
+        name: "home"
+        file: "content/pages/home.md"
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: Intro, name: intro, widget: markdown}
+          - label: Translated
+            name: translated
+            widget: list
+            defaults: ["de", "en"]
+            fields:
+              - {label: Title, name: title, widget: string}
+
+  # Add global settings here
   - name: 'settings'
     label: 'Settings'
-    delete: false # Prevent users from deleting documents in this collection
+    delete: false
     editor:
       preview: false
     files:
@@ -64,7 +59,13 @@ collections:
         label: 'Global Settings'
         name: 'global-settings'
         fields:
-          - { label: Site Title, name: siteTitle, widget: string }
+          # All fields should be multilingual, a special widget is needed here
+          - label: "Site Title"
+            name: "site title"
+            widget: "object"
+            fields:
+              - {label: "Deutsch", name: "de", widget: "string"}
+              - {label: "English", name: "en", widget: "string"}
           - { label: Site Url, name: siteUrl, widget: string, required: false }
           - {
               label: Site Description,
