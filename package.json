@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "disabled-build:main:app": "gatsby build",
+    "build:main:app": "mkdir -p public && cp -r static/* public",
     "build:main:lambda": "netlify-lambda build src/lambda",
     "build:pre:clean": "yarn run clean",
     "build:pre:lint": "yarn run lint",
