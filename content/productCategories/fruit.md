@@ -1,6 +1,6 @@
 ---
-slug: fruits
-title: Fruits
+slug: fruit
+title: Fruit
 ---
 In botany, a fruit is the seed-bearing structure in flowering plants (also known as angiosperms) formed from the ovary after flowering.
 

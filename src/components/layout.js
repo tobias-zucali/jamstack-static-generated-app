@@ -13,6 +13,7 @@ const Layout = ({ children }) => (
         site {
           siteMetadata {
             title
+            description
           }
         }
       }
@@ -30,8 +31,7 @@ const Layout = ({ children }) => (
         >
           {children}
           <footer>
-            {`©  ${new Date().getFullYear()}, Built with  `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
+            {data.site.siteMetadata.description}
           </footer>
         </div>
       </>

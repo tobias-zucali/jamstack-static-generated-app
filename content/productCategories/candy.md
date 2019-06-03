@@ -1,6 +1,6 @@
 ---
-slug: candies
-title: Candies
+slug: candy
+name: Candy
 ---
 Candy, also called sweets or lollies, is a confection that features sugar as a principal ingredient. The category, called sugar confectionery, encompasses any sweet confection, including chocolate, chewing gum, and sugar candy. Vegetables, fruit, or nuts which have been glazed and coated with sugar are said to be candied.
 

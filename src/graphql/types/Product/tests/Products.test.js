@@ -53,6 +53,41 @@ describe('graphql/Products', () => {
     })
   })
 
+  it('matches all products snapshot', async () => {
+    await expect(
+      evaluate({
+        query: `
+          {
+            allProducts {
+              nodes {
+                name
+                category {
+                  name
+                  slug
+                  description
+                }
+                manufacturer {
+                  address
+                  description
+                  name
+                  slug
+                }
+                slug
+                ... on Fruit {
+                  vitamins
+                }
+                ... on Candy {
+                  sugar
+                }
+              }
+              totalCount
+            }
+          }
+        `,
+      })
+    ).resolves.toMatchSnapshot()
+  })
+
   it('returns some products', async () => {
     await expect(
       evaluate({

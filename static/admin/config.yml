@@ -27,7 +27,7 @@ collections:
     create: true # Allow users to create new documents in this collection
     fields:
       - { label: Slug, name: slug, widget: string }
-      - { label: Title, name: title, widget: string }
+      - { label: Name, name: name, widget: string }
       - { label: Featured Image, name: featuredImage, widget: image, required: false }
       - { label: Body, name: body, widget: markdown }
 

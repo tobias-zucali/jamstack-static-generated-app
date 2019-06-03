@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`graphql/Products matches all products snapshot 1`] = `
+Object {
+  "data": Object {
+    "allProducts": Object {
+      "nodes": Array [
+        Object {
+          "category": Object {
+            "description": null,
+            "name": "Fruit",
+            "slug": "fruit",
+          },
+          "manufacturer": Object {
+            "address": null,
+            "description": null,
+            "name": "Mother Earth Inc.",
+            "slug": "moe",
+          },
+          "name": "Banana",
+          "slug": "banana",
+          "vitamins": 33,
+        },
+        Object {
+          "category": Object {
+            "description": null,
+            "name": "Candy",
+            "slug": "candy",
+          },
+          "manufacturer": Object {
+            "address": null,
+            "description": null,
+            "name": "Acme Corporation",
+            "slug": "acme",
+          },
+          "name": "Manner Wafferl",
+          "slug": "manner_wafferl",
+          "sugar": 5,
+        },
+        Object {
+          "category": Object {
+            "description": null,
+            "name": "Fruit",
+            "slug": "fruit",
+          },
+          "manufacturer": Object {
+            "address": null,
+            "description": null,
+            "name": "Mother Earth Inc.",
+            "slug": "moe",
+          },
+          "name": "Apple",
+          "slug": "apple",
+          "vitamins": 37,
+        },
+        Object {
+          "category": Object {
+            "description": null,
+            "name": "Candy",
+            "slug": "candy",
+          },
+          "manufacturer": Object {
+            "address": null,
+            "description": null,
+            "name": "Acme Corporation",
+            "slug": "acme",
+          },
+          "name": "Gummi Bear",
+          "slug": "gummi_bear",
+          "sugar": 12,
+        },
+        Object {
+          "category": Object {
+            "description": null,
+            "name": "Medicine",
+            "slug": "medicine",
+          },
+          "manufacturer": Object {
+            "address": null,
+            "description": null,
+            "name": "Mother Earth Inc.",
+            "slug": "moe",
+          },
+          "name": "Comfrey",
+          "slug": "comfrey",
+        },
+      ],
+      "totalCount": 5,
+    },
+  },
+}
+`;

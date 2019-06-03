@@ -31,6 +31,9 @@ export const ProductInterface = new GraphQLInterfaceType({
     category: {
       type: new GraphQLNonNull(ProductCategory),
     },
+    type: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
   }),
   resolveType: ({ category }) => productTypes[category] || Product,
 })
