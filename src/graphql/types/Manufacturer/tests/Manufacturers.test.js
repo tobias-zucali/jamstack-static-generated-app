@@ -1,6 +1,6 @@
-import evaluate from '../../evaluate'
+import evaluate from '../../../evaluate'
 
-import { manufacturersDB } from '../../fakeDatabase'
+import { manufacturersDB } from '../../../fakeDatabase'
 
 
 describe('graphql/Manufacturers', () => {

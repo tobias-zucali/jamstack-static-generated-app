@@ -9,14 +9,8 @@ import {
   ProductInterface,
 } from './Product'
 
-import { productsDB } from '../fakeDatabase'
+import { productsDB } from '../../fakeDatabase'
 
-
-export const resolveGetProducts = ({ after, limit, category }) => productsDB.getList({
-  after,
-  filterCallback: (entry) => category ? entry.category === category : true,
-  limit,
-})
 
 const ProductsEdges = new GraphQLObjectType({
   name: 'ProductsEdges',

@@ -1,9 +1,9 @@
 import evaluate from '../../../evaluate'
 
-import { manufacturersDB } from '../../../fakeDatabase'
+import { productCategoriesDB } from '../../../fakeDatabase'
 
 
-const evaluateManufacturer = async ({
+const evaluateProductCategory = async ({
   slug,
   name,
   nextSlug,
@@ -13,7 +13,7 @@ const evaluateManufacturer = async ({
     evaluate({
       query: `
         {
-          manufacturer(slug: "${slug}") {
+          productCategory(slug: "${slug}") {
             slug
             name
             edges {
@@ -30,7 +30,7 @@ const evaluateManufacturer = async ({
     })
   ).resolves.toEqual({
     data: {
-      manufacturer: {
+      productCategory: {
         slug,
         name,
         edges: {
@@ -47,12 +47,12 @@ const evaluateManufacturer = async ({
 }
 
 
-describe('graphql/Manufacturer', () => {
-  it('returns first manufacturer', async () => {
-    await evaluateManufacturer({
-      slug: manufacturersDB.getByIndexLoop(0).slug,
-      name: manufacturersDB.getByIndexLoop(0).name,
-      nextSlug: manufacturersDB.getByIndexLoop(1).slug,
+describe('graphql/ProductCategory', () => {
+  it('returns first productCategory', async () => {
+    await evaluateProductCategory({
+      slug: productCategoriesDB.getByIndexLoop(0).slug,
+      name: productCategoriesDB.getByIndexLoop(0).name,
+      nextSlug: productCategoriesDB.getByIndexLoop(1).slug,
     })
   })
 })

@@ -1,6 +1,6 @@
-import evaluate from '../../evaluate'
+import evaluate from '../../../evaluate'
 
-import { productsDB } from '../../fakeDatabase'
+import { productsDB } from '../../../fakeDatabase'
 
 
 describe('graphql/Products', () => {
@@ -113,10 +113,12 @@ describe('graphql/Products', () => {
       evaluate({
         query: `
             {
-              allProducts(category: CANDY, limit: 1) {
+              allProducts(category: "candy", limit: 1) {
                 products {
                   slug
-                  category
+                  category {
+                    slug
+                  }
                   ...on Candy {
                     sugar(unit: KG)
                   }
@@ -132,7 +134,9 @@ describe('graphql/Products', () => {
             {
               slug: productsDB.getByIndexLoop(1).slug,
               sugar: 0.005,
-              category: 'Candy',
+              category: {
+                slug: 'candy',
+              },
             },
           ],
         },

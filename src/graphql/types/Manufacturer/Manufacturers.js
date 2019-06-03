@@ -7,21 +7,7 @@ import {
 
 import Manufacturer from './Manufacturer'
 
-import { manufacturersDB } from '../fakeDatabase'
-
-
-export const resolveGetManufacturers = ({ after, limit }) => {
-  let result = manufacturersDB.getList()
-  if (after) {
-    const previousManufacturer = manufacturersDB.getBySlug(after)
-    const previousIndex = manufacturersDB.getIndex(previousManufacturer)
-    result = result.slice(previousIndex + 1)
-  }
-  if (limit) {
-    result = result.slice(0, limit)
-  }
-  return result
-}
+import { manufacturersDB } from '../../fakeDatabase'
 
 
 const ManufacturersEdges = new GraphQLObjectType({

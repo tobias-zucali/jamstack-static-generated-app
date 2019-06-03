@@ -51,4 +51,4 @@ const getAccessLayer = (data) => ({
 
 export const manufacturersDB = getAccessLayer(fakeManufacturers)
 export const productsDB = getAccessLayer(fakeProducts)
-export const productCategoryDB = getAccessLayer(fakeProductCategories)
+export const productCategoriesDB = getAccessLayer(fakeProductCategories)

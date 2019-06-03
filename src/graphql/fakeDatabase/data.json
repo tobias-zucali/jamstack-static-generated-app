@@ -48,15 +48,15 @@
   "productCategories": [
     {
       "slug": "fruit",
-      "Name": "Fruit"
+      "name": "Fruit"
     },
     {
       "slug": "candy",
-      "Name": "Candy"
+      "name": "Candy"
     },
     {
       "slug": "medicine",
-      "Name": "Medicine"
+      "name": "Medicine"
     }
   ]
 }

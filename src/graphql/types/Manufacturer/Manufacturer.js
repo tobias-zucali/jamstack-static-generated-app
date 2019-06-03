@@ -5,10 +5,8 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { manufacturersDB } from '../fakeDatabase'
+import { manufacturersDB } from '../../fakeDatabase'
 
-
-export const resolveGetManufacturer = ({ slug }) => manufacturersDB.getBySlug(slug)
 
 export const ManufacturerEdges = new GraphQLObjectType({
   name: 'ManufacturerEdges',
@@ -40,10 +38,10 @@ const Manufacturer = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
     },
     description: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     address: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
   },
 })
