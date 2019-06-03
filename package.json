@@ -5,7 +5,7 @@
   "author": "tobias <tobias@zucali.at>",
   "license": "MIT",
   "scripts": {
-    "build:main:app": "gatsby build",
+    "disabled-build:main:app": "gatsby build",
     "build:main:lambda": "netlify-lambda build src/lambda",
     "build:pre:clean": "yarn run clean",
     "build:pre:lint": "yarn run lint",
