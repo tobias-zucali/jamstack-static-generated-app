@@ -1,40 +1,36 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 
 import Layout from '../components/layout'
 import SEO from '../components/seo'
-import ProductCategories from '../components/ProductCategories'
+import useProductCategories from '../hooks/useProductCategories'
 
 import { initAuth } from '../app/services/auth'
 initAuth()
 
 
-ProductCategories.propTypes = {
-  render: PropTypes.func,
-}
-
 function IndexPage() {
+  const productCategories = useProductCategories()
   return (
     <Layout>
       <SEO title="Home" keywords={['gatsby', 'application', 'react']} />
-      <ProductCategories
-        render={({ productCategories }) => (
-          <div>
-            <h2>Browse by category</h2>
-            <ul>
-              {productCategories.map(({ name, html, slug }) => (
-                <li key={slug}>
-                  <Link to={`/${slug}`}>
-                    {name}
-                  </Link>
-                  <div dangerouslySetInnerHTML={{ __html: html }} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      />
+      <div>
+        <h2>Browse by category</h2>
+        <ul>
+          {productCategories.map(({
+            renderExcerpt,
+            name,
+            slug,
+          }) => (
+            <li key={slug}>
+              <Link to={`/${slug}`}>
+                {name}
+              </Link>
+              {renderExcerpt()}
+            </li>
+          ))}
+        </ul>
+      </div>
     </Layout>
   )
 }

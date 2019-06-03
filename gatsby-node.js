@@ -2,39 +2,16 @@ const path = require('path')
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const blogPostTemplate = path.resolve('src/templates/Page.js')
+  const categoryPageTemplate = path.resolve('src/templates/CategoryPage.js')
 
   const result = await graphql(`
     query loadPagesQuery($limit: Int!) {
       external {
-        allManufacturers(limit: $limit) {
+        allProductCategories(limit: $limit) {
           nodes {
-            slug
             name
-          }
-          totalCount
-        }
-      }
-      allFile(filter: {relativeDirectory: {eq: "productCategories"}}) {
-        edges {
-          node {
-            base
-            childMarkdownRemark {
-              excerpt
-              fileAbsolutePath
-              frontmatter {
-                intro
-                slug
-                title
-              }
-              headings {
-                value
-                depth
-              }
-              html
-            }
-            relativePath
-            relativeDirectory
+            slug
+            description
           }
         }
       }
@@ -46,13 +23,13 @@ exports.createPages = async ({ graphql, actions }) => {
   }
 
   // Create blog post pages.
-  result.data.external.allManufacturers.nodes.forEach((manufacturer) => {
+  result.data.external.allProductCategories.nodes.forEach((productCategory) => {
     createPage({
       // Path for this page — required
-      path: `${manufacturer.slug}`,
-      component: blogPostTemplate,
+      path: `${productCategory.slug}`,
+      component: categoryPageTemplate,
       context: {
-        manufacturer,
+        productCategory,
         // Add optional context data to be inserted
         // as props into the page component..
         //
