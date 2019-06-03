@@ -39,8 +39,8 @@ collections:
         name: "home"
         file: "content/pages/home.md"
         fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Intro, name: intro, widget: markdown}
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown }
 
   # Add global settings here
   - name: 'settings'
@@ -58,8 +58,8 @@ collections:
             name: "title"
             widget: "object"
             fields:
-              - {label: "Deutsch", name: "de", widget: "string"}
-              - {label: "English", name: "en", widget: "string"}
+              - { label: "Deutsch", name: "de", widget: "string" }
+              - { label: "English", name: "en", widget: "string" }
           - {
               label: Site Url,
               name: siteUrl,
