@@ -41,7 +41,7 @@ const Products = new GraphQLObjectType({
       type: new GraphQLNonNull(ProductsEdges),
       resolve: (source) => source,
     },
-    products: {
+    nodes: {
       type: new GraphQLNonNull(new GraphQLList(ProductInterface)),
       resolve: (source) => source,
     },

@@ -10,7 +10,7 @@ describe('graphql/Products', () => {
         query: `
             {
               allProducts {
-                products {
+                nodes {
                   slug
                   name
                 }
@@ -36,7 +36,7 @@ describe('graphql/Products', () => {
     ).resolves.toEqual({
       data: {
         allProducts: {
-          products: productsDB.getList().map(({ slug, name }) => ({ slug, name })),
+          nodes: productsDB.getList().map(({ slug, name }) => ({ slug, name })),
           totalCount: productsDB.getList().length,
           edges: {
             next: null,
@@ -59,7 +59,7 @@ describe('graphql/Products', () => {
         query: `
             {
               allProducts(after: "${productsDB.getByIndexLoop(0).slug}", limit: 2) {
-                products {
+                nodes {
                   slug
                 }
                 totalCount
@@ -84,7 +84,7 @@ describe('graphql/Products', () => {
     ).resolves.toEqual({
       data: {
         allProducts: {
-          products: [
+          nodes: [
             { slug: productsDB.getByIndexLoop(1).slug },
             { slug: productsDB.getByIndexLoop(2).slug },
           ],
@@ -114,7 +114,7 @@ describe('graphql/Products', () => {
         query: `
             {
               allProducts(category: "candy", limit: 1) {
-                products {
+                nodes {
                   slug
                   category {
                     slug
@@ -130,7 +130,7 @@ describe('graphql/Products', () => {
     ).resolves.toEqual({
       data: {
         allProducts: {
-          products: [
+          nodes: [
             {
               slug: productsDB.getByIndexLoop(1).slug,
               sugar: 0.005,
