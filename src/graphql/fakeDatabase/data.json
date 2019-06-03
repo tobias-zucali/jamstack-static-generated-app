@@ -14,7 +14,7 @@
       "slug": "banana",
       "name": "Banana",
       "manufacturer": "moe",
-      "type": "fruit",
+      "category": "fruit",
       "vitamins": 33
     },
     {
@@ -22,13 +22,13 @@
       "name": "Manner Wafferl",
       "manufacturer": "acme",
       "sugar": 5,
-      "type": "candy"
+      "category": "candy"
     },
     {
       "slug": "apple",
       "name": "Apple",
       "manufacturer": "moe",
-      "type": "fruit",
+      "category": "fruit",
       "vitamins": 37
     },
     {
@@ -36,7 +36,27 @@
       "manufacturer": "acme",
       "name": "Gummi Bear",
       "sugar": 12,
-      "type": "candy"
+      "category": "candy"
+    },
+    {
+      "slug": "comfrey",
+      "manufacturer": "moe",
+      "name": "Comfrey",
+      "category": "medicine"
+    }
+  ],
+  "productCategories": [
+    {
+      "slug": "fruit",
+      "Name": "Fruit"
+    },
+    {
+      "slug": "candy",
+      "Name": "Candy"
+    },
+    {
+      "slug": "medicine",
+      "Name": "Medicine"
     }
   ]
 }

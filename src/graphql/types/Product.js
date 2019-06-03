@@ -18,7 +18,7 @@ export const registerProductTypeResolver = (resolver) => typeResolvers.push(reso
 export const resolveProductType = (source) => {
   for (let index = 0, len = typeResolvers.length; index < len; index += 1) {
     const resolver = typeResolvers[index]
-    if (source.type === resolver.value) {
+    if (source.category === resolver.value) {
       return resolver.type
     }
   }
@@ -49,7 +49,7 @@ export const ProductInterface = new GraphQLInterfaceType({
     edges: {
       type: ProductEdges,
     },
-    type: {
+    category: {
       type: new GraphQLNonNull(GraphQLString),
     },
   }),
@@ -83,7 +83,7 @@ export const getProductFields = () => ({
   name: {
     type: new GraphQLNonNull(GraphQLString),
   },
-  type: {
+  category: {
     type: new GraphQLNonNull(GraphQLString),
     resolve(source, args, context, { parentType }) {
       return parentType

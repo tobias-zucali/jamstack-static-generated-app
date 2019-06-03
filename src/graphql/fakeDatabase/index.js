@@ -2,6 +2,7 @@
 import {
   products as fakeProducts,
   manufacturer as fakeManufacturers,
+  productCategories as fakeProductCategories,
 } from './data.json'
 
 const getAccessLayer = (data) => ({
@@ -50,3 +51,4 @@ const getAccessLayer = (data) => ({
 
 export const manufacturersDB = getAccessLayer(fakeManufacturers)
 export const productsDB = getAccessLayer(fakeProducts)
+export const productCategoryDB = getAccessLayer(fakeProductCategories)

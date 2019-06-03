@@ -12,9 +12,9 @@ import {
 import { productsDB } from '../fakeDatabase'
 
 
-export const resolveGetProducts = ({ after, limit, type }) => productsDB.getList({
+export const resolveGetProducts = ({ after, limit, category }) => productsDB.getList({
   after,
-  filterCallback: (entry) => type ? entry.type === type : true,
+  filterCallback: (entry) => category ? entry.category === category : true,
   limit,
 })
 

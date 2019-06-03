@@ -3,9 +3,9 @@ import {
 } from 'graphql'
 
 
-import getWeightAttribute from './getWeightAttribute'
+import getWeightAttribute from '../getWeightAttribute'
 
-import { getProductFields, ProductInterface, registerProductTypeResolver } from './Product'
+import { getProductFields, ProductInterface, registerProductTypeResolver } from '../Product'
 
 
 const Candy = new GraphQLObjectType({

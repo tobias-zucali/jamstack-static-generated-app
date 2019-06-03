@@ -113,10 +113,10 @@ describe('graphql/Products', () => {
       evaluate({
         query: `
             {
-              allProducts(type: CANDY, limit: 1) {
+              allProducts(category: CANDY, limit: 1) {
                 products {
                   slug
-                  type
+                  category
                   ...on Candy {
                     sugar(unit: KG)
                   }
@@ -132,7 +132,7 @@ describe('graphql/Products', () => {
             {
               slug: productsDB.getByIndexLoop(1).slug,
               sugar: 0.005,
-              type: 'Candy',
+              category: 'Candy',
             },
           ],
         },

@@ -8,7 +8,7 @@ import {
   getProductFields,
   ProductInterface,
   registerProductTypeResolver,
-} from './Product'
+} from '../Product'
 
 
 const Fruit = new GraphQLObjectType({

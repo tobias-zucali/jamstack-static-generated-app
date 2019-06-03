@@ -11,15 +11,12 @@ import Manufacturer, { resolveGetManufacturer } from './types/Manufacturer'
 import Manufacturers, { resolveGetManufacturers } from './types/Manufacturers'
 import Product, { resolveGetProduct, getProductTypesEnum, ProductInterface } from './types/Product'
 import Products, { resolveGetProducts } from './types/Products'
-import Candy from './types/Candy'
-import Fruit from './types/Fruit'
-
+import ProductTypes from './types/ProductTypes'
 
 export default new GraphQLSchema({
   types: [
-    Fruit,
-    Candy,
     Product,
+    ...Object.values(ProductTypes),
     Manufacturer,
     ProductInterface,
   ],
@@ -45,7 +42,7 @@ export default new GraphQLSchema({
             type: GraphQLInt,
           },
           // TODO: more advanced filtering – dedicated graphql server module could help
-          type: {
+          category: {
             type: getProductTypesEnum(),
           },
           manufacturer: {
