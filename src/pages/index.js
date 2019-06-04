@@ -5,7 +5,6 @@ import { graphql, Link } from 'gatsby'
 import useProductCategories from 'hooks/useProductCategories'
 import markdownFileReducer from 'utils/markdownFileReducer'
 
-import RenderAst from 'components/RenderAst'
 import Layout from 'components/Layout'
 import SEO from 'components/SEO'
 
@@ -36,7 +35,7 @@ function IndexPage({
           ))}
         </ul>
       </div>
-      <RenderAst ast={page.htmlAst} />
+      {page.renderHtml()}
     </Layout>
   )
 }

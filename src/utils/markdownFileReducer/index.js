@@ -1,3 +1,7 @@
+import React from 'react'
+import RenderAst from 'components/RenderAst'
+
+
 export default function markdownFileReducer(graphData) {
   const {
     childMarkdownRemark,
@@ -13,5 +17,7 @@ export default function markdownFileReducer(graphData) {
     ...otherRootProps,
     ...otherRemarkProps,
     ...frontmatter,
+    renderHtml: () => <RenderAst ast={childMarkdownRemark.htmlAst} />,
+    renderExcerpt: () => <RenderAst ast={childMarkdownRemark.excerptAst} />,
   }
 }

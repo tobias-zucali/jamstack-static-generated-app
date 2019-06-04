@@ -35,7 +35,7 @@ exports.createPages = async ({ graphql, actions }) => {
       path: `${productCategory.slug}`,
       component: categoryPageTemplate,
       context: {
-        productCategory,
+        ...productCategory,
         // Add optional context data to be inserted
         // as props into the page component..
         //
