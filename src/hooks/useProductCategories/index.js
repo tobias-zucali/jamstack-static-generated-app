@@ -1,6 +1,6 @@
 import { useStaticQuery, graphql } from 'gatsby'
-import markdownFileReducer from '../../utils/markdownFileReducer'
-import RenderAst from '../../components/RenderAst'
+import markdownFileReducer from 'utils/markdownFileReducer'
+import RenderAst from 'components/RenderAst'
 
 
 export default function useProductCategories() {
