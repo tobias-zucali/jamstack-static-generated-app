@@ -4,24 +4,23 @@ import {
   GraphQLInt,
 } from 'graphql'
 
-import Manufacturer from './Manufacturer'
-import Manufacturers from './Manufacturers'
-
-import { manufacturersDB } from '../../fakeDatabase'
+import { productCategoriesDB } from 'server/fakeDatabase'
+import ProductCategory from './ProductCategory'
+import ProductCategories from './ProductCategories'
 
 
 export default {
-  manufacturer: {
-    type: Manufacturer,
+  productCategory: {
+    type: ProductCategory,
     args: {
       slug: { type: new GraphQLNonNull(GraphQLID) },
     },
     resolve(root, { slug }) {
-      return manufacturersDB.getBySlug(slug)
+      return productCategoriesDB.getBySlug(slug)
     },
   },
-  allManufacturers: {
-    type: Manufacturers,
+  allProductCategories: {
+    type: ProductCategories,
     args: {
       after: {
         type: GraphQLID,
@@ -31,10 +30,10 @@ export default {
       },
     },
     resolve(root, { after, limit }) {
-      let result = manufacturersDB.getList()
+      let result = productCategoriesDB.getList()
       if (after) {
-        const previousManufacturer = manufacturersDB.getBySlug(after)
-        const previousIndex = manufacturersDB.getIndex(previousManufacturer)
+        const previousProductCategory = productCategoriesDB.getBySlug(after)
+        const previousIndex = productCategoriesDB.getIndex(previousProductCategory)
         result = result.slice(previousIndex + 1)
       }
       if (limit) {

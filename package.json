@@ -7,7 +7,7 @@
   "scripts": {
     "build:main:app": "gatsby build",
     "disabled-build:main:app": "mkdir -p public && cp -r static/* public",
-    "build:main:lambda": "netlify-lambda build src/lambda",
+    "build:main:lambda": "netlify-lambda build src/server/lambda --config webpack.config.js",
     "build:pre:clean": "yarn run clean",
     "build:pre:lint": "yarn run lint",
     "build:pre:test": "yarn run test",
@@ -23,7 +23,7 @@
     "lint:fix": "yarn lint:eslint:fix .",
     "lint": "yarn lint:eslint .",
     "netlify": "netlify",
-    "start:lambda": "netlify-lambda serve src/lambda",
+    "start:lambda": "netlify-lambda serve src/server/lambda --config webpack.config.js",
     "start:netlifyDev": "netlify dev",
     "start:netlifyDev:command": "gatsby develop",
     "start": "run-p start:*",

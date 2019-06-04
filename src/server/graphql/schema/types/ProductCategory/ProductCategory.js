@@ -5,7 +5,7 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { productCategoriesDB } from '../../fakeDatabase'
+import { productCategoriesDB } from 'server/fakeDatabase'
 
 
 export const ProductCategoryEdges = new GraphQLObjectType({

@@ -1,6 +1,5 @@
-import evaluate from '../../../evaluate'
-
-import { manufacturersDB } from '../../../fakeDatabase'
+import evaluate from 'server/graphql/evaluate'
+import { manufacturersDB } from 'server/fakeDatabase'
 
 
 const evaluateManufacturer = async ({

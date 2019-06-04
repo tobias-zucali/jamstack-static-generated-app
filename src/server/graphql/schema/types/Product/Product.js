@@ -6,7 +6,7 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { manufacturersDB, productsDB, productCategoriesDB } from '../../fakeDatabase/index'
+import { manufacturersDB, productsDB, productCategoriesDB } from 'server/fakeDatabase'
 import Manufacturer from '../Manufacturer'
 import ProductCategory from '../ProductCategory'
 

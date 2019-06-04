@@ -5,11 +5,8 @@ import {
   GraphQLList,
 } from 'graphql'
 
-import {
-  ProductInterface,
-} from './Product'
-
-import { productsDB } from '../../fakeDatabase'
+import { productsDB } from 'server/fakeDatabase'
+import { ProductInterface } from './Product'
 
 
 const ProductsEdges = new GraphQLObjectType({

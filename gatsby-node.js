@@ -1,4 +1,10 @@
 const path = require('path')
+const webpackConfig = require('./webpack.config.js')
+
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig(webpackConfig)
+}
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions

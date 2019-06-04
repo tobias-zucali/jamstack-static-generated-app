@@ -5,9 +5,8 @@ import {
   GraphQLObjectType,
 } from 'graphql'
 
+import { productCategoriesDB } from 'server/fakeDatabase'
 import ProductCategory from './ProductCategory'
-
-import { productCategoriesDB } from '../../fakeDatabase'
 
 
 const ProductCategoriesEdges = new GraphQLObjectType({

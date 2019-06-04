@@ -5,10 +5,9 @@ import {
   GraphQLString,
 } from 'graphql'
 
+import { productsDB } from 'server/fakeDatabase'
 import { ProductInterface } from './Product'
 import Products from './Products'
-
-import { productsDB } from '../../fakeDatabase'
 
 
 export default {

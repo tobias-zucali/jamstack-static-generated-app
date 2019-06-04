@@ -1,4 +1,4 @@
-import evaluateGraphql from '../graphql/evaluate'
+import evaluate from 'server/graphql/evaluate'
 
 
 export async function handler(event/* , context */) {
@@ -12,7 +12,7 @@ export async function handler(event/* , context */) {
     operationName,
   } = JSON.parse(event.body)
 
-  const result = await evaluateGraphql({
+  const result = await evaluate({
     query,
     variables,
     operationName,

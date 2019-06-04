@@ -1,6 +1,5 @@
-import evaluate from '../../../evaluate'
-
-import { productsDB } from '../../../fakeDatabase'
+import evaluate from 'server/graphql/evaluate'
+import { productsDB } from 'server/fakeDatabase'
 
 
 describe('graphql/Products', () => {
