@@ -1,19 +1,24 @@
 import React from 'react'
-import { Link } from 'gatsby'
+import PropTypes from 'prop-types'
+import { graphql, Link } from 'gatsby'
 
+import useProductCategories from '../hooks/useProductCategories'
+import markdownFileReducer from '../utils/markdownFileReducer'
+
+import RenderAst from '../components/RenderAst'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
-import useProductCategories from '../hooks/useProductCategories'
-
-import { initAuth } from '../app/services/auth'
-initAuth()
 
 
-function IndexPage() {
+function IndexPage({
+  data,
+}) {
+  const page = markdownFileReducer(data.file)
   const productCategories = useProductCategories()
+
   return (
     <Layout>
-      <SEO title="Home" keywords={['gatsby', 'application', 'react']} />
+      <SEO title={page.title} keywords={['gatsby', 'application', 'react']} />
       <div>
         <h2>Browse by category</h2>
         <ul>
@@ -31,8 +36,27 @@ function IndexPage() {
           ))}
         </ul>
       </div>
+      <RenderAst ast={page.htmlAst} />
     </Layout>
   )
 }
 
+IndexPage.propTypes = {
+  data: PropTypes.object,
+}
+
 export default IndexPage
+
+
+export const query = graphql`
+  query indexPage {
+    file(relativeDirectory: {eq: "pages"}, name: {eq: "home"}) {
+      childMarkdownRemark {
+        frontmatter {
+          title
+        }
+        htmlAst
+      }
+    }
+  }
+`

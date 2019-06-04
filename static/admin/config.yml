@@ -60,29 +60,21 @@ collections:
             fields:
               - { label: "Deutsch", name: "de", widget: "string" }
               - { label: "English", name: "en", widget: "string" }
-          - {
-              label: Site Url,
-              name: siteUrl,
-              widget: string
-            }
-          - {
-              label: Site Description,
-              name: description,
-              widget: text,
-            }
-          - {
-              label: Site Creator,
-              name: siteCreator,
-              widget: text,
-            }
+          - label: Site Url
+            name: siteUrl
+            widget: string
+          - label: Site Description
+            name: description
+            widget: text
+          - label: Site Creator
+            name: siteCreator
+            widget: text
           - label: Social Media Card
             name: socialMediaCard
             widget: object
             fields:
               - { label: Image, name: image, widget: image, required: false }
-          - {
-              label: Google Analytics Tracking Id,
-              name: googleTrackingId,
-              widget: string,
-              required: false,
-            }
+          - label: Google Analytics Tracking Id
+            name: googleTrackingId
+            widget: string
+            required: false

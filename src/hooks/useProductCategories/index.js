@@ -1,5 +1,5 @@
 import { useStaticQuery, graphql } from 'gatsby'
-
+import markdownFileReducer from '../../utils/markdownFileReducer'
 import RenderAst from '../../components/RenderAst'
 
 
@@ -20,7 +20,6 @@ export default function useProductCategories() {
           childMarkdownRemark {
             excerptAst
             frontmatter {
-              intro
               slug
               title
             }
@@ -31,20 +30,15 @@ export default function useProductCategories() {
   `)
 
   const pagesBySlug = data.allFile.nodes.reduce((
-    accumulator,
-    {
-      childMarkdownRemark: {
-        excerptAst,
-        frontmatter,
-      },
+    pages,
+    pageRawData,
+  ) => {
+    const page = markdownFileReducer(pageRawData)
+    return {
+      ...pages,
+      [page.slug]: page,
     }
-  ) => ({
-    ...accumulator,
-    [frontmatter.slug]: {
-      excerptAst,
-      ...frontmatter,
-    },
-  }), {})
+  }, {})
   const productCategories = data.external.allProductCategories.nodes.map((productCategory) => {
     const page = pagesBySlug[productCategory.slug] || {}
     return {
