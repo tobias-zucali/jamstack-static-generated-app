@@ -42,7 +42,7 @@ ProductPage.propTypes = {
 export default ProductPage
 
 export const query = graphql`
-  query ProductPage($category: String!, $product: String!) {
+  query ProductPage($category: String!) {
     categoryFile: file(name: {eq: $category}, relativeDirectory: {eq: "productCategories"}) {
       childMarkdownRemark {
         frontmatter {
@@ -52,7 +52,7 @@ export const query = graphql`
       }
     }
     external {
-      product(slug: $product) {
+      product(slug: "gummi-bear") {
         name
         manufacturer {
           name
