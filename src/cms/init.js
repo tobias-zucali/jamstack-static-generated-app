@@ -12,7 +12,7 @@ CMS.init({
       branch: 'master',
     },
     load_config_file: false,
-    publish_mode: 'editorial_workflow',
+    // publish_mode: 'editorial_workflow',
     media_folder: 'static/assets',
     public_folder: 'static',
     display_url: 'https://jamstack-static-generated-app.netlify.com',

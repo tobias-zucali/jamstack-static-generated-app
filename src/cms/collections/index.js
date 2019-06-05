@@ -93,7 +93,7 @@ export default [
           },
           {
             label: 'Site Creator',
-            name: 'siteCreator',
+            name: 'author',
             widget: 'text',
           },
           {
