@@ -2,9 +2,10 @@ import React from 'react'
 import RenderAst from 'components/RenderAst'
 
 
-export default function markdownFileReducer(graphData) {
+export default function markdownFileReducer(graphData, defaultData = {}) {
   if (!graphData) {
     return {
+      ...defaultData,
       renderHtml: () => null,
       renderExcerpt: () => null,
     }
@@ -21,6 +22,7 @@ export default function markdownFileReducer(graphData) {
   } = childMarkdownRemark
 
   return {
+    ...defaultData,
     ...otherRootProps,
     ...otherRemarkProps,
     ...frontmatter,

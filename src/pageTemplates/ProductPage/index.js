@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { graphql, Link } from 'gatsby'
 
+import markdownFileReducer from 'utils/markdownFileReducer'
+
 import Layout from 'components/Layout'
 // import Image from 'components/Image'
 import SEO from 'components/SEO'
@@ -9,30 +11,33 @@ import SEO from 'components/SEO'
 
 function ProductPage({
   data,
-  pageContext,
 }) {
-  const { product } = data.external
+  const {
+    categoryFile,
+    productFile,
+    external,
+  } = data
+
+  const mergedProduct = markdownFileReducer(productFile, external.product)
+  const mergedCategory = markdownFileReducer(categoryFile, external.productCategory)
 
   // eslint-disable-next-line prefer-rest-params
   console.log({ ProductPage: arguments[0] })
 
   return (
     <Layout>
-      <SEO title={product.name} keywords={['gatsby', 'application', 'react']} />
+      <SEO title={mergedProduct.name} keywords={['gatsby', 'application', 'react']} />
       <Link to="/">Home</Link>
       {' | '}
-      <Link to={`/${pageContext.category}`}>Category</Link>
-      <h2>{product.name}</h2>
-      {/* {page.renderHtml()} */}
+      <Link to={`/${mergedCategory.slug}`}>{mergedCategory.name}</Link>
+      <h2>{mergedProduct.name}</h2>
+      {mergedProduct.renderHtml()}
     </Layout>
   )
 }
 
 ProductPage.propTypes = {
-  data: PropTypes.shape({
-    categoryFile: PropTypes.object.isRequired,
-    external: PropTypes.object.isRequired,
-  }).isRequired,
+  data: PropTypes.object.isRequired,
   pageContext: PropTypes.shape({
     category: PropTypes.string.isRequired,
     product: PropTypes.string.isRequired,
@@ -41,9 +46,9 @@ ProductPage.propTypes = {
 
 export default ProductPage
 
-// TODO: use $product: String! as soon as grampql schema has updated!
+
 export const query = graphql`
-  query ProductPage($category: String!) {
+  query ProductPage($category: String!, $product: String!) {
     categoryFile: file(name: {eq: $category}, relativeDirectory: {eq: "productCategories"}) {
       childMarkdownRemark {
         frontmatter {
@@ -52,14 +57,28 @@ export const query = graphql`
         htmlAst
       }
     }
+    productFile: file(name: {eq: $product}, relativeDirectory: {eq: "products"}) {
+      childMarkdownRemark {
+        frontmatter {
+          name
+        }
+        htmlAst
+      }
+    }
     external {
-      product(slug: "banana") {
+      product(slug: $product) {
         name
+        slug
         manufacturer {
           name
           description
           address
         }
+      }
+      productCategory(slug: $category) {
+        name
+        slug
+        description
       }
     }
   }
