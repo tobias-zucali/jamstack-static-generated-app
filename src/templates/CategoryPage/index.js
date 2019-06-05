@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes, { arrayOf } from 'prop-types'
+import PropTypes from 'prop-types'
 import { graphql, Link } from 'gatsby'
 
 import markdownFileReducer from 'utils/markdownFileReducer'
@@ -24,7 +24,9 @@ function CategoryPage({
 
   return (
     <Layout>
-      <SEO title={page.title} keywords={['gatsby', 'application', 'react']} />
+      <SEO title={page.name} keywords={['gatsby', 'application', 'react']} />
+      <Link to="/">Home</Link>
+      <h2>{page.name}</h2>
       {page.renderHtml()}
       <ul>
         {data.external.allProducts.nodes.map(({ name, slug, manufacturer }) => (
@@ -42,39 +44,28 @@ function CategoryPage({
 CategoryPage.propTypes = {
   data: PropTypes.shape({
     file: PropTypes.object.isRequired,
-    external: PropTypes.shape({
-      allProducts: PropTypes.shape({
-        nodes: arrayOf(PropTypes.shape({
-          slug: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-        })).isRequired,
-      }).isRequired,
-    }).isRequired,
+    external: PropTypes.object.isRequired,
   }).isRequired,
   pageContext: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
+  location: PropTypes.object.isRequired,
 }
 
 export default CategoryPage
 
 export const query = graphql`
-  query CategoryPage($slug: String) {
-    file(name: {eq: $slug}, relativeDirectory: {eq: "productCategories"}) {
+  query CategoryPage($category: String) {
+    file(name: {eq: $category}, relativeDirectory: {eq: "productCategories"}) {
       childMarkdownRemark {
         frontmatter {
-          title
+          name
         }
         htmlAst
       }
-      name
     }
     external {
-      allProducts(category: $slug) {
+      allProducts(category: $category) {
         nodes {
           name
           slug

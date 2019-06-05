@@ -8,16 +8,23 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const categoryPageTemplate = path.resolve('src/templates/CategoryPage.js')
+  const categoryPageTemplate = path.resolve('src/templates/CategoryPage/index.js')
+  const productPageTemplate = path.resolve('src/templates/ProductPage/index.js')
 
   const result = await graphql(`
     query loadPagesQuery($limit: Int!) {
       external {
         allProductCategories(limit: $limit) {
           nodes {
-            name
             slug
-            description
+          }
+        }
+        allProducts {
+          nodes {
+            slug
+            category {
+              slug
+            }
           }
         }
       }
@@ -28,22 +35,32 @@ exports.createPages = async ({ graphql, actions }) => {
     throw result.errors
   }
 
-  // Create blog post pages.
-  result.data.external.allProductCategories.nodes.forEach((productCategory) => {
+  result.data.external.allProductCategories.nodes.forEach(({
+    slug: category,
+  }) => {
     createPage({
-      // Path for this page — required
-      path: `${productCategory.slug}`,
+      path: `${category}`,
       component: categoryPageTemplate,
       context: {
-        ...productCategory,
-        // Add optional context data to be inserted
-        // as props into the page component..
-        //
+        category,
         // The context data can also be used as
         // arguments to the page GraphQL query.
-        //
-        // The page "path" is always available as a GraphQL
-        // argument.
+      },
+    })
+  })
+
+  result.data.external.allProducts.nodes.forEach(({
+    slug: product,
+    category: { slug: category },
+  }) => {
+    createPage({
+      path: `${category}/${product}`,
+      component: productPageTemplate,
+      context: {
+        category,
+        product,
+        // The context data can also be used as
+        // arguments to the page GraphQL query.
       },
     })
   })
