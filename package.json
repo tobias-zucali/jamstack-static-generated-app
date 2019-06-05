@@ -5,8 +5,8 @@
   "author": "tobias <tobias@zucali.at>",
   "license": "MIT",
   "scripts": {
-    "build:main:app": "gatsby build",
-    "disabled-build:main:app": "mkdir -p public && cp -r static/* public",
+    "disabled-build:main:app": "gatsby build",
+    "build:main:app": "mkdir -p public && cp -r static/* public",
     "build:main:lambda": "netlify-lambda build src/server/lambda --config webpack.config.js",
     "build:pre:clean": "yarn run clean",
     "build:pre:lint": "yarn run lint",
