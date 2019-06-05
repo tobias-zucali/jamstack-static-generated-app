@@ -1,7 +1,7 @@
 import {
-  GraphQLID,
   GraphQLNonNull,
   GraphQLInt,
+  GraphQLString,
 } from 'graphql'
 
 import { productCategoriesDB } from 'server/fakeDatabase'
@@ -13,7 +13,7 @@ export default {
   productCategory: {
     type: ProductCategory,
     args: {
-      slug: { type: new GraphQLNonNull(GraphQLID) },
+      slug: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve(root, { slug }) {
       return productCategoriesDB.getBySlug(slug)
@@ -23,7 +23,7 @@ export default {
     type: ProductCategories,
     args: {
       after: {
-        type: GraphQLID,
+        type: GraphQLString,
       },
       limit: {
         type: GraphQLInt,

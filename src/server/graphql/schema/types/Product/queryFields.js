@@ -1,5 +1,4 @@
 import {
-  GraphQLID,
   GraphQLNonNull,
   GraphQLInt,
   GraphQLString,
@@ -14,7 +13,7 @@ export default {
   product: {
     type: ProductInterface,
     args: {
-      slug: { type: new GraphQLNonNull(GraphQLID) },
+      slug: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve(root, { slug }) {
       return productsDB.getBySlug(slug)
@@ -24,7 +23,7 @@ export default {
     type: Products,
     args: {
       after: {
-        type: GraphQLID,
+        type: GraphQLString,
       },
       limit: {
         type: GraphQLInt,
