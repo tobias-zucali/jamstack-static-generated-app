@@ -23,4 +23,10 @@ describe('utils/markdownFileReducer', () => {
       renderHtml: expect.any(Function),
     })
   })
+
+  it('does not crash if no data is provided', () => {
+    expect(
+      markdownFileReducer()
+    ).toEqual({})
+  })
 })

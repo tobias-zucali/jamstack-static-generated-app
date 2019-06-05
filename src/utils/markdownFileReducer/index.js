@@ -3,6 +3,10 @@ import RenderAst from 'components/RenderAst'
 
 
 export default function markdownFileReducer(graphData) {
+  if (!graphData) {
+    return {}
+  }
+
   const {
     childMarkdownRemark,
     ...otherRootProps
