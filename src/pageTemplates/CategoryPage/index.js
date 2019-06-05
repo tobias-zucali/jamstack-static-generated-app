@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import { graphql, Link } from 'gatsby'
 
 import markdownFileReducer from 'utils/markdownFileReducer'
+import path from 'utils/path'
 
 import Layout from 'components/Layout'
 // import Image from 'components/Image'
 import SEO from 'components/SEO'
-
-
-const joinPath = (path = '', pathPart = '') => (path[path.length - 1] === '/' ? path : `${path}/`) + pathPart
 
 
 function CategoryPage({
@@ -31,7 +29,7 @@ function CategoryPage({
       <ul>
         {data.external.allProducts.nodes.map(({ name, slug, manufacturer }) => (
           <li key={slug}>
-            <Link to={joinPath(location.pathname, slug)}>
+            <Link to={path.join(location.pathname, slug)}>
               {`${name} (${manufacturer.name})`}
             </Link>
           </li>

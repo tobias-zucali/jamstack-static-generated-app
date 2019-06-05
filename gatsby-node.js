@@ -8,8 +8,8 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const categoryPageTemplate = path.resolve('src/templates/CategoryPage/index.js')
-  const productPageTemplate = path.resolve('src/templates/ProductPage/index.js')
+  const categoryPageTemplate = path.resolve('src/pageTemplates/CategoryPage/index.js')
+  const productPageTemplate = path.resolve('src/pageTemplates/ProductPage/index.js')
 
   const result = await graphql(`
     query loadPagesQuery($limit: Int!) {

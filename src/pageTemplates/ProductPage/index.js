@@ -54,7 +54,6 @@ export const query = graphql`
     external {
       product(slug: $product) {
         name
-        slug
         manufacturer {
           name
           description
