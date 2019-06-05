@@ -19,6 +19,8 @@ describe('utils/markdownFileReducer', () => {
       htmlAst: '{...}',
       name: 'home',
       title: 'Welcome!',
+      renderExcerpt: expect.any(Function),
+      renderHtml: expect.any(Function),
     })
   })
 })
