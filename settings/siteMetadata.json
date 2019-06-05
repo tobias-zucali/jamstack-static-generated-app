@@ -1,9 +1,9 @@
 {
   "title": {
-    "de": "JAMStack static generated app",
-    "en": "JAMStack static generated app"
+    "de": "JAMago",
+    "en": "JAMago"
   },
-  "author": "Acme Corporation",
   "siteUrl": "https://jamstack-static-generated-app.netlify.com",
-  "description": "Just trying out what's possible."
+  "description": "Just trying out what's possible with the JAMstack (https://jamstack.org/).",
+  "siteCreator": "Tobias Zucali"
 }
