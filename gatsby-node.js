@@ -39,7 +39,7 @@ exports.createPages = async ({ graphql, actions }) => {
     slug: category,
   }) => {
     createPage({
-      path: `${category}`,
+      path: `category/${category}`,
       component: categoryPageTemplate,
       context: {
         category,
@@ -54,7 +54,7 @@ exports.createPages = async ({ graphql, actions }) => {
     category: { slug: category },
   }) => {
     createPage({
-      path: `${category}/${product}`,
+      path: `category/${category}/${product}`,
       component: productPageTemplate,
       context: {
         category,

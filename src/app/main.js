@@ -1,5 +1,5 @@
 import React from 'react'
-import { getUser } from './services/auth'
+import { getUser } from 'utils/authentication'
 
 class Main extends React.Component {
   state = { loading: false, json: null }
@@ -39,7 +39,9 @@ ID:
         <button onClick={this.handleClick}>
           {loading ? 'Loading...' : 'Call Lambda Function'}
         </button>
-        <pre>{JSON.stringify(json, null, 2)}</pre>
+        <pre>
+          {JSON.stringify(json, null, 2)}
+        </pre>
       </>
     )
   }

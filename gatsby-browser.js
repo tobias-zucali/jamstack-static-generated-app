@@ -1,4 +1,4 @@
-const { initAuth } = require('./src/app/services/auth')
+const { initAuth } = require('./src/utils/authentication')
 
 
 exports.onClientEntry = () => {

@@ -29,8 +29,12 @@ function ProductPage({
       <SEO title={mergedProduct.name} keywords={['gatsby', 'application', 'react']} />
       <Link to="/">Home</Link>
       {' | '}
-      <Link to={`/${mergedCategory.slug}`}>{mergedCategory.name}</Link>
-      <h2>{mergedProduct.name}</h2>
+      <Link to={`/${mergedCategory.slug}`}>
+        {mergedCategory.name}
+      </Link>
+      <h2>
+        {mergedProduct.name}
+      </h2>
       {mergedProduct.renderHtml()}
     </Layout>
   )

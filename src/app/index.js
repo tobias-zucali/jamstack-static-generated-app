@@ -22,7 +22,11 @@ const App = () => (
   </Layout>
 )
 function PublicRoute(props) {
-  return <div>{props.children}</div>
+  return (
+    <div>
+      {props.children}
+    </div>
+  )
 }
 
 PublicRoute.propTypes = {

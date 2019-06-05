@@ -14,6 +14,7 @@
       "slug": "banana",
       "name": "Banana",
       "manufacturer": "moe",
+      "price": 0.5,
       "category": "fruit",
       "vitamins": 33
     },
@@ -21,6 +22,7 @@
       "slug": "manner_wafferl",
       "name": "Manner Wafferl",
       "manufacturer": "acme",
+      "price": 1.9,
       "sugar": 5,
       "category": "candy"
     },
@@ -28,12 +30,14 @@
       "slug": "apple",
       "name": "Apple",
       "manufacturer": "moe",
+      "price": 0.3,
       "category": "fruit",
       "vitamins": 37
     },
     {
       "slug": "gummi_bear",
       "manufacturer": "acme",
+      "price": 1.79,
       "name": "Gummi Bear",
       "sugar": 12,
       "category": "candy"
@@ -41,6 +45,7 @@
     {
       "slug": "comfrey",
       "manufacturer": "moe",
+      "price": 0.49,
       "name": "Comfrey",
       "category": "medicine"
     }

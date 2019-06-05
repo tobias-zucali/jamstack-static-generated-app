@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, navigate } from 'gatsby'
-import { getUser, isLoggedIn, logout } from '../services/auth'
+import { getUser, isLoggedIn, logout } from 'utils/authentication'
 
 export default () => {
   const content = { message: '', login: true }
@@ -20,7 +20,9 @@ export default () => {
         backgroundColor: 'aliceblue',
       }}
     >
-      <span>{content.message}</span>
+      <span>
+        {content.message}
+      </span>
 
       <nav>
         <span>Navigate the app: </span>

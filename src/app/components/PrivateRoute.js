@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
-import { isLoggedIn } from '../services/auth'
+import { isLoggedIn } from 'utils/authentication'
 
 class PrivateRoute extends React.Component {
   componentDidMount = () => {

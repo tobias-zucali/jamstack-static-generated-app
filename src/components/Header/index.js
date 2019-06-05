@@ -1,35 +1,41 @@
 import { Link } from 'gatsby'
 import PropTypes from 'prop-types'
 import React from 'react'
+import Login from 'components/Login'
 
-const Header = ({ title }) => (
-  <div
-    style={{
-      background: 'rebeccapurple',
-      marginBottom: '1.45rem',
-    }}
-  >
+
+function Header({ title }) {
+  return (
     <div
       style={{
-        margin: '0 auto',
-        maxWidth: 960,
-        padding: '1.45rem 1.0875rem',
       }}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        <h1
           style={{
-            color: 'white',
-            textDecoration: 'none',
+            margin: 0,
+            flex: 1,
           }}
         >
-          {title}
-        </Link>
-      </h1>
+          <Link
+            to="/"
+            style={{
+              color: 'rebeccapurple',
+              textDecoration: 'none',
+            }}
+          >
+            {title}
+          </Link>
+        </h1>
+        <Login />
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 Header.propTypes = {
   title: PropTypes.string,

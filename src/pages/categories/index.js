@@ -9,7 +9,7 @@ import Layout from 'components/Layout'
 import SEO from 'components/SEO'
 
 
-function IndexPage({
+function CategoriesPage({
   data,
 }) {
   const page = markdownFileReducer(data.file)
@@ -27,7 +27,7 @@ function IndexPage({
             slug,
           }) => (
             <li key={slug}>
-              <Link to={`/${slug}`}>
+              <Link to={`category/${slug}`}>
                 {name}
               </Link>
               {renderExcerpt()}
@@ -40,15 +40,15 @@ function IndexPage({
   )
 }
 
-IndexPage.propTypes = {
+CategoriesPage.propTypes = {
   data: PropTypes.object,
 }
 
-export default IndexPage
+export default CategoriesPage
 
 
 export const query = graphql`
-  query indexPage {
+  query CategoriesPage {
     file(relativeDirectory: {eq: "pages"}, name: {eq: "categories"}) {
       childMarkdownRemark {
         frontmatter {

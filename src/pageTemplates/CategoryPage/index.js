@@ -24,7 +24,9 @@ function CategoryPage({
     <Layout>
       <SEO title={page.name} keywords={['gatsby', 'application', 'react']} />
       <Link to="/">Home</Link>
-      <h2>{page.name}</h2>
+      <h2>
+        {page.name}
+      </h2>
       {page.renderHtml()}
       <ul>
         {data.external.allProducts.nodes.map(({ name, slug, manufacturer }) => (
