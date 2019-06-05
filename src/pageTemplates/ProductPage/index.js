@@ -41,6 +41,7 @@ ProductPage.propTypes = {
 
 export default ProductPage
 
+// TODO: use $product: String! as soon as grampql schema has updated!
 export const query = graphql`
   query ProductPage($category: String!) {
     categoryFile: file(name: {eq: $category}, relativeDirectory: {eq: "productCategories"}) {
@@ -52,7 +53,7 @@ export const query = graphql`
       }
     }
     external {
-      product(slug: "gummi-bear") {
+      product(slug: "banana") {
         name
         manufacturer {
           name
