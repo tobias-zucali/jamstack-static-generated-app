@@ -81,7 +81,7 @@ module.exports = {
       resolve: 'gatsby-plugin-netlify-cms',
       options: {
         manualInit: true,
-        modulePath: `${__dirname}/src/cms/cms.js`,
+        modulePath: `${__dirname}/src/cms/init.js`,
       },
     },
     'gatsby-plugin-netlify', // make sure to keep it last in the array

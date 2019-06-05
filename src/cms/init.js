@@ -66,7 +66,7 @@ CMS.init({
         label: 'Product Categories',
         editor: { preview: true },
         folder: 'content/productCategories',
-        slug: '{{slug}}',
+        identifier_field: 'slug',
         create: true,
         fields: [
           slugField,
@@ -85,6 +85,7 @@ CMS.init({
         label: 'Products',
         editor: { preview: true },
         folder: 'content/products',
+        identifier_field: 'slug',
         create: true,
         fields: [
           slugField,
