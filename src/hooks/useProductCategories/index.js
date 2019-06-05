@@ -1,7 +1,8 @@
 import { useStaticQuery, graphql } from 'gatsby'
 import markdownFileReducer from 'utils/markdownFileReducer'
-import RenderAst from 'components/RenderAst'
 
+
+const EMPTY_PAGE = markdownFileReducer()
 
 export default function useProductCategories() {
   const data = useStaticQuery(graphql`
@@ -40,11 +41,10 @@ export default function useProductCategories() {
     }
   }, {})
   const productCategories = data.external.allProductCategories.nodes.map((productCategory) => {
-    const page = pagesBySlug[productCategory.slug] || {}
+    const page = pagesBySlug[productCategory.slug] || EMPTY_PAGE
     return {
       ...productCategory,
       ...page,
-      renderExcerpt: () => RenderAst({ ast: page.excerptAst }),
     }
   })
   return productCategories
