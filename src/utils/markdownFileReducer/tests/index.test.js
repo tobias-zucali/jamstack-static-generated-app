@@ -25,8 +25,19 @@ describe('utils/markdownFileReducer', () => {
   })
 
   it('does not crash if no data is provided', () => {
+    const emptyFile = markdownFileReducer()
     expect(
-      markdownFileReducer()
-    ).toEqual({})
+      emptyFile
+    ).toEqual({
+      renderExcerpt: expect.any(Function),
+      renderHtml: expect.any(Function),
+    })
+
+    expect(
+      emptyFile.renderExcerpt()
+    ).toBe(null)
+    expect(
+      emptyFile.renderHtml()
+    ).toBe(null)
   })
 })

@@ -4,7 +4,10 @@ import RenderAst from 'components/RenderAst'
 
 export default function markdownFileReducer(graphData) {
   if (!graphData) {
-    return {}
+    return {
+      renderHtml: () => null,
+      renderExcerpt: () => null,
+    }
   }
 
   const {
