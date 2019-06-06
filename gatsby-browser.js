@@ -1,7 +1,3 @@
-const { initAuth } = require('./src/utils/authentication')
-
-
 exports.onClientEntry = () => {
-  console.log('Initialize auth')
-  initAuth()
+  // execute first on each page
 }

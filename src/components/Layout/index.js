@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, StaticQuery, graphql } from 'gatsby'
 
+import 'normalize.css'
 import Header from 'components/Header'
 import './index.css'
 

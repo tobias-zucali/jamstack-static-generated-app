@@ -1,23 +1,37 @@
 import React from 'react'
-import { navigate } from 'gatsby'
-import { getUser, handleLogin, isLoggedIn } from 'utils/authentication'
+
+import useAuthentication from 'hooks/useAuthentication'
 
 
-class Login extends React.Component {
-  handleSubmit = () => handleLogin((/* user */) => {
-    navigate('/app/profile')
-  })
+const buttonStyles = {
+  background: 'transparent',
+  border: 'none',
+  cursor: 'pointer',
+}
+function Login() {
+  const {
+    isLoggedIn,
+    login,
+    logout,
+    userName,
+  } = useAuthentication()
 
-  render() {
-    const user = getUser()
-    console.log(user)
-
-    return isLoggedIn ? (
-      (user.user_metadata && user.user_metadata.full_name) || 'logged in'
-    ) : (
-      <button onClick={this.handleSubmit}>log in</button>
-    )
-  }
+  return isLoggedIn ? (
+    <button
+      onClick={logout}
+      style={buttonStyles}
+      title="Log out"
+    >
+      {`Hello ${userName}!`}
+    </button>
+  ) : (
+    <button
+      onClick={login}
+      style={buttonStyles}
+    >
+      Log in
+    </button>
+  )
 }
 
 export default Login

@@ -58,6 +58,7 @@
     "netlify-cli": "^2.11.20",
     "netlify-cms-app": "^2.9.2-beta.1",
     "netlify-identity-widget": "^1.4.14",
+    "normalize.css": "^8.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-helmet": "^5.2.0",

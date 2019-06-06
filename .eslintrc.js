@@ -81,7 +81,7 @@ module.exports = ({
     'operator-linebreak': ['error', 'before'],
     'prefer-template': 'error',
     'react/button-has-type': 'off',
-    'react/jsx-one-expression-per-line': ['error', { 'allow': 'literal' }],
+    'react/jsx-one-expression-per-line': ['error', { 'allow': 'single-child' }],
     'react/destructuring-assignment': 'off',
     'react/jsx-boolean-value': [ 'error', 'always'],
     'react/forbid-prop-types': 'off',
