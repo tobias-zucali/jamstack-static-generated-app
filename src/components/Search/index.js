@@ -29,7 +29,9 @@ const Container = styled.div`
 const Box = styled.div`
   border: solid #ddd 1px;
   border-radius: 0.5rem;
-  box-shadow: ${({ isFocused }) => isFocused && '0 0 5px #dddddd'};
+`
+const BoxFocused = styled(Box)`
+  box-shadow: 0 0 5px #dddddd;
 `
 
 const Input = styled.input`
@@ -64,12 +66,14 @@ const List = styled.ul`
 const ListItem = styled.li`
 `
 const ListItemLink = styled(Link)`
-  background-color: ${({ isHighlighted }) => isHighlighted && '#eeeeee'};
   color: inherit;
   display: flex;
   margin: 0 -0.5rem;
   padding: 0.5rem;
   text-decoration: none;
+`
+const ListItemLinkHighlighted = styled(ListItemLink)`
+  background-color: #eeeeee;
 `
 const MatchEm = styled.em`
   background: yellow;
@@ -141,10 +145,12 @@ function Search() {
     fetchItems().then(setItems)
   }, [])
 
+  const BoxComponent = isFocused ? BoxFocused : Box
+
   return (
     <Downshift
       onChange={(selection) => navigateToProduct(selection.product)}
-      itemToString={(item) => (item ? item.value : '')}
+      itemToString={(item) => (item ? item.product.name : '')}
       style={{ color: 'green' }}
     >
       {({
@@ -171,7 +177,7 @@ function Search() {
               The best offers
             </Label>
 
-            <Box isFocused={isFocused}>
+            <BoxComponent>
               <Input
                 {...getInputProps()}
                 onFocus={() => setIsFocused(true)}
@@ -179,25 +185,26 @@ function Search() {
               />
               {(isOpen || isFocused) && items.length > 0 && (
                 <List {...getMenuProps()}>
-                  {items.map((item, index) => (
-                    <ListItem
-                      {...getItemProps({
-                        key: item.product.slug,
-                        index,
-                        item,
-                      })}
-                    >
-                      <ListItemLink
-                        isHighlighted={highlightedIndex === index}
-                        to={getProductPath(item.product)}
+                  {items.map((item, index) => {
+                    const ListItemLinkComponent = (highlightedIndex === index) ? ListItemLinkHighlighted : ListItemLink
+                    return (
+                      <ListItem
+                        {...getItemProps({
+                          key: item.product.slug,
+                          index,
+                          item,
+                        })}
                       >
-                        {item.node}
-                      </ListItemLink>
-                    </ListItem>
-                  ))}
+                        <ListItemLinkComponent to={getProductPath(item.product)}>
+                          {item.node}
+                        </ListItemLinkComponent>
+                      </ListItem>
+                    )
+                  }
+                  )}
                 </List>
               )}
-            </Box>
+            </BoxComponent>
           </Container>
         )
       }}
