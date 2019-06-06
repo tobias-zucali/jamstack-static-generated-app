@@ -27,7 +27,7 @@ function CategoriesPage({
             slug,
           }) => (
             <li key={slug}>
-              <Link to={`category/${slug}`}>
+              <Link to={`/category/${slug}`}>
                 {name}
               </Link>
               {renderExcerpt()}
