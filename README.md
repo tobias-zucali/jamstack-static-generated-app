@@ -5,17 +5,23 @@ This is a proof of concept, design and solutions are just far enough to see if t
 Goals of this project (and the solutions chosen for this spike):
 - Realize a simple search based application which can be extended to a full-blown web application including private and public areas
 - Application and marketing pages can be served from one project / with one deploy
-- Text content is managed by a headless cms and can be changed without help of an engineer ([netlify-cms](https://www.netlifycms.org/))
-- Backend needs no complicated infrastructure, at least for an easy start (lambda functions)
-- The frameworks used are stable, extensible and well known [react](https://reactjs.org/))
-- SEO is great
-  - due to the static page generator [Gatsby](https://www.gatsbyjs.org/), [sitemap.xml](https://jamstack-static-generated-app.netlify.com/sitemap.xml) and relevant meta informations it can indexed perfectly by the search engines
-- Performance is great
-  - due to the static page generator content is there right from the begin and extends to a full blown web application with the react framework
+- (Marketing-)text content can be changed without help of an engineer
+- Serverless infrastructure
+- SEO is great ([sitemap.xml](https://jamstack-static-generated-app.netlify.com/sitemap.xml), meta tags etc.)
+- Loading- and runtime-performance is great
 
-What is not solved in this Proof of concept:
-- Database (using a fake by now)
-- Backend performance issues (lambda functions do not have persistent state)
-- …
+Used tools and libraries:
+- [React](https://reactjs.org/)) as basis for a stable web application
+- [GatsbyJS](https://www.gatsbyjs.org/) to generate static pages which load quick and can be indexed easily for SEO
+- [Netlify CMS](https://www.netlifycms.org/) for editing the (marketing-)content, stores the data in your git-repository
+- [Serverless Lambda functions on Netlify](https://www.netlify.com/docs/functions/) to deploy lambda functions
+  - for production use the api functions need a separate deploy process, but for the start it is easy to use the simple netlify deploy
+- [Node.js](https://nodejs.org) for lambda functions
+- [GraphQL](https://graphql.org/) for an extendible api following reliable standards
+- [Netlify Identity service](https://www.netlify.com/docs/identity/) as simple authentication as a service
+- Database is faked up to now
 
 Try it out on https://jamstack-static-generated-app.netlify.com/!
+
+TODO:
+- Research for alternatives based on angular
