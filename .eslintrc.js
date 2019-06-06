@@ -81,7 +81,7 @@ module.exports = ({
     'operator-linebreak': ['error', 'before'],
     'prefer-template': 'error',
     'react/button-has-type': 'off',
-    'react/jsx-one-expression-per-line': ['error', { 'allow': 'single-child' }],
+    'react/jsx-one-expression-per-line': ['off', { 'allow': 'single-child' }],
     'react/destructuring-assignment': 'off',
     'react/jsx-boolean-value': [ 'error', 'always'],
     'react/forbid-prop-types': 'off',
@@ -102,6 +102,7 @@ module.exports = ({
     ],
     'no-unexpected-multiline': 'error',
     'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     'import/resolver': 'webpack'

@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
-import { navigate, Link } from 'gatsby'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Link, navigate } from 'gatsby'
 import styled from 'styled-components'
-import debounce from 'lodash/debounce'
-import memoize from 'lodash/memoize'
+
+import path from 'utils/path'
 
 import Downshift from 'downshift'
 
-import path from 'utils/path'
+import useFetchItems from './hooks/useFetchItems'
 
 
 const Label = styled.label`
@@ -26,19 +25,17 @@ const Container = styled.div`
   top: 20vh;
 `
 
-const Box = styled.div`
+const Box = styled(({ isFocused, ...otherProps }) => <div {...otherProps} />)`
   border: solid #ddd 1px;
+  box-shadow: ${({ isFocused }) => isFocused && '0 0 5px #dddddd;'};
   border-radius: 0.5rem;
-`
-const BoxFocused = styled(Box)`
-  box-shadow: 0 0 5px #dddddd;
 `
 
 const Input = styled.input`
   border: none;
   background: transparent;
   font-size: 1.5rem;
-  padding: 0.5rem;
+  padding: 1rem;
   width: 100%;
   box-sizing: border-box;
   &:focus {
@@ -47,19 +44,21 @@ const Input = styled.input`
 `
 
 const List = styled.ul`
+  display: flex;
+  flex-direction: column;
   list-style: none;
   margin: 0;
   max-height: 55vh;
   overflow: auto;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   position: relative;
   &::before {
     background: #dddddd;
     content: "";
     height: 1px;
-    left: 0.5rem;
+    left: 1rem;
     position: absolute;
-    right: 0.5rem;
+    right: 1rem;
     top: 0;
   }
 `
@@ -67,44 +66,14 @@ const ListItem = styled.li`
 `
 const ListItemLink = styled(Link)`
   color: inherit;
-  display: flex;
-  margin: 0 -0.5rem;
-  padding: 0.5rem;
+  display: block;
+  margin: 0 -1rem;
+  padding: 0.5rem 1rem;
   text-decoration: none;
 `
 const ListItemLinkHighlighted = styled(ListItemLink)`
   background-color: #eeeeee;
 `
-const MatchEm = styled.em`
-  background: yellow;
-  font-style: inherit;
-`
-
-const RenderMatch = ({ pre, match, post }) => (
-  <>
-    {pre}
-    <MatchEm>{match}</MatchEm>
-    {post}
-  </>
-)
-RenderMatch.propTypes = {
-  pre: PropTypes.string,
-  match: PropTypes.string,
-  post: PropTypes.string,
-}
-const RenderMatchInAttribute = ({ name, match }) => (
-  <>
-    {name}
-    {' '}
-    (
-    <RenderMatch {...match} />
-    )
-  </>
-)
-RenderMatchInAttribute.propTypes = {
-  name: PropTypes.string,
-  match: PropTypes.object.isRequired,
-}
 const getProductPath = (product) => path.join(
   '/category',
   product.category.slug,
@@ -112,40 +81,19 @@ const getProductPath = (product) => path.join(
 )
 const navigateToProduct = (product) => navigate(getProductPath(product))
 
-const fetchItems = memoize(async (newInputValue = '') => {
-  // TODO cache results and persist for improved performance and offline use
-  const result = await fetch(
-    `/.netlify/functions/search?q=${encodeURIComponent(newInputValue)}`
-  )
-  const newItems = await result.json()
-
-  return newItems.map(({ matches, product }) => ({
-    node: matches.product ? (
-      <RenderMatch {...matches.product} />
-    ) : (
-      <RenderMatchInAttribute
-        name={product.name}
-        match={matches.category || matches.manufacturer}
-      />
-    ),
-    product,
-  }))
-})
-
 function Search() {
   const [isFocused, setIsFocused] = useState(false)
   const [items, setItems] = useState([])
   const inputValueRef = useRef('')
-  const handleInputChange = debounce((newInputValue) => {
+  const { fetchItems, resolveAbortionErrors } = useFetchItems('')
+  const handleInputChange = useCallback((newInputValue) => {
     inputValueRef.current = newInputValue
-    fetchItems(newInputValue).then(setItems)
-  }, 300)
+    fetchItems(newInputValue).then(setItems, resolveAbortionErrors)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetchItems().then(setItems)
-  }, [])
-
-  const BoxComponent = isFocused ? BoxFocused : Box
+    fetchItems().then(setItems, resolveAbortionErrors)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Downshift
@@ -177,7 +125,7 @@ function Search() {
               The best offers
             </Label>
 
-            <BoxComponent>
+            <Box isFocused={isFocused}>
               <Input
                 {...getInputProps()}
                 onFocus={() => setIsFocused(true)}
@@ -204,7 +152,7 @@ function Search() {
                   )}
                 </List>
               )}
-            </BoxComponent>
+            </Box>
           </Container>
         )
       }}
