@@ -3,7 +3,7 @@
   functions = "lambda"
   publish = "public"
 
-## Uncomment to use this redirect for Single Page Applications like create-react-app. 
+## Uncomment to use this redirect for Single Page Applications like create-react-app.
 ## Not needed for static site generators.
 #[[redirects]]
 #  from = "/*"
@@ -12,8 +12,10 @@
 
 # (optional) Settings for Netlify Dev
 # https://github.com/netlify/netlify-dev-plugin#project-detection
-[dev] 
+[dev]
   command = "npm run start:netlifyDev:command" # Command to start your dev server
   port = 8000 # Port that the dev server will be listening on
   functions = "lambda"
   publish = "public"
+[build.environment]
+  YARN_VERSION = "1.13.0"
