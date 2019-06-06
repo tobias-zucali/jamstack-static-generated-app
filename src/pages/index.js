@@ -6,6 +6,7 @@ import markdownFileReducer from 'utils/markdownFileReducer'
 
 import Layout from 'components/Layout'
 import SEO from 'components/SEO'
+import Search from 'components/Search'
 
 
 function IndexPage({
@@ -16,10 +17,7 @@ function IndexPage({
   return (
     <Layout>
       <SEO title={page.title} keywords={['gatsby', 'application', 'react']} />
-      <div>
-        <h2>Browse by category</h2>
-      </div>
-      {page.renderHtml()}
+      <Search />
     </Layout>
   )
 }

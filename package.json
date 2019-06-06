@@ -57,6 +57,7 @@
     "gatsby-transformer-sharp": "^2.1.21",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
+    "lodash": "^4.17.11",
     "netlify-cli": "^2.11.20",
     "netlify-cms-app": "^2.9.2-beta.1",
     "netlify-identity-widget": "^1.4.14",
