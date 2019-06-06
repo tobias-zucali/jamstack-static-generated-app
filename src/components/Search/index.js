@@ -1,17 +1,13 @@
 import React, { useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import { navigate, Link } from 'gatsby'
 import styled from 'styled-components'
 import debounce from 'lodash/debounce'
 
 import Downshift from 'downshift'
 
+import path from 'utils/path'
 
-const allItems = [
-  { value: 'apple' },
-  { value: 'pear' },
-  { value: 'orange' },
-  { value: 'grape' },
-  { value: 'banana' },
-]
 
 const Label = styled.label`
   color: #999999;
@@ -63,27 +59,79 @@ const List = styled.ul`
   }
 `
 const ListItem = styled.li`
+`
+const ListItemLink = styled(Link)`
   background-color: ${({ isHighlighted }) => isHighlighted && '#eeeeee'};
-  font-weight: ${({ isSelected }) => isSelected && 'bold'};
-  padding: 0.5rem;
+  color: inherit;
+  display: flex;
   margin: 0 -0.5rem;
+  padding: 0.5rem;
+  text-decoration: none;
+`
+const MatchEm = styled.em`
+  background: yellow;
+  font-style: inherit;
 `
 
+const RenderMatch = ({ pre, match, post }) => (
+  <>
+    {pre}
+    <MatchEm>{match}</MatchEm>
+    {post}
+  </>
+)
+RenderMatch.propTypes = {
+  pre: PropTypes.string,
+  match: PropTypes.string,
+  post: PropTypes.string,
+}
+const RenderMatchInAttribute = ({ name, match }) => (
+  <>
+    {name}
+    {' '}
+    (
+    <RenderMatch {...match} />
+    )
+  </>
+)
+RenderMatchInAttribute.propTypes = {
+  name: PropTypes.string,
+  match: PropTypes.object.isRequired,
+}
+const getProductPath = (product) => path.join(
+  '/category',
+  product.category.slug,
+  product.slug,
+)
+const navigateToProduct = (product) => navigate(getProductPath(product))
 
 function Search() {
   const [isFocused, setIsFocused] = useState(false)
   const [items, setItems] = useState([])
   const inputValueRef = useRef('')
-  const handleInputChange = debounce((newInputValue) => {
+  const handleInputChange = debounce(async (newInputValue = '') => {
     inputValueRef.current = newInputValue
-    setItems(allItems.filter(
-      (item) => !newInputValue || item.value.includes(newInputValue)
-    ))
+    const result = await fetch(
+      `/.netlify/functions/search?q=${encodeURIComponent(newInputValue)}`
+    )
+    const newItems = await result.json()
+    setItems(newItems.map(({ matches, product }) => ({
+      node: matches.product
+        ? (
+          <RenderMatch {...matches.product} />
+        ) : (
+          <RenderMatchInAttribute
+            name={product.name}
+            match={matches.category || matches.manufacturer}
+          />
+        ),
+      product,
+    })))
   }, 500)
 
   return (
     <Downshift
-      onChange={(selection) => alert(`You selected ${selection.value}`)}
+      onChange={(selection) => navigateToProduct(selection.product)}
       itemToString={(item) => (item ? item.value : '')}
       style={{ color: 'green' }}
     >
@@ -96,7 +144,7 @@ function Search() {
         isOpen,
         inputValue,
         highlightedIndex,
-        selectedItem,
+        // selectedItem,
       }) => {
         if (inputValue !== inputValueRef.current) {
           handleInputChange(inputValue)
@@ -121,15 +169,18 @@ function Search() {
                 <List {...getMenuProps()}>
                   {items.map((item, index) => (
                     <ListItem
-                      isSelected={selectedItem === item}
-                      isHighlighted={highlightedIndex === index}
                       {...getItemProps({
-                        key: item.value,
+                        key: item.product.slug,
                         index,
                         item,
                       })}
                     >
-                      {item.value}
+                      <ListItemLink
+                        isHighlighted={highlightedIndex === index}
+                        to={getProductPath(item.product)}
+                      >
+                        {item.node}
+                      </ListItemLink>
                     </ListItem>
                   ))}
                 </List>

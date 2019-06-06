@@ -36,5 +36,6 @@ describe('utils/path', () => {
     expect(path.join('hey', 'ho')).toBe('hey/ho')
     expect(path.join('/hey', 'ho')).toBe('/hey/ho')
     expect(path.join('/  /  ///hey', '/// ho')).toBe('/hey/ho')
+    expect(path.join('/  /  ///hey', '/// ho', 'no', 'amoi')).toBe('/hey/ho/no/amoi')
   })
 })

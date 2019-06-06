@@ -21,7 +21,12 @@ export default {
     }
     return resultPath
   },
-  join(path = '', pathPart = '') {
-    return this.addSlash(path) + this.removeTrailingSlash(pathPart)
+  join(path = '', nextPathPart = '', ...otherParts) {
+    const newPath = this.addSlash(path) + this.removeTrailingSlash(nextPathPart)
+    if (otherParts.length > 0) {
+      return this.join(newPath, ...otherParts)
+    } else {
+      return newPath
+    }
   },
 }
