@@ -1,0 +1,5 @@
+---
+slug: gummi_bear
+name: Gummy Bear
+---
+The gummy bear originated in Germany, where it is popular under the name About this Gummibär, or in the endearing form About this Gummibärchen. Gum arabic was the original base ingredient used to produce the gummy bears, hence the name gum or gummy. Hans Riegel, Sr., a confectioner from Bonn, started the Haribo company in 1920. In 1922, inspired by the trained bears seen at street festivities and markets in Europe through to the 19th century, he invented the Dancing Bear (Tanzbär), a small, affordable, fruit-flavored gum candy treat for children and adults alike, which was much larger in form than its later successor, the Gold-Bear (Goldbär). Even during Weimar Germany's hyperinflation period that wreaked havoc on the country, Haribo's fruit-gum Dancing Bear treats remained affordably priced for a mere 1 Pfennig, in pairs, at kiosks. The success of the Dancing Bear's successor would later become Haribo's world-famous Gold-Bears candy product in 1967.
