@@ -39,7 +39,7 @@ module.exports = ({
     'import/no-dynamic-require': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-as-default': 'off',
-    'import/no-unresolved': 'warn',
+    'import/no-unresolved': 'error',
     'import/no-webpack-loader-syntax': 'off',
     'import/prefer-default-export': 'off',
     indent: [
@@ -104,10 +104,6 @@ module.exports = ({
     'react-hooks/rules-of-hooks': 'error',
   },
   settings: {
-    'import/resolver': {
-      node: {
-        paths: ['src'],
-      },
-    },
+    'import/resolver': 'webpack'
   },
 })
