@@ -4,6 +4,7 @@ import { graphql, Link } from 'gatsby'
 
 import markdownFileReducer from 'utils/markdownFileReducer'
 import path from 'utils/path'
+import log from 'utils/log'
 
 import Layout from 'components/Layout'
 // import Image from 'components/Image'
@@ -17,8 +18,7 @@ function CategoryPage({
 }) {
   const page = markdownFileReducer(data.file)
 
-  console.log({ CategoryPage: { ...otherProps, data } })
-  console.log({ nodes: data.external.allProducts.nodes })
+  log.dev('CategoryPage', { ...otherProps, data })
 
   return (
     <Layout>

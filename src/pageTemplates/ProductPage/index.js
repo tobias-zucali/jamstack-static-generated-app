@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { graphql, Link } from 'gatsby'
 
 import markdownFileReducer from 'utils/markdownFileReducer'
+import path from 'utils/path'
+import log from 'utils/log'
 
 import Layout from 'components/Layout'
 // import Image from 'components/Image'
@@ -22,14 +24,14 @@ function ProductPage({
   const mergedCategory = markdownFileReducer(categoryFile, external.productCategory)
 
   // eslint-disable-next-line prefer-rest-params
-  console.log({ ProductPage: arguments[0] })
+  log.dev({ ProductPage: arguments[0] })
 
   return (
     <Layout>
       <SEO title={mergedProduct.name} keywords={['gatsby', 'application', 'react']} />
       <Link to="/">Home</Link>
       {' | '}
-      <Link to={`/${mergedCategory.slug}`}>
+      <Link to={path.join('/category', mergedCategory.slug)}>
         {mergedCategory.name}
       </Link>
       <h2>
