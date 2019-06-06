@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { navigate, Link } from 'gatsby'
 import styled from 'styled-components'
 import debounce from 'lodash/debounce'
+import memoize from 'lodash/memoize'
 
 import Downshift from 'downshift'
 
@@ -46,6 +47,8 @@ const Input = styled.input`
 const List = styled.ul`
   list-style: none;
   margin: 0;
+  max-height: 55vh;
+  overflow: auto;
   padding: 0.5rem;
   position: relative;
   &::before {
@@ -105,29 +108,38 @@ const getProductPath = (product) => path.join(
 )
 const navigateToProduct = (product) => navigate(getProductPath(product))
 
+const fetchItems = memoize(async (newInputValue = '') => {
+  // TODO cache results and persist for improved performance and offline use
+  const result = await fetch(
+    `/.netlify/functions/search?q=${encodeURIComponent(newInputValue)}`
+  )
+  const newItems = await result.json()
+
+  return newItems.map(({ matches, product }) => ({
+    node: matches.product ? (
+      <RenderMatch {...matches.product} />
+    ) : (
+      <RenderMatchInAttribute
+        name={product.name}
+        match={matches.category || matches.manufacturer}
+      />
+    ),
+    product,
+  }))
+})
+
 function Search() {
   const [isFocused, setIsFocused] = useState(false)
   const [items, setItems] = useState([])
   const inputValueRef = useRef('')
-  const handleInputChange = debounce(async (newInputValue = '') => {
+  const handleInputChange = debounce((newInputValue) => {
     inputValueRef.current = newInputValue
-    const result = await fetch(
-      `/.netlify/functions/search?q=${encodeURIComponent(newInputValue)}`
-    )
-    const newItems = await result.json()
-    setItems(newItems.map(({ matches, product }) => ({
-      node: matches.product
-        ? (
-          <RenderMatch {...matches.product} />
-        ) : (
-          <RenderMatchInAttribute
-            name={product.name}
-            match={matches.category || matches.manufacturer}
-          />
-        ),
-      product,
-    })))
-  }, 500)
+    fetchItems(newInputValue).then(setItems)
+  }, 300)
+
+  useEffect(() => {
+    fetchItems().then(setItems)
+  }, [])
 
   return (
     <Downshift
@@ -165,7 +177,7 @@ function Search() {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
               />
-              {isOpen && items.length > 0 && (
+              {(isOpen || isFocused) && items.length > 0 && (
                 <List {...getMenuProps()}>
                   {items.map((item, index) => (
                     <ListItem
