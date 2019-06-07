@@ -1,8 +1,18 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d2785c91-6438-42ba-847e-107c82fdb0df/deploy-status)](https://app.netlify.com/sites/jamstack-static-generated-app/deploys)
 
+# A static generated (demo) app following the **JAM**Stack principles
+
+> Modern web development architecture based on client-side JavaScript, reusable APIs, and prebuilt Markup.
+> 
+> _[https://jamstack.org](https://jamstack.org/)_
+
 This is a proof of concept, design and solutions are just far enough to see if the approach could work.
 
-👉 Try it out on https://jamstack-static-generated-app.netlify.com/!
+---
+
+__👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
+
+---
 
 ## 🎯 Goals of this project:
 - Realize a simple search based application
