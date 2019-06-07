@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`graphql/searchProducts returns all products containing "ap" 1`] = `
+Object {
+  "data": Object {
+    "searchProducts": Object {
+      "nodes": Array [
+        Object {
+          "matches": Object {
+            "category": null,
+            "manufacturer": null,
+            "product": Object {
+              "match": "Ap",
+              "post": "ple",
+              "pre": "",
+            },
+          },
+          "node": Object {
+            "name": "Apple",
+            "slug": "apple",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`graphql/searchProducts returns all products with empty string 1`] = `
+Object {
+  "data": Object {
+    "searchProducts": Object {
+      "nodes": Array [
+        Object {
+          "node": Object {
+            "name": "Banana",
+            "slug": "banana",
+          },
+        },
+        Object {
+          "node": Object {
+            "name": "Manner Wafferl",
+            "slug": "manner_wafferl",
+          },
+        },
+        Object {
+          "node": Object {
+            "name": "Apple",
+            "slug": "apple",
+          },
+        },
+        Object {
+          "node": Object {
+            "name": "Gummi Bear",
+            "slug": "gummi_bear",
+          },
+        },
+        Object {
+          "node": Object {
+            "name": "Comfrey",
+            "slug": "comfrey",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`graphql/searchProducts returns all products with match in category 1`] = `
+Object {
+  "data": Object {
+    "searchProducts": Object {
+      "nodes": Array [
+        Object {
+          "matches": Object {
+            "category": Object {
+              "match": "Fruit",
+              "post": "",
+              "pre": "",
+            },
+            "manufacturer": null,
+            "product": null,
+          },
+          "node": Object {
+            "name": "Banana",
+            "slug": "banana",
+          },
+        },
+        Object {
+          "matches": Object {
+            "category": Object {
+              "match": "Fruit",
+              "post": "",
+              "pre": "",
+            },
+            "manufacturer": null,
+            "product": null,
+          },
+          "node": Object {
+            "name": "Apple",
+            "slug": "apple",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`graphql/searchProducts returns all products with match in manufacturer 1`] = `
+Object {
+  "data": Object {
+    "searchProducts": Object {
+      "nodes": Array [
+        Object {
+          "matches": Object {
+            "category": null,
+            "manufacturer": Object {
+              "match": "Earth",
+              "post": " Inc.",
+              "pre": "Mother ",
+            },
+            "product": null,
+          },
+          "node": Object {
+            "name": "Banana",
+            "slug": "banana",
+          },
+        },
+        Object {
+          "matches": Object {
+            "category": null,
+            "manufacturer": Object {
+              "match": "Earth",
+              "post": " Inc.",
+              "pre": "Mother ",
+            },
+            "product": null,
+          },
+          "node": Object {
+            "name": "Apple",
+            "slug": "apple",
+          },
+        },
+        Object {
+          "matches": Object {
+            "category": null,
+            "manufacturer": Object {
+              "match": "Earth",
+              "post": " Inc.",
+              "pre": "Mother ",
+            },
+            "product": null,
+          },
+          "node": Object {
+            "name": "Comfrey",
+            "slug": "comfrey",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
