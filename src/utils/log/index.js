@@ -8,4 +8,7 @@ export default {
       console.log(...args)
     }
   },
+  warn: (...args) => {
+    console.warn(...args)
+  },
 }

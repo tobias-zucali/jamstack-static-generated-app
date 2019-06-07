@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, navigate } from 'gatsby'
 import styled from 'styled-components'
 
@@ -6,7 +6,7 @@ import path from 'utils/path'
 
 import Downshift from 'downshift'
 
-import useFetchItems from './hooks/useFetchItems'
+import usePreparedSearchProducts from './usePreparedSearchProducts'
 
 
 const Label = styled.label`
@@ -83,22 +83,14 @@ const navigateToProduct = (product) => navigate(getProductPath(product))
 
 function Search() {
   const [isFocused, setIsFocused] = useState(false)
-  const [items, setItems] = useState([])
-  const inputValueRef = useRef('')
-  const { fetchItems, resolveAbortionErrors } = useFetchItems('')
-  const handleInputChange = useCallback((newInputValue) => {
-    inputValueRef.current = newInputValue
-    fetchItems(newInputValue).then(setItems, resolveAbortionErrors)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const [storedInputValue, setStoredInputValue] = useState('')
 
-  useEffect(() => {
-    fetchItems().then(setItems, resolveAbortionErrors)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const items = usePreparedSearchProducts(storedInputValue)
 
   return (
     <Downshift
-      onChange={(selection) => navigateToProduct(selection.product)}
-      itemToString={(item) => (item ? item.product.name : '')}
+      onChange={(selection) => navigateToProduct(selection.node)}
+      itemToString={(item) => (item ? item.node.name : '')}
       style={{ color: 'green' }}
     >
       {({
@@ -112,8 +104,8 @@ function Search() {
         highlightedIndex,
         // selectedItem,
       }) => {
-        if (inputValue !== inputValueRef.current) {
-          handleInputChange(inputValue)
+        if (inputValue !== storedInputValue) {
+          setStoredInputValue(inputValue)
         }
         return (
           <Container
@@ -138,13 +130,13 @@ function Search() {
                     return (
                       <ListItem
                         {...getItemProps({
-                          key: item.product.slug,
+                          key: item.node.slug,
                           index,
                           item,
                         })}
                       >
-                        <ListItemLinkComponent to={getProductPath(item.product)}>
-                          {item.node}
+                        <ListItemLinkComponent to={getProductPath(item.node)}>
+                          {item.display}
                         </ListItemLinkComponent>
                       </ListItem>
                     )
