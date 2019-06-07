@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import memoize from 'lodash/memoize'
+
 import useFetch from 'hooks/useFetch'
 
 
@@ -30,16 +30,23 @@ RenderMatchInAttribute.propTypes = {
   match: PropTypes.object.isRequired,
 }
 
+const resultStore = new Map()
+
 export default function useFetchItems() {
   const { abortAndFetch, resolveAbortionErrors } = useFetch()
   return {
-    fetchItems: useMemo(() => memoize(async (newInputValue = '') => {
+    fetchItems: useMemo(() => async (newInputValue = '') => {
+      const storedResult = resultStore.get(newInputValue)
+      if (storedResult) {
+        return storedResult
+      }
+
       const result = await abortAndFetch(
         `/.netlify/functions/search?q=${encodeURIComponent(newInputValue)}`
       )
       const newItems = await result.json()
 
-      return newItems.map(({ matches, product }) => ({
+      const enhancedItems = newItems.map(({ matches, product }) => ({
         node: matches.product ? (
           <RenderMatch {...matches.product} />
         ) : (
@@ -50,7 +57,9 @@ export default function useFetchItems() {
         ),
         product,
       }))
-    }), []), // eslint-disable-line react-hooks/exhaustive-deps
+      resultStore.set(newInputValue, enhancedItems)
+      return enhancedItems
+    }, []), // eslint-disable-line react-hooks/exhaustive-deps
     resolveAbortionErrors,
   }
 }
