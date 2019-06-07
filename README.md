@@ -15,14 +15,15 @@ Goals of this project:
 
 Used tools and libraries:
 - [React](https://reactjs.org/) as basis for a stable web application
+- [jest](https://jestjs.io/) for unit tests
 - [GatsbyJS](https://www.gatsbyjs.org/) to generate static pages which load quick and can be indexed easily for SEO
 - [Netlify CMS](https://www.netlifycms.org/) for editing the (marketing-)content, stores the data in your git-repository
-- [Serverless Lambda functions on Netlify](https://www.netlify.com/docs/functions/) to deploy lambda functions
-  - for production use the api functions need a separate deploy process, but for the start it is easy to use the simple netlify deploy
-- [Node.js](https://nodejs.org) for lambda functions
-- [GraphQL](https://graphql.org/) for an extendible api following reliable standards
 - [Netlify Identity service](https://www.netlify.com/docs/identity/) as simple authentication as a service
 - Database is faked up to now
+- [GraphQL](https://graphql.org/) for an extendible api following reliable standards
+- [Node.js](https://nodejs.org) for lambda functions
+- [Serverless Lambda functions on Netlify](https://www.netlify.com/docs/functions/) to deploy lambda functions
+  - for production use the api functions need a separate deploy process, but for the start it is easy to use the simple netlify deploy
 
 Try it out on https://jamstack-static-generated-app.netlify.com/!
 
