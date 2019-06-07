@@ -10,7 +10,7 @@ import usePreparedSearchProducts from './usePreparedSearchProducts'
 
 
 const Label = styled.label`
-  color: #999999;
+  color: #757575;
   display: block;
   font-size: 0.75em;
   margin-bottom: 0.25rem;
