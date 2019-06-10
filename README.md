@@ -18,8 +18,8 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
 - Realize a simple search based application
 - The app has private and public areas
 - The used tools and frameworks are reliable enough for a global scale project
-- Application and marketing pages can be served from one project / with one deploy
-- (Marketing-)text content can be changed without the help of an engineer
+- One solution for the web application AND marketing pages
+- Marketing content and text can be changed without the help of an engineer (CMS)
 - Serverless infrastructure as long as possible
 - SEO is great ([sitemap.xml](https://jamstack-static-generated-app.netlify.com/sitemap.xml), web crawler friendly, meta tags, ...)
 - Loading- and runtime-performance is great
@@ -42,12 +42,11 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
 ## 🤓 Learnings
 - [React](https://reactjs.org/)
   - improved dramatically with the newly introduced [Hooks](https://reactjs.org/docs/hooks-intro.html). Code gets easier to read and can be organized modular and reusable.
-  - [Angular](https://angular.io) would be an alternative, but I don't know enough about static page generation with [Angular](https://angular.io) yet
+  - [Angular](https://angular.io) with [Angular Universal](https://angular.io/guide/universal) could be an alternative and needs further investigation
 - [Babel](https://babeljs.io)
-  - the current version supports [TypeScript](https://www.typescriptlang.org) which could be a good (because typed) alternative to standard Javascript
-  - switching to another syntax with lots of existing code could be hard
+  - the current version supports [TypeScript](https://www.typescriptlang.org) which could be a good improvement
 - [jest](https://jestjs.io/)
-  - is interchangeable with other testing frameworks
+  - offers great features, e.g. snapshot testing
   - tests are a "must have" right from the beginning
     - they help during development
     - it is a pain to write for the existing code you do not plan to change
@@ -55,10 +54,10 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - pull requests with failed texts must not be merged to master
 - [ESLint](https://eslint.org/)
   - is interchangeable with other linting frameworks
-  - the rule set for linting is always open for discussion, but it must be consistent in the project
+  - the rule set for linting is up to the team, but it must be consistent
 - [GatsbyJS](https://www.gatsbyjs.org/)
-  - has a steep learning curve if you are not familiar with GraphQL but it worked perfectly as soon as I overcome this hurdle
-  - works best if you can query your data from a GraphQL service
+  - has a steep learning curve if you are not familiar with GraphQL but it works perfectly as soon as you overcome this hurdle
+  - works best if you can query your data from a GraphQL service 
   - works best if you have regular update cycles for new information (e. g. daily)
     - you could overcome this limitation by updating the data after loading the page and/or adding client routes for missing static pages. But this complicates things a lot.
     - if this limitation is not acceptable the next step would be server-side rendering instead of generating static pages (e. g. with [Next.js](https://nextjs.org/)), which makes server infrastructure much more complicated and introduces the danger of server-side runtime errors during rendering.
@@ -80,7 +79,7 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - the easiest to use identity service I tried out yet
   - uses new standards like [Json Web Tokens](https://jwt.io)
   - not sure if it fulfills all requirements for a large scale app, but I like the idea to have a stand-alone identity server instead of being tightly tied to other parts of the application.
-  - switching to another solution and migrating lots of existing users could be really hard
+  - switching to another solution and migrating lots of existing users could be really hard, this decission must be stable before going live
   - the service is a [cost factor](https://www.netlify.com/pricing/#identity)
 - [GraphQL](https://graphql.org/)
   - after developing so many self-made APIs this deep dive into GraphQL was mind blowing
@@ -90,14 +89,12 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - I used the light-weight client-side library [urql](https://formidable.com/open-source/urql/) which worked fine up to now and is easily exchangeable
     - interesting alternatives with lots more features are [Relay](https://relay.dev) or [Apollo](https://www.apollographql.com)
   - I only used the [GraphQL.js](https://github.com/graphql/graphql-js) reference implementation on the server side, but there are problems e.g. with the preflight response
-    - alternatives like [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda) should be evaluated
+    - alternatives like [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda) should be evaluated, there are good solutions for other backend languages as well
+  - [PostGrahile](https://www.graphile.org/) as connector to a PostgreSQL database sounds like a very interesting option
 - functions as a service via [Netlify Functions](https://www.netlify.com/docs/functions/)
   - lambda functions are great as you do not need to take care for a server
-    - there are limitations to the runtime
     - there is no shared state between two calls, you will have to store/read from a database if you need it
-  - the most simple way to develop and deploy lambda functions I know, at least if Netlify is in use anyway
-  - for production use, the API functions need a separate deploy process
-    - the build process needs access to the API
+  - in this project it is problematic to have only one deployment process for the serverless functions and the web application as the build process needs access to the API
   - I would recommend to use a platform independent framework like [Serverless](https://serverless.com) to be independent of a specific service provider
   - there are endless alternative providers, e.g. [AWS Lambda](https://aws.amazon.com/lambda/features/), [Google Cloud Functions](https://cloud.google.com/functions/), [Azure Functions](https://aws.amazon.com/lambda/features/)
   - the service is a [cost factor](https://www.netlify.com/pricing/#functions)
@@ -105,7 +102,7 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - it is just comfortable to write server- and clientside code in the same language
   - limitations like lack of multi-threading are not relevant for lambda functions as each of them is invoked in its own process
   - there are great libraries for GraphQL available for Node.js
-  - the language for the server side code needs to be chosen after the full requirements of the backend are available
+  - the language for the server side code needs to be chosen after the full requirements of the backend (database, ) are available
 
 ## 🤔 TODO:
 - build a similar project with [Angular](https://angular.io) using [Angular Universal](https://angular.io/guide/universal)
