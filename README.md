@@ -64,9 +64,10 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
 - [Netlify](https://www.netlify.com/)
   - works like a charm for building and deploying static content
   - the tight connection with [GitHub](https://guides.github.com) allows preview builds and running tests and linters before merging a [pull request](https://help.github.com/en/articles/about-pull-requests)
-  - the same tasks could be done with a CI/CD tool like [CodeShip](http://codeship.com/) in combination with a storage solution like [Amazon S3](https://aws.amazon.com/s3/)
-    - as setup and maintenance is so much easier with Netlify  I would stick with it as long as possible
-    - switching to other tools is possible anytime
+  - switching to other tools is possible anytime
+    - the same tasks could be done with a CI/CD tool like [AWS Code Pipeline](https://aws.amazon.com/codepipeline/), [Azure Pipelines](https://azure.microsoft.com/en-gb/services/devops/pipelines/) or [CodeShip](http://codeship.com/) in combination with a storage solution like [Amazon S3](https://aws.amazon.com/s3/) or [Azure CDN](https://azure.microsoft.com/en-gb/services/cdn/)
+    - e.g. here is a [tutorial accomplishing the same on Azure](https://cloudblogs.microsoft.com/opensource/2018/11/16/terraform-jamstack-azure-gatsby-azure-pipelines-git/)
+    - as setup and maintenance is easier with Netlify I would stick with it as long as there is no need for more features
   - the service is a [cost factor](https://www.netlify.com/pricing/#features)
 - [Netlify CMS](https://www.netlifycms.org/)
   - is a static page including an npm package directly on your server
@@ -79,7 +80,7 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - the easiest to use identity service I tried out yet
   - uses new standards like [Json Web Tokens](https://jwt.io)
   - not sure if it fulfills all requirements for a large scale app, but I like the idea to have a stand-alone identity server instead of being tightly tied to other parts of the application.
-  - switching to another solution and migrating lots of existing users could be really hard, this decission must be stable before going live
+  - switching to another solution and migrating lots of existing users could be really hard, this decision must be stable before going live
   - the service is a [cost factor](https://www.netlify.com/pricing/#identity)
 - [GraphQL](https://graphql.org/)
   - after developing so many self-made APIs this deep dive into GraphQL was mind blowing
@@ -90,12 +91,12 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
     - interesting alternatives with lots more features are [Relay](https://relay.dev) or [Apollo](https://www.apollographql.com)
   - I only used the [GraphQL.js](https://github.com/graphql/graphql-js) reference implementation on the server side, but there are problems e.g. with the preflight response
     - alternatives like [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda) should be evaluated, there are good solutions for other backend languages as well
-  - [PostGrahile](https://www.graphile.org/) as connector to a PostgreSQL database sounds like a very interesting option
+  - [PostGrahile](https://www.graphile.org/) as the connector to a PostgreSQL database sounds like a very interesting option
 - functions as a service via [Netlify Functions](https://www.netlify.com/docs/functions/)
   - lambda functions are great as you do not need to take care for a server
     - there is no shared state between two calls, you will have to store/read from a database if you need it
-  - in this project it is problematic to have only one deployment process for the serverless functions and the web application as the build process needs access to the API
-  - I would recommend to use a platform independent framework like [Serverless](https://serverless.com) to be independent of a specific service provider
+  - in this project, it is problematic to have only one deployment process for the serverless functions and the web application as the build process needs access to the API
+  - I would recommend using a platform-independent framework like [Serverless](https://serverless.com) to be independent of a specific service provider
   - there are endless alternative providers, e.g. [AWS Lambda](https://aws.amazon.com/lambda/features/), [Google Cloud Functions](https://cloud.google.com/functions/), [Azure Functions](https://aws.amazon.com/lambda/features/)
   - the service is a [cost factor](https://www.netlify.com/pricing/#functions)
 - [Node.js](https://nodejs.org)
