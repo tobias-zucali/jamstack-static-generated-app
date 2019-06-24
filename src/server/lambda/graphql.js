@@ -1,24 +1,7 @@
-import evaluate from 'server/graphql/evaluate'
+import schema from 'server/graphql/schema'
+const { ApolloServer } = require('apollo-server-lambda')
 
 
-export async function handler(event/* , context */) {
-  // if (context.clientContext) {
-  //   const { identity, user } = context.clientContext
-  // }
+const server = new ApolloServer({ schema })
 
-  const {
-    query,
-    variables,
-    operationName,
-  } = JSON.parse(event.body)
-
-  const result = await evaluate({
-    query,
-    variables,
-    operationName,
-  })
-  return {
-    statusCode: 200,
-    body: JSON.stringify(result),
-  }
-}
+export const handler = server.createHandler()
