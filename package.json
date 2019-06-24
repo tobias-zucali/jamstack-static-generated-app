@@ -18,6 +18,7 @@
     "clean:functions": "rimraf lambda/*",
     "deploy": "yarn run netlify deploy",
     "dev": "yarn run clean && yarn run start",
+    "graphql:updateSchemaFile": "babel-node internals/graphql/updateSchema.js --config-file ./babel-node.config.js",
     "lint:eslint:fix": "yarn lint:eslint --fix",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint:fix": "yarn lint:eslint:fix .",
@@ -33,7 +34,7 @@
   "dependencies": {
     "babel-jest": "^24.8.0",
     "babel-plugin-styled-components": "^1.10.0",
-    "babel-preset-gatsby": "^0.1.11",
+    "babel-preset-gatsby": "^0.2.0",
     "chokidar": "^3.0.1",
     "downshift": "^3.2.10",
     "gatsby": "^2.8.3",
@@ -70,6 +71,9 @@
     "urql": "^1.0.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "babel-plugin-module-resolver": "^3.2.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-plugin-react-hooks": "^1.6.0",

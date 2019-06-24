@@ -1,0 +1,148 @@
+schema {
+  query: RootQueryType
+}
+
+type Candy implements ProductInterface {
+  edges: ProductEdges
+  slug: ID!
+  name: String!
+  category: ProductCategory!
+  type: String!
+  manufacturer: Manufacturer
+  sugar(unit: weight = G): Float!
+}
+
+type Fruit implements ProductInterface {
+  edges: ProductEdges
+  slug: ID!
+  name: String!
+  category: ProductCategory!
+  type: String!
+  manufacturer: Manufacturer
+  vitamins: Int!
+}
+
+type Manufacturer {
+  edges: ManufacturerEdges
+  slug: ID!
+  name: String!
+  description: String
+  address: String
+}
+
+type ManufacturerEdges {
+  next: Manufacturer
+  previous: Manufacturer
+}
+
+type Manufacturers {
+  edges: ManufacturersEdges!
+  nodes: [Manufacturer]!
+  totalCount: Int!
+}
+
+type ManufacturersEdges {
+  next: Manufacturer
+  previous: Manufacturer
+  first: Manufacturer
+  last: Manufacturer
+}
+
+type Match {
+  pre: String!
+  match: String!
+  post: String!
+}
+
+type Matches {
+  product: Match
+  manufacturer: Match
+  category: Match
+}
+
+type Product implements ProductInterface {
+  edges: ProductEdges
+  slug: ID!
+  name: String!
+  category: ProductCategory!
+  type: String!
+  manufacturer: Manufacturer
+}
+
+type ProductCategories {
+  edges: ProductCategoriesEdges!
+  nodes: [ProductCategory]!
+  totalCount: Int!
+}
+
+type ProductCategoriesEdges {
+  next: ProductCategory
+  previous: ProductCategory
+  first: ProductCategory
+  last: ProductCategory
+}
+
+type ProductCategory {
+  edges: ProductCategoryEdges
+  slug: ID!
+  name: String!
+  description: String
+}
+
+type ProductCategoryEdges {
+  next: ProductCategory
+  previous: ProductCategory
+}
+
+type ProductEdges {
+  next: ProductInterface
+  previous: ProductInterface
+}
+
+interface ProductInterface {
+  slug: ID!
+  name: String!
+  manufacturer: Manufacturer
+  edges: ProductEdges
+  category: ProductCategory!
+  type: String!
+}
+
+type Products {
+  edges: ProductsEdges!
+  nodes: [ProductInterface]!
+  totalCount: Int!
+}
+
+type ProductSearchResult {
+  matches: Matches
+  node: ProductInterface
+}
+
+type ProductSearchResults {
+  nodes: [ProductSearchResult]!
+}
+
+type ProductsEdges {
+  next: ProductInterface
+  previous: ProductInterface
+  first: ProductInterface
+  last: ProductInterface
+}
+
+type RootQueryType {
+  manufacturer(slug: String!): Manufacturer
+  allManufacturers(after: String, limit: Int): Manufacturers
+  product(slug: String!): ProductInterface
+  allProducts(after: String, limit: Int, category: String, manufacturer: String): Products
+  searchProducts(after: String, limit: Int, category: String, manufacturer: String, searchString: String!): ProductSearchResults
+  productCategory(slug: String!): ProductCategory
+  allProductCategories(after: String, limit: Int): ProductCategories
+}
+
+enum weight {
+  T
+  KG
+  DAG
+  G
+}
