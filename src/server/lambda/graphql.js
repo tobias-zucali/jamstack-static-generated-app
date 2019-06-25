@@ -1,7 +1,14 @@
 import schema from 'server/graphql/schema'
-const { ApolloServer } = require('apollo-server-lambda')
+import { ApolloServer } from 'apollo-server-lambda'
 
 
-const server = new ApolloServer({ schema })
+const server = new ApolloServer({
+  schema,
+  playground: true,
+})
 
-export const handler = server.createHandler()
+export const handler = server.createHandler({
+  cors: {
+    origin: '*',
+  },
+})
