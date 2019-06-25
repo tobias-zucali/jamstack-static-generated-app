@@ -5,7 +5,9 @@ const resolve = (m) => require.resolve(m)
 
 
 module.exports = function config(api) {
-  api.cache.never()
+  if (api) {
+    api.cache.never()
+  }
 
   return {
     presets: [

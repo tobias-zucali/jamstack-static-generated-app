@@ -1,5 +1,11 @@
+const { SchemaLink } = require('apollo-link-schema')
 const manifest = require('./manifest.js')
 const siteMetadata = require('./settings/siteMetadata.json')
+
+
+const babelConfig = require('./babel-node.config.js')()
+require('@babel/register')(babelConfig)
+const schema = require('./src/server/graphql/schema').default
 
 
 module.exports = {
@@ -16,10 +22,7 @@ module.exports = {
       options: {
         typeName: 'EXTERNAL',
         fieldName: 'external',
-        // TODO: use environment variable for server path
-        // TODO: use reliable server
-        // TODO: find solution for first deploy
-        url: 'https://jamstack-static-generated-app.netlify.com/.netlify/functions/graphql',
+        createLink: () => new SchemaLink({ schema }),
       },
     },
     {
