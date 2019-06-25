@@ -1,6 +1,8 @@
 import { useMemo } from 'react'
 import { useQuery } from 'urql'
 
+import isBrowser from 'utils/isBrowser'
+
 import prepareSearchResult from './prepareSearchResult'
 
 
@@ -37,7 +39,7 @@ const searchProductsQuery = `
   }
 `
 
-export default function useProductSearch(searchString) {
+export default isBrowser() ? function useProductSearch(searchString) {
   const [result] = useQuery({
     query: searchProductsQuery,
     variables: { searchString },
@@ -46,4 +48,4 @@ export default function useProductSearch(searchString) {
     () => prepareSearchResult(result),
     [result]
   )
-}
+} : () => []
