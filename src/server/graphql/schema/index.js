@@ -3,32 +3,36 @@ import {
   GraphQLSchema,
 } from 'graphql'
 
-import {
-  types as manufacturerTypes,
-  queryFields as manufacturerQueryFields,
-} from './types/Manufacturer'
-import {
-  types as productTypes,
-  queryFields as productQueryFields,
-} from './types/Product'
-import {
-  types as productCategoryTypes,
-  queryFields as productCategoryQueryFields,
-} from './types/ProductCategory'
+import manufacturer from './manufacturer'
+import product from './product'
+import productCategory from './productCategory'
 
+
+const allSchemaParts = [
+  manufacturer,
+  product,
+  productCategory,
+]
+
+
+const { types, queryFields } = allSchemaParts.reduce((accumulator, schemaPart) => ({
+  types: [
+    ...accumulator.types,
+    ...schemaPart.types,
+  ],
+  queryFields: {
+    ...accumulator.queryFields,
+    ...schemaPart.queryFields,
+  },
+}), {
+  types: [],
+  queryFields: {},
+})
 
 export default new GraphQLSchema({
-  types: [
-    ...manufacturerTypes,
-    ...productTypes,
-    ...productCategoryTypes,
-  ],
+  types,
   query: new GraphQLObjectType({
     name: 'RootQueryType',
-    fields: {
-      ...manufacturerQueryFields,
-      ...productQueryFields,
-      ...productCategoryQueryFields,
-    },
+    fields: queryFields,
   }),
 })

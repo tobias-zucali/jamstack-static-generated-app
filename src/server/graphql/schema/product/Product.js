@@ -7,8 +7,8 @@ import {
 } from 'graphql'
 
 import { manufacturersDB, productsDB, productCategoriesDB } from 'server/fakeDatabase'
-import Manufacturer from '../Manufacturer'
-import ProductCategory from '../ProductCategory'
+import Manufacturer from '../manufacturer/Manufacturer'
+import ProductCategory from '../productCategory/ProductCategory'
 
 import productTypeExtensions from './productTypeExtensions'
 
@@ -35,7 +35,7 @@ export const ProductInterface = new GraphQLInterfaceType({
       type: new GraphQLNonNull(GraphQLString),
     },
   }),
-  resolveType: ({ category }) => productTypes[category] || Product,
+  resolveType: ({ category }) => productTypesByCategory[category] || Product,
 })
 
 export const ProductEdges = new GraphQLObjectType({
@@ -91,7 +91,7 @@ const Product = new GraphQLObjectType({
   fields: getProductFields(),
 })
 
-const productTypes = productTypeExtensions.reduce((types, { category, name, additionalFields }) => ({
+const productTypesByCategory = productTypeExtensions.reduce((types, { category, name, additionalFields }) => ({
   ...types,
   [category]: new GraphQLObjectType({
     name,
@@ -104,9 +104,8 @@ const productTypes = productTypeExtensions.reduce((types, { category, name, addi
 }), {})
 
 
-export const allProductTypes = [
+export const productTypes = [
   Product,
-  ProductInterface,
-  ...Object.values(productTypes),
+  ...Object.values(productTypesByCategory),
 ]
 export default Product

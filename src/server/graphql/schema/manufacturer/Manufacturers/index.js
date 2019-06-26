@@ -6,7 +6,7 @@ import {
 } from 'graphql'
 
 import { manufacturersDB } from 'server/fakeDatabase'
-import Manufacturer from './Manufacturer'
+import Manufacturer from '../Manufacturer'
 
 
 const ManufacturersEdges = new GraphQLObjectType({
