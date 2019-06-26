@@ -89,8 +89,7 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - the overhead when initially creating the [Schema](https://graphql.org/learn/schema/) pays off as soon as you want to extend the functionality
   - I used the light-weight client-side library [urql](https://formidable.com/open-source/urql/) which worked fine up to now and is easily exchangeable
     - interesting alternatives with lots more features are [Relay](https://relay.dev) or [Apollo](https://www.apollographql.com)
-  - I only used the [GraphQL.js](https://github.com/graphql/graphql-js) reference implementation on the server side, but there are problems e.g. with the preflight response
-    - alternatives like [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda) should be evaluated, there are good solutions for other backend languages as well
+  - I only used the [GraphQL.js](https://github.com/graphql/graphql-js) reference implementation and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda) on the server side
   - [PostGrahile](https://www.graphile.org/) as the connector to a PostgreSQL database sounds like a very interesting option
 - functions as a service via [Netlify Functions](https://www.netlify.com/docs/functions/)
   - lambda functions are great as you do not need to take care for a server
@@ -100,10 +99,9 @@ __👉 Try it out on https://jamstack-static-generated-app.netlify.com/!__
   - there are endless alternative providers, e.g. [AWS Lambda](https://aws.amazon.com/lambda/features/), [Google Cloud Functions](https://cloud.google.com/functions/), [Azure Functions](https://aws.amazon.com/lambda/features/)
   - the service is a [cost factor](https://www.netlify.com/pricing/#functions)
 - [Node.js](https://nodejs.org)
-  - it is just comfortable to write server- and clientside code in the same language
   - limitations like lack of multi-threading are not relevant for lambda functions as each of them is invoked in its own process
+  - it is just comfortable to write server- and clientside code in the same language
   - there are great libraries for GraphQL available for Node.js
-  - the language for the server side code needs to be chosen after the full requirements of the backend (database, ) are available
 
 ## 🤔 TODO:
 - build a similar project with [Angular](https://angular.io) using [Angular Universal](https://angular.io/guide/universal)
