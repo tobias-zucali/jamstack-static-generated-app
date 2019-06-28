@@ -1,5 +1,6 @@
 import { graphql } from 'graphql'
 
+import getContext from './getContext'
 import schema from './schema'
 
 
@@ -12,7 +13,7 @@ export default async function evaluate({
     schema,
     query,
     null,
-    null,
+    getContext(),
     variables,
     operationName
   )

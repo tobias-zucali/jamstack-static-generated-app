@@ -6,7 +6,6 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { manufacturersDB, productsDB, productCategoriesDB } from 'server/fakeDatabase'
 import Manufacturer from '../manufacturer/Manufacturer'
 import ProductCategory from '../productCategory/ProductCategory'
 
@@ -43,11 +42,11 @@ export const ProductEdges = new GraphQLObjectType({
   fields: () => ({
     next: {
       type: ProductInterface,
-      resolve: ({ index }) => productsDB.getByIndex(index + 1),
+      resolve: ({ index }, args, { db }) => db.products.getByIndex(index + 1),
     },
     previous: {
       type: ProductInterface,
-      resolve: ({ index }) => productsDB.getByIndex(index - 1),
+      resolve: ({ index }, args, { db }) => db.products.getByIndex(index - 1),
     },
   }),
 })
@@ -55,8 +54,8 @@ export const ProductEdges = new GraphQLObjectType({
 export const getProductFields = () => ({
   edges: {
     type: ProductEdges,
-    resolve: (root) => ({
-      index: productsDB.getIndex(root),
+    resolve: (root, args, { db }) => ({
+      index: db.products.getIndex(root),
     }),
   },
   slug: {
@@ -67,8 +66,8 @@ export const getProductFields = () => ({
   },
   category: {
     type: new GraphQLNonNull(ProductCategory),
-    resolve({ category: categorySlug }) {
-      return productCategoriesDB.getBySlug(categorySlug)
+    resolve({ category: categorySlug }, args, { db }) {
+      return db.productCategories.getBySlug(categorySlug)
     },
   },
   type: {
@@ -79,8 +78,8 @@ export const getProductFields = () => ({
   },
   manufacturer: {
     type: Manufacturer,
-    resolve({ manufacturer }) {
-      return manufacturersDB.getBySlug(manufacturer)
+    resolve({ manufacturer }, args, { db }) {
+      return db.manufacturers.getBySlug(manufacturer)
     },
   },
 })

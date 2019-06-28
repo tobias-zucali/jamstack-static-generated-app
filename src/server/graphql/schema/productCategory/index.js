@@ -4,7 +4,6 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { productCategoriesDB } from 'server/fakeDatabase'
 import ProductCategory from './ProductCategory'
 import ProductCategories from './ProductCategories'
 
@@ -20,8 +19,8 @@ export default {
       args: {
         slug: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve(root, { slug }) {
-        return productCategoriesDB.getBySlug(slug)
+      resolve(root, { slug }, { db }) {
+        return db.productCategories.getBySlug(slug)
       },
     },
     allProductCategories: {
@@ -34,11 +33,11 @@ export default {
           type: GraphQLInt,
         },
       },
-      resolve(root, { after, limit }) {
-        let result = productCategoriesDB.getList()
+      resolve(root, { after, limit }, { db }) {
+        let result = db.productCategories.getList()
         if (after) {
-          const previousProductCategory = productCategoriesDB.getBySlug(after)
-          const previousIndex = productCategoriesDB.getIndex(previousProductCategory)
+          const previousProductCategory = db.productCategories.getBySlug(after)
+          const previousIndex = db.productCategories.getIndex(previousProductCategory)
           result = result.slice(previousIndex + 1)
         }
         if (limit) {

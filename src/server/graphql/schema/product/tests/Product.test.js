@@ -1,5 +1,5 @@
 import evaluate from 'server/graphql/evaluate'
-import { productsDB } from 'server/fakeDatabase'
+import db from 'server/fakeDatabase'
 
 
 const evaluateProduct = async ({
@@ -54,15 +54,15 @@ const evaluateProduct = async ({
 describe('graphql/Product', () => {
   it('returns first product', async () => {
     await evaluateProduct({
-      product: productsDB.getByIndex(0),
-      nextProduct: productsDB.getByIndex(1),
+      product: db.products.getByIndex(0),
+      nextProduct: db.products.getByIndex(1),
     })
   })
 
   it('returns last product', async () => {
     await evaluateProduct({
-      product: productsDB.getByIndexLoop(-1),
-      previousProduct: productsDB.getByIndexLoop(-2),
+      product: db.products.getByIndexLoop(-1),
+      previousProduct: db.products.getByIndexLoop(-2),
     })
   })
 })

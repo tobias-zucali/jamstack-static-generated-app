@@ -4,8 +4,6 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { manufacturersDB } from 'server/fakeDatabase'
-
 import Manufacturer from './Manufacturer'
 import Manufacturers from './Manufacturers'
 
@@ -21,8 +19,8 @@ export default {
       args: {
         slug: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve(root, { slug }) {
-        return manufacturersDB.getBySlug(slug)
+      resolve(root, { slug }, { db }) {
+        return db.manufacturers.getBySlug(slug)
       },
     },
     allManufacturers: {
@@ -35,11 +33,11 @@ export default {
           type: GraphQLInt,
         },
       },
-      resolve(root, { after, limit }) {
-        let result = manufacturersDB.getList()
+      resolve(root, { after, limit }, { db }) {
+        let result = db.manufacturers.getList()
         if (after) {
-          const previousManufacturer = manufacturersDB.getBySlug(after)
-          const previousIndex = manufacturersDB.getIndex(previousManufacturer)
+          const previousManufacturer = db.manufacturers.getBySlug(after)
+          const previousIndex = db.manufacturers.getIndex(previousManufacturer)
           result = result.slice(previousIndex + 1)
         }
         if (limit) {

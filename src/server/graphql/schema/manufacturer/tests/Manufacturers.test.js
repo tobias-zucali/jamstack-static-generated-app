@@ -1,5 +1,5 @@
 import evaluate from 'server/graphql/evaluate'
-import { manufacturersDB } from 'server/fakeDatabase'
+import db from 'server/fakeDatabase'
 
 
 describe('graphql/Manufacturers', () => {
@@ -35,16 +35,16 @@ describe('graphql/Manufacturers', () => {
     ).resolves.toEqual({
       data: {
         allManufacturers: {
-          nodes: manufacturersDB.getList().map(({ slug, name }) => ({ slug, name })),
-          totalCount: manufacturersDB.getList().length,
+          nodes: db.manufacturers.getList().map(({ slug, name }) => ({ slug, name })),
+          totalCount: db.manufacturers.getList().length,
           edges: {
             next: null,
             previous: null,
             first: {
-              slug: manufacturersDB.getByIndexLoop(0).slug,
+              slug: db.manufacturers.getByIndexLoop(0).slug,
             },
             last: {
-              slug: manufacturersDB.getByIndexLoop(-1).slug,
+              slug: db.manufacturers.getByIndexLoop(-1).slug,
             },
           },
         },

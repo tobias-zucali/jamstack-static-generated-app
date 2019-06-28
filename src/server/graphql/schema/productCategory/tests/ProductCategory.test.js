@@ -1,5 +1,5 @@
 import evaluate from 'server/graphql/evaluate'
-import { productCategoriesDB } from 'server/fakeDatabase'
+import db from 'server/fakeDatabase'
 
 
 const evaluateProductCategory = async ({
@@ -49,9 +49,9 @@ const evaluateProductCategory = async ({
 describe('graphql/ProductCategory', () => {
   it('returns first productCategory', async () => {
     await evaluateProductCategory({
-      slug: productCategoriesDB.getByIndexLoop(0).slug,
-      name: productCategoriesDB.getByIndexLoop(0).name,
-      nextSlug: productCategoriesDB.getByIndexLoop(1).slug,
+      slug: db.productCategories.getByIndexLoop(0).slug,
+      name: db.productCategories.getByIndexLoop(0).name,
+      nextSlug: db.productCategories.getByIndexLoop(1).slug,
     })
   })
 })

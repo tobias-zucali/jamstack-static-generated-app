@@ -5,7 +5,6 @@ import {
   GraphQLObjectType,
 } from 'graphql'
 
-import { productCategoriesDB } from 'server/fakeDatabase'
 import ProductCategory from './ProductCategory'
 
 
@@ -14,11 +13,11 @@ const ProductCategoriesEdges = new GraphQLObjectType({
   fields: () => ({
     next: {
       type: ProductCategory,
-      resolve: (productCategories) => productCategoriesDB.getNext(productCategories[productCategories.length - 1]),
+      resolve: (productCategories, args, { db }) => db.productCategories.getNext(productCategories[productCategories.length - 1]),
     },
     previous: {
       type: ProductCategory,
-      resolve: (productCategories) => productCategoriesDB.getPrevious(productCategories[0]),
+      resolve: (productCategories, args, { db }) => db.productCategories.getPrevious(productCategories[0]),
     },
     first: {
       type: ProductCategory,
@@ -44,7 +43,7 @@ const ProductCategories = new GraphQLObjectType({
     },
     totalCount: {
       type: new GraphQLNonNull(GraphQLInt),
-      resolve: () => productCategoriesDB.getList().length,
+      resolve: (source, args, { db }) => db.productCategories.getList().length,
     },
   },
 })

@@ -1,5 +1,5 @@
 import evaluate from 'server/graphql/evaluate'
-import { productsDB } from 'server/fakeDatabase'
+import db from 'server/fakeDatabase'
 
 
 describe('graphql/Products', () => {
@@ -35,16 +35,16 @@ describe('graphql/Products', () => {
     ).resolves.toEqual({
       data: {
         allProducts: {
-          nodes: productsDB.getList().map(({ slug, name }) => ({ slug, name })),
-          totalCount: productsDB.getList().length,
+          nodes: db.products.getList().map(({ slug, name }) => ({ slug, name })),
+          totalCount: db.products.getList().length,
           edges: {
             next: null,
             previous: null,
             first: {
-              slug: productsDB.getByIndexLoop(0).slug,
+              slug: db.products.getByIndexLoop(0).slug,
             },
             last: {
-              slug: productsDB.getByIndexLoop(-1).slug,
+              slug: db.products.getByIndexLoop(-1).slug,
             },
           },
         },
@@ -92,7 +92,7 @@ describe('graphql/Products', () => {
       evaluate({
         query: `
             {
-              allProducts(after: "${productsDB.getByIndexLoop(0).slug}", limit: 2) {
+              allProducts(after: "${db.products.getByIndexLoop(0).slug}", limit: 2) {
                 nodes {
                   slug
                 }
@@ -119,22 +119,22 @@ describe('graphql/Products', () => {
       data: {
         allProducts: {
           nodes: [
-            { slug: productsDB.getByIndexLoop(1).slug },
-            { slug: productsDB.getByIndexLoop(2).slug },
+            { slug: db.products.getByIndexLoop(1).slug },
+            { slug: db.products.getByIndexLoop(2).slug },
           ],
-          totalCount: productsDB.getList().length,
+          totalCount: db.products.getList().length,
           edges: {
             previous: {
-              slug: productsDB.getByIndexLoop(0).slug,
+              slug: db.products.getByIndexLoop(0).slug,
             },
             next: {
-              slug: productsDB.getByIndexLoop(3).slug,
+              slug: db.products.getByIndexLoop(3).slug,
             },
             first: {
-              slug: productsDB.getByIndexLoop(1).slug,
+              slug: db.products.getByIndexLoop(1).slug,
             },
             last: {
-              slug: productsDB.getByIndexLoop(2).slug,
+              slug: db.products.getByIndexLoop(2).slug,
             },
           },
         },
@@ -166,7 +166,7 @@ describe('graphql/Products', () => {
         allProducts: {
           nodes: [
             {
-              slug: productsDB.getByIndexLoop(1).slug,
+              slug: db.products.getByIndexLoop(1).slug,
               sugar: 0.005,
               category: {
                 slug: 'candy',

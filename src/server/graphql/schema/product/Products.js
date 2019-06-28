@@ -5,7 +5,6 @@ import {
   GraphQLList,
 } from 'graphql'
 
-import { productsDB } from 'server/fakeDatabase'
 import { ProductInterface } from './Product'
 
 
@@ -14,11 +13,11 @@ const ProductsEdges = new GraphQLObjectType({
   fields: () => ({
     next: {
       type: ProductInterface,
-      resolve: (products) => productsDB.getNext(products[products.length - 1]),
+      resolve: (products, args, { db }) => db.products.getNext(products[products.length - 1]),
     },
     previous: {
       type: ProductInterface,
-      resolve: (products) => productsDB.getPrevious(products[0]),
+      resolve: (products, args, { db }) => db.products.getPrevious(products[0]),
     },
     first: {
       type: ProductInterface,
@@ -44,7 +43,7 @@ const Products = new GraphQLObjectType({
     },
     totalCount: {
       type: new GraphQLNonNull(GraphQLInt),
-      resolve: () => productsDB.getList().length,
+      resolve: (source, args, { db }) => db.products.getList().length,
     },
   },
 })

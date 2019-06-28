@@ -5,19 +5,17 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { productCategoriesDB } from 'server/fakeDatabase'
-
 
 export const ProductCategoryEdges = new GraphQLObjectType({
   name: 'ProductCategoryEdges',
   fields: () => ({
     next: {
       type: ProductCategory,
-      resolve: ({ index }) => productCategoriesDB.getByIndex(index + 1),
+      resolve: ({ index }, args, { db }) => db.productCategories.getByIndex(index + 1),
     },
     previous: {
       type: ProductCategory,
-      resolve: ({ index }) => productCategoriesDB.getByIndex(index - 1),
+      resolve: ({ index }, args, { db }) => db.productCategories.getByIndex(index - 1),
     },
   }),
 })
@@ -27,8 +25,8 @@ const ProductCategory = new GraphQLObjectType({
   fields: {
     edges: {
       type: ProductCategoryEdges,
-      resolve: (root) => ({
-        index: productCategoriesDB.getIndex(root),
+      resolve: (source, args, { db }) => ({
+        index: db.productCategories.getIndex(source),
       }),
     },
     slug: {

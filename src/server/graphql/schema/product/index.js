@@ -4,7 +4,6 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { manufacturersDB, productsDB, productCategoriesDB } from 'server/fakeDatabase'
 import { ProductInterface, productTypes } from './Product'
 import Products from './Products'
 import ProductSearchResults from './ProductSearchResults'
@@ -30,7 +29,9 @@ const getFilteredProducts = ({
   limit,
   category,
   manufacturer,
-}) => productsDB.getList({
+}, {
+  db,
+}) => db.products.getList({
   after,
   filterCallback: (entry) => {
     if (category) {
@@ -71,15 +72,15 @@ export default {
       args: {
         slug: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve(root, { slug }) {
-        return productsDB.getBySlug(slug)
+      resolve(root, { slug }, { db }) {
+        return db.products.getBySlug(slug)
       },
     },
     allProducts: {
       type: Products,
       args: getProductListArgs(),
-      resolve(root, args) {
-        return getFilteredProducts(args)
+      resolve(root, args, context) {
+        return getFilteredProducts(args, context)
       },
     },
     searchProducts: {
@@ -94,9 +95,11 @@ export default {
         searchString,
         limit,
         ...otherArgs
-      }) {
+      }, context) {
+        const { db } = context
         const matchingProducts = getFilteredProducts(
-          otherArgs
+          otherArgs,
+          context
         ).reduce(
           (accumulator, product) => {
             const matches = {
@@ -105,11 +108,11 @@ export default {
                 searchString
               ),
               manufacturer: getMatches(
-                manufacturersDB.getBySlug(product.manufacturer).name,
+                db.manufacturers.getBySlug(product.manufacturer).name,
                 searchString
               ),
               category: getMatches(
-                productCategoriesDB.getBySlug(product.category).name,
+                db.productCategories.getBySlug(product.category).name,
                 searchString
               ),
             }

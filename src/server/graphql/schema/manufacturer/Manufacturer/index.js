@@ -5,19 +5,17 @@ import {
   GraphQLString,
 } from 'graphql'
 
-import { manufacturersDB } from 'server/fakeDatabase'
-
 
 export const ManufacturerEdges = new GraphQLObjectType({
   name: 'ManufacturerEdges',
   fields: () => ({
     next: {
       type: Manufacturer,
-      resolve: ({ index }) => manufacturersDB.getByIndex(index + 1),
+      resolve: ({ index }, args, { db }) => db.manufacturers.getByIndex(index + 1),
     },
     previous: {
       type: Manufacturer,
-      resolve: ({ index }) => manufacturersDB.getByIndex(index - 1),
+      resolve: ({ index }, args, { db }) => db.manufacturers.getByIndex(index - 1),
     },
   }),
 })
@@ -27,8 +25,8 @@ const Manufacturer = new GraphQLObjectType({
   fields: {
     edges: {
       type: ManufacturerEdges,
-      resolve: (root) => ({
-        index: manufacturersDB.getIndex(root),
+      resolve: (root, args, { db }) => ({
+        index: db.manufacturers.getIndex(root),
       }),
     },
     slug: {
