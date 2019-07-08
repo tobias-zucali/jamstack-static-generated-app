@@ -6,6 +6,7 @@ const siteMetadata = require('./settings/siteMetadata.json')
 const babelConfig = require('./babel-node.config.js')()
 require('@babel/register')(babelConfig)
 const schema = require('./src/server/graphql/schema').default
+const getContext = require('./src/server/graphql/getContext').default
 
 
 module.exports = {
@@ -22,7 +23,7 @@ module.exports = {
       options: {
         typeName: 'EXTERNAL',
         fieldName: 'external',
-        createLink: () => new SchemaLink({ schema }),
+        createLink: () => new SchemaLink({ schema, context: getContext }),
       },
     },
     {
